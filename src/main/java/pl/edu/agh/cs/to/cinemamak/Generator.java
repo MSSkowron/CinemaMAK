@@ -13,10 +13,10 @@ public class Generator {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Generator(RoleRepository roleRepository, UserRepository userRepository) {
+    public Generator(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
