@@ -7,36 +7,33 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @Column(nullable = false, unique = true)
-    private String username;
-
+    @Column(name="user_id")
+    private long userID;
+    @Column(name="password",nullable = false, unique = true)
     private String password;
 
-    public User(String username, String password) {
-        this.username = username;
+    @Column(name="email_address", nullable = false, unique = true)
+    private String emailAddress;
+
+    @ManyToOne
+    @JoinColumn(name="role_id", nullable = false)
+    private Role role;
+
+    public User(String emailAddress, String password) {
         this.password = password;
+        this.emailAddress = emailAddress;
     }
 
     public User() {
 
     }
 
-    public long getId() {
-        return id;
+    public long getUserID() {
+        return userID;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserID(long userID) {
+        this.userID = userID;
     }
 
     public String getPassword() {
@@ -46,4 +43,21 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
 }

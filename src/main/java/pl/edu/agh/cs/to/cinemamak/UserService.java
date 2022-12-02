@@ -1,8 +1,6 @@
 package pl.edu.agh.cs.to.cinemamak;
 
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,20 +14,16 @@ public class UserService {
     public void addUser(User user) {
         userRepository.save(user);
     }
+    public User getUserByUsername(String emailAddress) throws Exception {
+        if (emailAddress == null || emailAddress.isEmpty()) {
+            throw new Exception("user is empty");
+        }
 
-    public void deleteUser(User user) {
-        userRepository.delete(user);
-    }
+        Optional<User> foundUser = userRepository.findByEmailAddress(emailAddress);
+        if (foundUser.isPresent()) {
+            return foundUser.get();
+        }
 
-    public Optional<User> getUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
-    }
-
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
-
-    public List<User> getUsers() {
-        return userRepository.findAll();
+        throw new Exception(emailAddress + "is not found");
     }
 }
