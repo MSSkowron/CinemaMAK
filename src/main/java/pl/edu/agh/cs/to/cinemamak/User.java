@@ -9,17 +9,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="user_id")
     private long userID;
-    @Column(name="password",nullable = false, unique = true)
-    private String password;
 
     @Column(name="email_address", nullable = false, unique = true)
     private String emailAddress;
+
+    @Column(name="first_name", nullable = false,unique = false)
+    private String firstName;
+
+    @Column(name="last_name", nullable = false, unique = false)
+    private String lastName;
 
     @ManyToOne
     @JoinColumn(name="role_id", nullable = false)
     private Role role;
 
-    public User(String emailAddress, String password) {
+    @Column(name="password",nullable = false, unique = true)
+    private String password;
+
+    public User(String firstName, String lastName, String emailAddress, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.emailAddress = emailAddress;
     }
@@ -36,13 +45,6 @@ public class User {
         this.userID = userID;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getEmailAddress() {
         return emailAddress;
@@ -50,6 +52,30 @@ public class User {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Role getRole() {

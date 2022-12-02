@@ -28,7 +28,7 @@ public class Generator {
         }
 
         if (userRepository.count() == 0){
-            User user = new User("email", "password");
+            User user = new User("firstname","lastname", "emailaddress", "password");
             Optional<Role> role = roleRepository.findByRoleName("Admin");
             if (role.isPresent()){
                 user.setRole(role.get());
