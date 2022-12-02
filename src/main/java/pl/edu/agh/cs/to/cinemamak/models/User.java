@@ -1,4 +1,6 @@
-package pl.edu.agh.cs.to.cinemamak;
+package pl.edu.agh.cs.to.cinemamak.models;
+
+import pl.edu.agh.cs.to.cinemamak.models.Role;
 
 import javax.persistence.*;
 

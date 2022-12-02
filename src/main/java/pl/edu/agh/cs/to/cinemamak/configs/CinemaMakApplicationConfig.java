@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.to.cinemamak;
+package pl.edu.agh.cs.to.cinemamak.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

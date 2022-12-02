@@ -1,7 +1,12 @@
-package pl.edu.agh.cs.to.cinemamak;
+package pl.edu.agh.cs.to.cinemamak.services;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.cs.to.cinemamak.models.Role;
+import pl.edu.agh.cs.to.cinemamak.models.User;
+import pl.edu.agh.cs.to.cinemamak.repositories.RoleRepository;
+import pl.edu.agh.cs.to.cinemamak.repositories.UserRepository;
+
 import java.util.Optional;
 
 @Service
