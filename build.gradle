@@ -24,5 +24,6 @@ dependencies {
     implementation 'org.postgresql:postgresql'
     implementation 'org.openjfx:javafx-graphics'
     implementation 'org.openjfx:javafx-controls'
+    implementation 'org.springframework.security:spring-security-crypto'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

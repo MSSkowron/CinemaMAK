@@ -1,5 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -9,10 +11,12 @@ import java.util.Optional;
 public class Generator {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Generator(RoleRepository roleRepository, UserRepository userRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @PostConstruct
@@ -28,6 +32,7 @@ public class Generator {
             Optional<Role> role = roleRepository.findByRoleName("Admin");
             if (role.isPresent()){
                 user.setRole(role.get());
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
                 userRepository.save(user);
             }
         }
