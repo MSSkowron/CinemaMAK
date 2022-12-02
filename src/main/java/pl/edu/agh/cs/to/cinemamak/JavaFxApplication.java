@@ -3,6 +3,7 @@ package pl.edu.agh.cs.to.cinemamak;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -10,8 +11,13 @@ import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.io.IOException;
+
 public class JavaFxApplication extends Application {
     private ConfigurableApplicationContext applicationContext;
+
+    private FXMLLoader fxmlLoader;
+    private Scene scene;
 
     @Override
     public void init() {
@@ -25,18 +31,17 @@ public class JavaFxApplication extends Application {
     @Override
     public void start(Stage stage) {
 
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction((ActionEvent event1) -> {
-            System.out.println("Hello World!");
-        });
+        try {
+            fxmlLoader = new FXMLLoader(JavaFxApplication.class.getResource("login-view.fxml"));
+            scene = new Scene(fxmlLoader.load(), 616, 433);
+            stage.setTitle("Cinema Application");
+            stage.setScene(scene);
+            stage.show();
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        } catch( IOException exception){
+            exception.getStackTrace();
+        }
 
-        stage.setTitle("Cinema Application");
-        stage.setScene(new Scene(root, 300, 250));
-        stage.show();
     }
 
     @Override
