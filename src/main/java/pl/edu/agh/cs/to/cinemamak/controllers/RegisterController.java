@@ -33,7 +33,6 @@ public class RegisterController {
     private Button buttonRegister;
 
     private UserService userService;
-
     public RegisterController(UserService userService) {
         this.userService = userService;
     }

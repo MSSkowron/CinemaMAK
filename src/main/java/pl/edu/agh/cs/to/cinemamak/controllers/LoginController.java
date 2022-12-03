@@ -6,14 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.JavaFxApplication;
-import pl.edu.agh.cs.to.cinemamak.repositories.RoleRepository;
-import pl.edu.agh.cs.to.cinemamak.repositories.UserRepository;
 import pl.edu.agh.cs.to.cinemamak.services.UserService;
 
 import java.io.IOException;
@@ -39,10 +35,9 @@ public class LoginController {
 
     private UserService userService;
 
-    public LoginController(UserService userService){
+    public LoginController(UserService userService) {
         this.userService = userService;
     }
-
     @FXML
     private void onButtonExit(){
         Platform.exit();

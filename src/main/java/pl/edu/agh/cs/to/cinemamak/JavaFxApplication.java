@@ -21,9 +21,6 @@ import java.net.URL;
 public class JavaFxApplication extends Application {
     private ConfigurableApplicationContext applicationContext;
 
-    private FXMLLoader fxmlLoader;
-    private Stage primaryStage;
-
     @Override
     public void init() {
         String[] args = getParameters().getRaw().toArray(new String[0]);
@@ -40,7 +37,6 @@ public class JavaFxApplication extends Application {
         Scene scene = new Scene(root,616, 433);
         stage.setTitle("Cinema Application");
         stage.setScene(scene);
-        this.primaryStage = stage;
         stage.show();
     }
 
