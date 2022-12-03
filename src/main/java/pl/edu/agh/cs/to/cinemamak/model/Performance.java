@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
@@ -23,13 +24,13 @@ public class Performance {
     private Date date;
 
     @Column(name="price", nullable = false)
-    private float price;
+    private BigDecimal price;
 
     @OneToOne
     @JoinColumn(name = "supervisor_id", referencedColumnName = "id")
     private User user;
 
-    public Performance(Movie movie, Room room, Date date, float price, User user) {
+    public Performance(Movie movie, Room room, Date date, BigDecimal price, User user) {
         this.movie = movie;
         this.room = room;
         this.date = date;
@@ -73,11 +74,11 @@ public class Performance {
         this.date = date;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
