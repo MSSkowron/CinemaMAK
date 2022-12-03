@@ -1,6 +1,6 @@
 package pl.edu.agh.cs.to.cinemamak.dto;
 
-import pl.edu.agh.cs.to.cinemamak.models.Role;
+import pl.edu.agh.cs.to.cinemamak.model.Role;
 
 public class UserDto {
     private long id;

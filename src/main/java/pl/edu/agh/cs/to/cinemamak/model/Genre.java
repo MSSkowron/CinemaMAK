@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.to.cinemamak.models;
+package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
 import java.util.Set;

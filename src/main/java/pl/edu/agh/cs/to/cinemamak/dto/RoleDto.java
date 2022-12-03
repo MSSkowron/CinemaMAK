@@ -1,6 +1,6 @@
 package pl.edu.agh.cs.to.cinemamak.dto;
 
-import pl.edu.agh.cs.to.cinemamak.models.User;
+import pl.edu.agh.cs.to.cinemamak.model.User;
 import java.util.Set;
 
 public class RoleDto {

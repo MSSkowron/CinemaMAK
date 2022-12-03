@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.to.cinemamak.controllers;
+package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -8,7 +8,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.dto.UserDto;
-import pl.edu.agh.cs.to.cinemamak.services.UserService;
+import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
 @Component
 @FxmlView("register-view.fxml")

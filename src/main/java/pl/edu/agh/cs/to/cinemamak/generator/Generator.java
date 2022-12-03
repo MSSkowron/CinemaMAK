@@ -1,13 +1,13 @@
-package pl.edu.agh.cs.to.cinemamak.generators;
+package pl.edu.agh.cs.to.cinemamak.generator;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.models.Genre;
-import pl.edu.agh.cs.to.cinemamak.models.Role;
-import pl.edu.agh.cs.to.cinemamak.models.User;
-import pl.edu.agh.cs.to.cinemamak.repositories.GenreRepository;
-import pl.edu.agh.cs.to.cinemamak.repositories.RoleRepository;
-import pl.edu.agh.cs.to.cinemamak.repositories.UserRepository;
+import pl.edu.agh.cs.to.cinemamak.model.Genre;
+import pl.edu.agh.cs.to.cinemamak.model.Role;
+import pl.edu.agh.cs.to.cinemamak.model.User;
+import pl.edu.agh.cs.to.cinemamak.repository.GenreRepository;
+import pl.edu.agh.cs.to.cinemamak.repository.RoleRepository;
+import pl.edu.agh.cs.to.cinemamak.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.*;

@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.to.cinemamak.models;
+package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
 
@@ -37,11 +37,11 @@ public class User {
 
     }
 
-    public long getUserID() {
+    public long getId() {
         return id;
     }
 
-    public void setUserID(long userID) {
+    public void setId(long userID) {
         this.id = userID;
     }
 

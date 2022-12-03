@@ -1,6 +1,6 @@
 package pl.edu.agh.cs.to.cinemamak.dto;
 
-import pl.edu.agh.cs.to.cinemamak.models.Genre;
+import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import java.sql.Date;
 
 public class MovieDto {

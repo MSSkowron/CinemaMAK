@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.to.cinemamak.configs;
+package pl.edu.agh.cs.to.cinemamak.config;
 
 import javafx.stage.Stage;
 import org.modelmapper.ModelMapper;
@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.edu.agh.cs.to.cinemamak.mapper.UserMapper;
 
 @Configuration
 public class CinemaMakApplicationConfig {
@@ -22,7 +23,7 @@ public class CinemaMakApplicationConfig {
     }
 
     @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
+    public UserMapper userMapper(){
+        return new UserMapper();
     }
 }
