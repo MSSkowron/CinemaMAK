@@ -35,7 +35,7 @@ public class JavaFxApplication extends Application {
         FxWeaver fxWeaver = applicationContext.getBean(FxWeaver.class);
         Parent root = fxWeaver.loadView(RegisterController.class);
         Scene scene = new Scene(root,616, 433);
-        stage.setTitle("Cinema Application");
+        stage.setTitle("CinemaMAK");
         stage.setScene(scene);
         stage.show();
     }

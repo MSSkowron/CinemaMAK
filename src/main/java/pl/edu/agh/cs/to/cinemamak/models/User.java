@@ -1,7 +1,5 @@
 package pl.edu.agh.cs.to.cinemamak.models;
 
-import pl.edu.agh.cs.to.cinemamak.models.Role;
-
 import javax.persistence.*;
 
 @Entity
@@ -9,8 +7,8 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="user_id")
-    private long userID;
+    @Column(name="id")
+    private long id;
 
     @Column(name="email_address", nullable = false, unique = true)
     private String emailAddress;
@@ -40,11 +38,11 @@ public class User {
     }
 
     public long getUserID() {
-        return userID;
+        return id;
     }
 
     public void setUserID(long userID) {
-        this.userID = userID;
+        this.id = userID;
     }
 
 

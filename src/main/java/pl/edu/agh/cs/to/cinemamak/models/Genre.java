@@ -4,24 +4,24 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="roles")
-public class Role {
+@Table(name="genres")
+public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
     private long id;
 
     @Column(name="name",nullable = false, unique = true)
-    private String roleName;
+    private String genreName;
 
-    @OneToMany(mappedBy = "role")
-    private Set<User> users;
+    @OneToMany(mappedBy = "genre")
+    private Set<Movie> movies;
 
-    public Role(String roleName) {
-        this.roleName = roleName;
+    public Genre(String roleName) {
+        this.genreName = roleName;
     }
 
-    public Role() {
+    public Genre() {
 
     }
 }
