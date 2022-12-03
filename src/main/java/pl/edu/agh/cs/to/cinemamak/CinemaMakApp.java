@@ -4,8 +4,8 @@ import javafx.application.Application;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CinemaMakApplication{
+public class CinemaMakApp {
     public static void main(String[] args) {
-        Application.launch(JavaFxApplication.class, args);
+        Application.launch(CinemaMakGUI.class, args);
     }
 }

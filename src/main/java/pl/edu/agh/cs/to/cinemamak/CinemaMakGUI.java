@@ -11,7 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import pl.edu.agh.cs.to.cinemamak.controller.LoginController;
 import pl.edu.agh.cs.to.cinemamak.controller.RegisterController;
 
-public class JavaFxApplication extends Application {
+public class CinemaMakGUI extends Application {
     private ConfigurableApplicationContext applicationContext;
 
     @Override
@@ -19,7 +19,7 @@ public class JavaFxApplication extends Application {
         String[] args = getParameters().getRaw().toArray(new String[0]);
 
         this.applicationContext = new SpringApplicationBuilder()
-                .sources(CinemaMakApplication.class)
+                .sources(CinemaMakApp.class)
                 .run(args);
     }
 
