@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="433.0" prefWidth="616.0" spacing="20.0" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.LoginController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <Label alignment="CENTER" prefHeight="21.0" prefWidth="369.0" text="Hello!">
+        <font>
+            <Font name="Book Antiqua Bold" size="59.0"/>
+        </font>
+        <VBox.margin>
+            <Insets top="20.0"/>
+        </VBox.margin>
+    </Label>
+</VBox>

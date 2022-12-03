@@ -25,7 +25,12 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void addUser(UserDto userDto) {
+    public boolean authenticate(String username, String password) {
+        UserDto userDto = getUserByUsername(username);
+        return userDto != null && !userDto.getPassword().equals(passwordEncoder.encode(password));
+    }
+
+    public void addUser(UserDto userDto) throws Exception{
         User user = userMapper.toEntity(userDto);
         Optional<Role> role = roleRepository.findByRoleName("Employee");
         if(role.isPresent()){
