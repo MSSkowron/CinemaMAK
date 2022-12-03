@@ -118,6 +118,21 @@
                   </Button>
                </children>
             </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="190.0" text="Already have an account?">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="110.0" right="10.0" top="15.0" />
+                     </HBox.margin></Label>
+                  <Button fx:id="buttonLogin" mnemonicParsing="false" onAction="#onButtonLogin" text="Log in">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

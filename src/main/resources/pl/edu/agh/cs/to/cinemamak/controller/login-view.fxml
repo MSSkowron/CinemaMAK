@@ -69,7 +69,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="190.0" text="Do you have account?">
+                  <Label alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="190.0" text="Want to add new account?">
                      <HBox.margin>
                         <Insets bottom="10.0" left="110.0" right="10.0" top="15.0" />
                      </HBox.margin></Label>

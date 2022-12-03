@@ -2,14 +2,16 @@ package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.JavaFxApplication;
+import org.springframework.stereotype.Service;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
 import java.io.IOException;
@@ -34,10 +36,18 @@ public class LoginController {
     private Button buttonRegister;
 
     private UserService userService;
+    private final FxWeaver fxWeaver;
+    private Stage stage;
 
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
+        this.fxWeaver = fxWeaver;
     }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     @FXML
     private void onButtonExit(){
         Platform.exit();
@@ -56,16 +66,8 @@ public class LoginController {
 
     @FXML
     private void onButtonRegister(){
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(JavaFxApplication.class.getResource("login-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 616, 433);
-//            stage.setTitle("Cinema Application");
-//            stage.setScene(scene);
-//            stage.show();
-
-        } catch( IOException exception){
-            exception.getStackTrace();
-        }
+        Scene scene = new Scene(fxWeaver.loadView(RegisterController.class), 616, 433);
+        stage.setScene(scene);
     }
 
 }

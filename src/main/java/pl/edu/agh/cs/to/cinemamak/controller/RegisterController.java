@@ -2,8 +2,11 @@ package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
@@ -32,9 +35,19 @@ public class RegisterController {
     @FXML
     private Button buttonRegister;
 
+    @FXML
+    private Button buttonLogin;
+
     private UserService userService;
-    public RegisterController(UserService userService) {
+    private Stage stage;
+    private final FxWeaver fxWeaver;
+    public RegisterController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
+        this.fxWeaver = fxWeaver;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     @FXML
@@ -61,5 +74,11 @@ public class RegisterController {
         userDto.setPassword(textFieldPassword.getText());
 
         userService.addUser(userDto);
+    }
+
+    @FXML
+    private void onButtonLogin() {
+        Scene scene = new Scene(fxWeaver.loadView(LoginController.class), 616, 433);
+        stage.setScene(scene);
     }
 }

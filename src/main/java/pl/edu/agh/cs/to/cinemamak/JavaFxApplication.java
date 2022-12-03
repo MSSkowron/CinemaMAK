@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import pl.edu.agh.cs.to.cinemamak.controller.LoginController;
 import pl.edu.agh.cs.to.cinemamak.controller.RegisterController;
 
 public class JavaFxApplication extends Application {
@@ -25,11 +26,20 @@ public class JavaFxApplication extends Application {
     @Override
     public void start(Stage stage) {
         FxWeaver fxWeaver = applicationContext.getBean(FxWeaver.class);
-        Parent root = fxWeaver.loadView(RegisterController.class);
+        Parent root = fxWeaver.loadView(LoginController.class);
         Scene scene = new Scene(root,616, 433);
         stage.setTitle("CinemaMAK");
         stage.setScene(scene);
+
+        setPrimaryStage(stage, fxWeaver);
+
         stage.show();
+    }
+
+    private void setPrimaryStage(Stage stage, FxWeaver fxWeaver) {
+
+        fxWeaver.loadController(LoginController.class).setStage(stage);
+        fxWeaver.loadController(RegisterController.class).setStage(stage);
     }
 
     @Override
