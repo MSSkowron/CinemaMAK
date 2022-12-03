@@ -1,7 +1,9 @@
 package pl.edu.agh.cs.to.cinemamak.services;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.cs.to.cinemamak.dto.UserDto;
 import pl.edu.agh.cs.to.cinemamak.models.Role;
 import pl.edu.agh.cs.to.cinemamak.models.User;
 import pl.edu.agh.cs.to.cinemamak.repositories.RoleRepository;
@@ -14,15 +16,17 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,ModelMapper modelMapper,  PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void addUser(User user) {
-        System.out.println(user);
+    public void addUser(UserDto userDto) {
+        User user = convertToEntity(userDto);
         Optional<Role> role = roleRepository.findByRoleName("Employee");
         if(role.isPresent()){
             user.setRole(role.get());
@@ -30,15 +34,20 @@ public class UserService {
             userRepository.save(user);
         }
     }
-    public Optional<User> getUserByUsername(String emailAddress) {
+    public UserDto getUserByUsername(String emailAddress) {
         if (emailAddress == null || emailAddress.isEmpty()) {
-            return Optional.empty();
+            return null;
         }
 
-        return userRepository.findByEmailAddress(emailAddress);
+        Optional<User> user = userRepository.findByEmailAddress(emailAddress);
+        return user.map(this::convertToDto).orElse(null);
     }
 
-    public String getWeatherForecast() {
-        return "It's gonna snow a lot. Brace yourselves, the winter is coming.";
+    public User convertToEntity(UserDto userDto){
+        return modelMapper.map(userDto, User.class);
+    }
+
+    public UserDto convertToDto(User user) {
+        return modelMapper.map(user, UserDto.class);
     }
 }

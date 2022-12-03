@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.configs;
 
 import javafx.stage.Stage;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -18,5 +19,10 @@ public class CinemaMakApplicationConfig {
     @Lazy()
     public Stage primaryStage(Stage stage) {
         return stage;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

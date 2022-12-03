@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.models.User;
+import pl.edu.agh.cs.to.cinemamak.dto.UserDto;
 import pl.edu.agh.cs.to.cinemamak.services.UserService;
 
 @Component
@@ -54,6 +54,12 @@ public class RegisterController {
             return;
         }
 
-        userService.addUser(new User(textFieldFirstName.getText(), textFieldLastName.getText(), textFieldEmail.getText(), textFieldPassword.getText()));
+        UserDto userDto = new UserDto();
+        userDto.setFirstName(textFieldFirstName.getText());
+        userDto.setLastName(textFieldLastName.getText());
+        userDto.setEmailAddress(textFieldEmail.getText());
+        userDto.setPassword(textFieldPassword.getText());
+
+        userService.addUser(userDto);
     }
 }
