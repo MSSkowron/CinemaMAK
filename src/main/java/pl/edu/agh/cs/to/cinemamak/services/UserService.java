@@ -22,6 +22,7 @@ public class UserService {
     }
 
     public void addUser(User user) {
+        System.out.println(user);
         Optional<Role> role = roleRepository.findByRoleName("Employee");
         if(role.isPresent()){
             user.setRole(role.get());
@@ -35,5 +36,9 @@ public class UserService {
         }
 
         return userRepository.findByEmailAddress(emailAddress);
+    }
+
+    public String getWeatherForecast() {
+        return "It's gonna snow a lot. Brace yourselves, the winter is coming.";
     }
 }

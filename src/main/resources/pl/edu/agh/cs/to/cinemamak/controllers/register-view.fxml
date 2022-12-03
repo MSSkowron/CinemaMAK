@@ -51,7 +51,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <TextField prefWidth="200.0">
+                  <TextField fx:id="textFieldLastName" prefWidth="200.0">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>

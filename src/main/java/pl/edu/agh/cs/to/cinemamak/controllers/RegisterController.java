@@ -4,8 +4,14 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.models.User;
+import pl.edu.agh.cs.to.cinemamak.services.UserService;
 
+@Component
+@FxmlView("register-view.fxml")
 public class RegisterController {
 
     @FXML
@@ -26,6 +32,12 @@ public class RegisterController {
     @FXML
     private Button buttonRegister;
 
+    private UserService userService;
+
+    public RegisterController(UserService userService) {
+        this.userService = userService;
+    }
+
     @FXML
     private void onButtonExitClick(){
         Platform.exit();
@@ -33,14 +45,16 @@ public class RegisterController {
 
     @FXML
     private void onButtonRegisterClick(){
-        String firstName = this.textFieldFirstName.getCharacters().toString();
-        String lastName = this.textFieldLastName.getCharacters().toString();
-        String email = this.textFieldEmail.getCharacters().toString();
-        String password = this.textFieldPassword.getCharacters().toString();
-
-        if(EmailValidator.getInstance().isValid(email)){
-            System.out.println("Email is valid");
+        if(textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty() || textFieldEmail.getText().isEmpty() || textFieldPassword.getText().isEmpty()){
+            System.out.println("All fields need to be filled");
+            return;
         }
-    }
 
+        if(!EmailValidator.getInstance().isValid(textFieldEmail.getText())){
+            System.out.println("Email is not valid");
+            return;
+        }
+
+        userService.addUser(new User(textFieldFirstName.getText(), textFieldLastName.getText(), textFieldEmail.getText(), textFieldPassword.getText()));
+    }
 }
