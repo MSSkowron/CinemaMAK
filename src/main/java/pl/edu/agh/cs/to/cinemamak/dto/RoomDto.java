@@ -1,9 +1,14 @@
 package pl.edu.agh.cs.to.cinemamak.dto;
 
+import pl.edu.agh.cs.to.cinemamak.model.Seat;
+
+import java.util.Set;
+
 public class RoomDto {
     private long room_id;
-    private char name;
-    private int no_seats;
+    private String name;
+
+    private Set<Seat> seats;
 
     public long getRoom_id() {
         return room_id;
@@ -13,19 +18,20 @@ public class RoomDto {
         this.room_id = room_id;
     }
 
-    public char getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(char name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public int getNo_seats() {
-        return no_seats;
+    public Set<Seat> getSeats() {
+        return seats;
     }
 
-    public void setNo_seats(int no_seats) {
-        this.no_seats = no_seats;
+    public void setSeats(Set<Seat> seats) {
+        this.seats = seats;
     }
+
 }

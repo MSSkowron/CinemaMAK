@@ -14,25 +14,19 @@ public class Movie {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name="date", nullable = false)
-    private Date date;
+    @Column(name="director", nullable = false)
+    private String director;
+
+    @Column(name="description", nullable = false)
+    private String description;
 
     @Column(name="duration", nullable = false)
     private int duration;
-
-    @Column(name="director", nullable = false)
-    private String director;
 
     @ManyToOne
     @JoinColumn(name="genre_id", nullable = false)
     private Genre genre;
 
-    @Column(name="description", nullable = false)
-    private String description;
-
-    @Column(name="average_rating", nullable = true)
-    private float averageRating;
-
-    @Column(name="rate_count", nullable = true)
-    private int rateCount;
+    @Column(name="date", nullable = false)
+    private Date date;
 }

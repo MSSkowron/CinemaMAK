@@ -1,12 +1,10 @@
 package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name="rooms")
-public class Room {
-
+@Table(name="seats")
+public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
@@ -15,14 +13,17 @@ public class Room {
     @Column(name="name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "room")
-    private Set<Seat> seats;
+    @ManyToOne
+    @JoinColumn(name="room_id", nullable = false)
+    private Room room;
 
-    public Room(String name) {
+    public Seat(String name, Room room) {
         this.name = name;
+        this.room = room;
     }
 
-    public Room() {
+
+    public Seat() {
 
     }
 
@@ -42,11 +43,11 @@ public class Room {
         this.name = name;
     }
 
-    public Set<Seat> getSeats() {
-        return seats;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setSeats(Set<Seat> seats) {
-        this.seats = seats;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

@@ -11,8 +11,6 @@ public class MovieDto {
     private String director;
     private Genre genre;
     private String description;
-    private float averageRating;
-    private int rateCount;
 
     public long getId() {
         return id;
@@ -68,21 +66,5 @@ public class MovieDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public float getAverageRating() {
-        return averageRating;
-    }
-
-    public void setAverageRating(float averageRating) {
-        this.averageRating = averageRating;
-    }
-
-    public int getRateCount() {
-        return rateCount;
-    }
-
-    public void setRateCount(int rateCount) {
-        this.rateCount = rateCount;
     }
 }
