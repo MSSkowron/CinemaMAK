@@ -1,5 +1,4 @@
 # CinemaMAK
-Aplikacja desktopowa służąca do obsługi multipleksu kinowego
 
 <details>
   <summary>Spis treści</summary>
@@ -40,7 +39,7 @@ Aplikacja desktopowa służąca do obsługi multipleksu kinowego
 ## Opis projektu
 Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego.
 
-Do cześci frontendowe apliakacji została wykorzystana JavaFX, a odpowiednie widoki zaimplementowane w postaci plików FXML.
+Do cześci frontendowej apliakacji została wykorzystana JavaFX, a odpowiednie widoki zaimplementowane w postaci plików FXML.
 Część backendowa została zaimplementowana przy użyciu Javy oraz Spring Framework'a.
 Dane przechowywane są w relacyjnej bazie danych. Jako system do zarządzania relacyjną bazą danych wybrano jeden z popularniejszych systemów - PostgreSQL.
 Automatyzacje procesu kompilacji zapewnia narzędzie - Gradle.
@@ -54,12 +53,70 @@ Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej
 ![Model_obiektowy](images/model_obiektowy.png)
 
 ## Schemat bazy danych
+Ze względu na potrzebę zapewnienia wszystkich potrzebnych informacji, które zostaną wykorzystane do statystyk
+oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w bazie znalazły się następujące tabele:
+
+
 ![Schemat_bazy_danych](images/schemat_bazy_danych.png)
 
+- **Roles** - Pełni funkcję słownika. Zawiera role użytkowników występujące w systemie. \
+  Dane znajdujące się w tabeli wczytywane są z pliku *roles.txt* przy starcie aplikacji. \
+  W trakcie działania aplikacji nie będzie możliwości dodania innych ról, gdyż muszą być one wcześniej zdefiniowane, aby aplikacja działała poprawnie.
+
+
+- **Genres** - Pełni funkcję słownika. Zawiera gatunki filmów występujące w systemie. \
+  Dane znajdujące się w tabeli wczytywane są z pliku *genres.txt* przy starcie aplikacji.\
+  W trakcie działania aplikacji będzie możliwość dodania innych gatunków do tabeli.
+
+
+- **Users** - Zawiera dane użytkowników systemu. \
+  Klucz obcy *role_id* wskazuje rekord z tabeli roles, definiuje rolę użytkownika w systemie.
+
+
+- **Movies** - Zawiera dane filmów, które były/będą transmitowane w kinie. \
+  Klucz obcy *genre_id* wskazuje rekord z tabeli genres, definiuje gatunek filmu.
+
+
+- **Rooms** - Zawiera sale kinowe, które znajdują sie w placówce kina.
+
+
+- **Seats** - Zawiera miejsca dostępne w kinie. \
+  Klucz obcy *room_id* wskazuje rekord z tabeli rooms, definiuje to, w której sali kinowej znajduję się dane miejsce.
+
+
+- **Performances** - Zawiera dane seansów, które odbyły/odbędą się w kinie. \
+  Klucz obcy *movie_id* wskazuje rekord z tabeli movies, definiuje to, jaki film był/będzie transmitowany na danym seansie. \
+  Klucz obcy *room_id* wskazuje rekord z tabeli rooms, definiuje to, w jakiej sali odbył/odbędzie się seans. \
+  Klucz obcy *supervisor_id* wskazuje rekord z tabeli users, definiuje to, który pracownik pełni opiekę nad danym seansem.
+
+
+- **Recommendations** - Zawiera polecenia, które były/będą w danych dniach. \
+  Klucz obcy *movie_id* wskazuje rekord z tabeli movies, definiuje to, który film był/będzie polecany w danej rekomendacji.
+
+
+- **Tickets** - Zawiera bilety, na dane seanse. \
+  Klucz obcy *performance_id* wskazuje rekord z tabeli performances, definiuje to, na był/jaki seans jest dany bilet.
+  Klucz obcy *seat_id* wskazuje rekord z tabeli seats, definiuje to, które miejsce zostało zarezerwowane.
+
 ## Widoki
-- Logowanie
+- **Logowanie**
   ![Logowanie](images/logowanie.png)
+  Widok umożliwia logowanie się do systemu. \
+  Po podaniu niepoprawnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
+  informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba logowania. \
+  Po poprawnym zalogowaniu zostajemy przeniesieni do głównego okna aplikacji. \
+  Przycisk *Exit* kończy działanie aplikacji, wychodzi z systemu.
+  Przycisk *Log in* zatwierdza formularz. \
+  Przycisk *Register* umożliwia przejścia do okna rejestracji użytkownika.
 
 
-- Rejestracja
+- **Rejestracja**
   ![Rejestracja](images/rejestracja.png)
+  Widok umożliwia założenie konta w systemie. \
+  Po podaniu niepoprawnych lub niekompletnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
+  informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba rejestracji. \
+  Po poprawnym utworzeniu konta zostajemy przeniesieni do okna logowania. \
+  Przycisk *Exit* kończy działanie aplikacji, wychodzi z systemu. \
+  Przycisk *Register* zatwierdza formularz.\
+  Przycisk *Log in* umożliwia przejścia do okna logowania.
+
