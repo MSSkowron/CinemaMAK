@@ -1,5 +1,4 @@
 # CinemaMAK
-Aplikacja desktopowa służąca do obsługi multipleksu kinowego
 
 <details>
   <summary>Spis treści</summary>
