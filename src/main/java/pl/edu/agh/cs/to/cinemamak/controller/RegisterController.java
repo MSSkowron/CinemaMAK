@@ -18,7 +18,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.dto.UserDto;
+import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
 import java.sql.SQLException;
@@ -91,7 +91,7 @@ public class RegisterController {
             return;
         }
 
-        UserDto userDto = new UserDto();
+        User userDto = new User();
         userDto.setFirstName(textFieldFirstName.getText());
         userDto.setLastName(textFieldLastName.getText());
         userDto.setEmailAddress(textFieldEmail.getText());
