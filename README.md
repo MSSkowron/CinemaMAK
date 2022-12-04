@@ -40,7 +40,7 @@ Aplikacja desktopowa służąca do obsługi multipleksu kinowego
 ## Opis projektu
 Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego.
 
-Do cześci frontednowej apliakacji została wykorzystana JavaFX, a odpowiednie widoki zaimplementowane w postaci plików FXML.
+Do cześci frontendowe apliakacji została wykorzystana JavaFX, a odpowiednie widoki zaimplementowane w postaci plików FXML.
 Część backendowa została zaimplementowana przy użyciu Javy oraz Spring Framework'a.
 Dane przechowywane są w relacyjnej bazie danych. Jako system do zarządzania relacyjną bazą danych wybrano jeden z popularniejszych systemów - PostgreSQL.
 Automatyzacje procesu kompilacji zapewnia narzędzie - Gradle.
