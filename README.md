@@ -99,9 +99,19 @@ oraz są niezbędne do poprawnego działania systemu w bazie znalazły się nast
   Klucz obcy *seat_id* wskazuje rekord z tabeli seats, definiuje to, które miejsce zostało zarezerwowane.
 
 ## Widoki
-- Logowanie
+- **Logowanie**
   ![Logowanie](images/logowanie.png)
-
-
-- Rejestracja
+  Widok umożliwia logowanie się do systemu. \
+  Po podaniu niepoprawnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
+  informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba logowania. \
+  Po poprawnym zalogowaniu zostajemy przeniesieni do głównego okna aplikacji. \
+  Przycisk *Register* umożliwia przejścia do okna rejestracji użytkownika.
+  
+  
+- **Rejestracja**
   ![Rejestracja](images/rejestracja.png)
+  Widok umożliwia założenie konta w systemie. \
+  Po podaniu niepoprawnych lub niekompletnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
+  informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba rejestracji. \
+  Po poprawnym utworzeniu konta zostajemy przeniesieni do okna logowania. \
+  Przycisk *Log in* umożliwia przejścia do okna logowania.
