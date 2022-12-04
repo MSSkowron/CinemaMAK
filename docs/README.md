@@ -34,6 +34,7 @@
 - Gradle
 - Spring Framework
 - JavaFX
+- JPA
 - PostgreSQL
 
 ## Opis projektu
@@ -50,14 +51,28 @@ Proces uwierzytelniania wymaga podania nazwy użytkownika, którą jest adres em
 Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej trzymane są w bazie danych w odpowiedniej tabeli.
 
 ## Model obiektowy
-![Model_obiektowy](images/model_obiektowy.png)
+![Model_obiektowy](../images/model_obiektowy.png)
+
+Warstwa persystencji realizowana jest poprzez JPA (wzorzec Repository).
+
+Obiekty `Repository` (`UserRepository`, `RoleRepository`, `MovieRepository`, `GenreRepository`, `TicketRepository`, `PerformanceRepository`, `RoomRepository`, `SeatRepository`) udostępniają poprzez JPA kwerendy, których wynikami są encje i kolekcje encji.
+
+Obiekty `Service` korzystają z funkcjonalności obiektów `Repository` i udostępniają bardziej ograniczone i złożone API w celu wprowadzenia warstwy abstrakcji pomiędzy kontrolerami i warstwą persystencji. Warto zauważyć, że niektóre obiekty `Service` obsługują więcej niż jeden obiekt `Repository`. Dzieje się tak, kiedy `Repository` ma znaczenie jedynie w kontekscie innej encji (np. encje `Role` mają znaczenie jedyne w konteksie encji `User`).
+
+Następna warstwa aplikacji składa się z obiektów `Controller`, które realizują finkcjonalność warstwy kontrolerów we wzorcu MVC. Korzystając z obiektów `Service` realizują wysokopoziomową logikę biznesową. W szczególności można wyróżnić trzy główne typy kontrolerów:
+
+- Kontrolery sesji i uwierzytelniania, odpowiedzialne za rejestrację/logowanie
+- Kontrolery administracyjne (`Management`), dostępne jedynie dla Admina/Menedżera, pozwalające na modyfikację danych
+- Kontrolery wyświetlania, dostępne dla zwykłego użytkownika. Nie pozwalają one na wprowadzanie zmian. Wyjątkiem jest kontroler `TicketController`, który pracownikowi pozwala na rejestrację sprzedaży biletów.
+
+Każdemu kontrolerowi przypada odpowiedni widok - są to widoki `FXML` z biblioteki JavaFX, pozwalające na imlpementację reaktywnego GUI poprzez powiązania `Binding` JavaFX.
 
 ## Schemat bazy danych
 Ze względu na potrzebę zapewnienia wszystkich potrzebnych informacji, które zostaną wykorzystane do statystyk
 oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w bazie znalazły się następujące tabele:
 
 
-![Schemat_bazy_danych](images/schemat_bazy_danych.png)
+![Schemat_bazy_danych](../images/schemat_bazy_danych.png)
 
 - **Roles** - Pełni funkcję słownika. Zawiera role użytkowników występujące w systemie. \
   Dane znajdujące się w tabeli wczytywane są z pliku *roles.txt* przy starcie aplikacji. \
@@ -100,7 +115,7 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
 ## Widoki
 - **Logowanie**
-  ![Logowanie](images/logowanie.png)
+  ![Logowanie](../images/logowanie.png)
   Widok umożliwia logowanie się do systemu. \
   Po podaniu niepoprawnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba logowania. \
@@ -111,7 +126,7 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
 
 - **Rejestracja**
-  ![Rejestracja](images/rejestracja.png)
+  ![Rejestracja](../images/rejestracja.png)
   Widok umożliwia założenie konta w systemie. \
   Po podaniu niepoprawnych lub niekompletnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba rejestracji. \
