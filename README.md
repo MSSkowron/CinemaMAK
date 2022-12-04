@@ -18,8 +18,8 @@ Aplikacja desktopowa służąca do obsługi multipleksu kinowego
 
 ## Skład
 - Skowron Mateusz
-- Strojewski Jakub
-- Wójcik Michał
+- Chrobot Adrian
+- Wilk Karol
 
 ## Technologie
 - Java
@@ -52,4 +52,4 @@ Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej
   ![](https://drive.google.com/file/d/1uqqrfrbblOaFH6A33SI2lOPUi5ILJuhV/view?usp=share_link)
 
 - Rejestracja
-- ![](https://drive.google.com/file/d/1NXc-9o5183PSvEhxiXLJuzsXcH3Lni53/view?usp=share_link)
+  ![](https://drive.google.com/file/d/1NXc-9o5183PSvEhxiXLJuzsXcH3Lni53/view?usp=share_link)
