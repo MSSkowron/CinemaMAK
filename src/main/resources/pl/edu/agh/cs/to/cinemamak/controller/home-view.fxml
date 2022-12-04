@@ -5,17 +5,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.Button?>
 <VBox alignment="CENTER" prefHeight="433.0" prefWidth="616.0" spacing="20.0" xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.LoginController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.HomeController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
-    <Label alignment="CENTER" prefHeight="21.0" prefWidth="369.0" text="Hello!">
+    <Label fx:id="helloLabel" alignment="CENTER" prefHeight="21.0" prefWidth="369.0">
         <font>
-            <Font name="Book Antiqua Bold" size="59.0"/>
+            <Font name="Book Antiqua Bold" size="24.0"/>
         </font>
         <VBox.margin>
             <Insets top="20.0"/>
         </VBox.margin>
     </Label>
+    <Button text="Log out" alignment="CENTER" onAction="#onLogOutClick"/>
 </VBox>

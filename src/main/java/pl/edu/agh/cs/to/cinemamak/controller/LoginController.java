@@ -10,13 +10,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.apache.commons.validator.routines.EmailValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
-
-import java.io.IOException;
 
 @Component
 @FxmlView("login-view.fxml")
@@ -37,12 +33,14 @@ public class LoginController {
     @FXML
     private Button buttonRegister;
 
-    private UserService userService;
+    private final UserService userService;
+    private final SessionService sessionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
-    public LoginController(UserService userService, FxWeaver fxWeaver) {
+    public LoginController(UserService userService, SessionService sessionService, FxWeaver fxWeaver) {
         this.userService = userService;
+        this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
     }
 
@@ -61,7 +59,7 @@ public class LoginController {
         String username = this.textFieldEmail.getCharacters().toString();
         String password = this.textFieldPassword.getCharacters().toString();
 
-        if(userService.authenticate(username,password)){
+        if (userService.authenticate(username, password)){
             Alert dialog = new Alert(Alert.AlertType.INFORMATION);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(stage);
@@ -70,6 +68,7 @@ public class LoginController {
             dialog.setContentText("Enjoy!");
             dialog.show();
             dialog.setOnCloseRequest(event -> {
+                sessionService.setCurrentUser(userService.getUserByUsername(username).get());
                 Scene scene = new Scene(fxWeaver.loadView(HomeController.class), 616, 433);
                 stage.setScene(scene);
             });
