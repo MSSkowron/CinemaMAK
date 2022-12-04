@@ -51,14 +51,15 @@ Proces uwierzytelniania wymaga podania nazwy użytkownika, którą jest adres em
 Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej trzymane są w bazie danych w odpowiedniej tabeli.
 
 ## Model obiektowy
-![](https://drive.google.com/file/d/1517vXnUAKJk1VHqP1eFsv-EVGuGmkdnZ/view?usp=share_link)
+![Model_obiektowy](images/model_obiektowy.png)
 
 ## Schemat bazy danych
-![](https://drive.google.com/file/d/1O1x8SZu4EULwwaOf_VKA_YBDfxV5Za3K/view?usp=share_link)
+![Schemat_bazy_danych](images/schemat_bazy_danych.png)
 
 ## Widoki
 - Logowanie
-  ![](https://drive.google.com/file/d/1uqqrfrbblOaFH6A33SI2lOPUi5ILJuhV/view?usp=share_link)
+  ![Logowanie](images/logowanie.png)
+
 
 - Rejestracja
-  ![](https://drive.google.com/file/d/1NXc-9o5183PSvEhxiXLJuzsXcH3Lni53/view?usp=share_link)
+  ![Rejestracja](images/rejestracja.png)
