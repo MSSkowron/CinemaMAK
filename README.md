@@ -13,6 +13,15 @@ Aplikacja desktopowa służąca do obsługi multipleksu kinowego
     <li>
       <a href="#opis-projektu">Opis projektu</a>
     </li>
+    <li>
+      <a href="#model-obiektowy">Model obiektowy</a>
+    </li>
+    <li>
+      <a href="#schemat-bazy-danych">Schemat bazy danych</a>
+    </li>
+    <li>
+      <a href="#widoki">Widoki</a>
+    </li>
   </ol>
 </details>
 
