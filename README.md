@@ -38,7 +38,7 @@ Aplikacja desktopowa służąca do obsługi multipleksu kinowego
 - PostgreSQL
 
 ## Opis projektu
-Projekt jest to aplikacja desktopowa umożliwiająca obsługę multipleksem kinowym.
+Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego.
 
 Do cześci frontednowej apliakacji została wykorzystana JavaFX, a odpowiednie widoki zaimplementowane w postaci plików FXML.
 Część backendowa została zaimplementowana przy użyciu Javy oraz Spring Framework'a.
