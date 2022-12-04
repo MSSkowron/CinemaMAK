@@ -53,8 +53,8 @@ Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej
 ![Model_obiektowy](images/model_obiektowy.png)
 
 ## Schemat bazy danych
-Ze względu na potrzębę zapewnienia wszystkich potrzebnych informacji, które zostaną wykorzystane do statystyk
-oraz są niezbędne do poprawnego działania systemu w bazie znalazły się następujące tabele:
+Ze względu na potrzebę zapewnienia wszystkich potrzebnych informacji, które zostaną wykorzystane do statystyk
+oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w bazie znalazły się następujące tabele:
 
 
 ![Schemat_bazy_danych](images/schemat_bazy_danych.png)
@@ -105,13 +105,18 @@ oraz są niezbędne do poprawnego działania systemu w bazie znalazły się nast
   Po podaniu niepoprawnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba logowania. \
   Po poprawnym zalogowaniu zostajemy przeniesieni do głównego okna aplikacji. \
+  Przycisk *Exit* kończy działanie aplikacji, wychodzi z systemu.
+  Przycisk *Log in* zatwierdza formularz. \
   Przycisk *Register* umożliwia przejścia do okna rejestracji użytkownika.
-  
-  
+
+
 - **Rejestracja**
   ![Rejestracja](images/rejestracja.png)
   Widok umożliwia założenie konta w systemie. \
   Po podaniu niepoprawnych lub niekompletnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba rejestracji. \
   Po poprawnym utworzeniu konta zostajemy przeniesieni do okna logowania. \
+  Przycisk *Exit* kończy działanie aplikacji, wychodzi z systemu. \
+  Przycisk *Register* zatwierdza formularz.\
   Przycisk *Log in* umożliwia przejścia do okna logowania.
+
