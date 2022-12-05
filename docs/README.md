@@ -21,6 +21,12 @@
     <li>
       <a href="#widoki">Widoki</a>
     </li>
+    <li>
+      <a href="#instalacja">Instalacja</a>
+    </li>
+    <li>
+      <a href="#uruchomienie">Uruchomienie</a>
+    </li>
   </ol>
 </details>
 
@@ -135,3 +141,13 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Przycisk *Register* zatwierdza formularz.\
   Przycisk *Log in* umożliwia przejścia do okna logowania.
 
+## Instalacja
+```
+git clone https://bitbucket.lab.ii.agh.edu.pl/scm/to2022/jk-pn-1300-cinemamak.git
+```
+
+## Uruchomienie
+W katalogu głównym projektu wykonujemy polecenie
+```
+./gradlew bootRun
+```
