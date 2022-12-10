@@ -1,28 +1,27 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
-import com.sun.javafx.collections.ObservableListWrapper;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleListProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.model.Role;
+import pl.edu.agh.cs.to.cinemamak.event.ControlPanelSelectionChangeEvent;
+import pl.edu.agh.cs.to.cinemamak.model.RoleName;
+import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
 @Component
 @FxmlView("admin-view.fxml")
-public class AdminController {
+public class AdminController implements ApplicationListener<ControlPanelSelectionChangeEvent> {
 
     @FXML
-    private ListView<Button> usersListView;
+    private ListView<User> usersListView;
     @FXML
     private ChoiceBox<String> roleChoiceBox;
 
@@ -32,6 +31,8 @@ public class AdminController {
     @FXML
     private Button exitButton;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     private Stage stage;
 
@@ -47,26 +48,40 @@ public class AdminController {
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
 
-//        this.initialize();
     }
 
-//    public void initialize(){
-//
-//        SimpleListProperty<String> list = new SimpleListProperty<String>();
-//        list.add("manager");
-//        list.add("employee");
-//        this.roleChoiceBox.setItems(list);
-//
-//        SimpleListProperty<Button> listBtn = new SimpleListProperty<>();
-//
-//        userService.getUsers().ifPresent( listU ->{
-//            listU.stream().forEach(user ->{
-//                listBtn.add(new Button(user.getEmailAddress()));
-//            });
-//        });
-//
-//        this.usersListView.setItems(listBtn);
-//    }
+    public void  initialize(){
+
+        this.roleChoiceBox.getItems().add((RoleName.Admin.toString()));
+        this.roleChoiceBox.getItems().add((RoleName.Manager.toString()));
+        this.roleChoiceBox.getItems().add((RoleName.Employee.toString()));
+
+        userService.getUsers().ifPresent( listU ->{
+
+            listU.forEach(user ->{
+                this.usersListView.getItems().add(user);
+            });
+
+        });
+
+        this.usersListView.setCellFactory(param -> new ListCell<User>(){
+            @Override
+            protected void updateItem(User item, boolean empty){
+                super.updateItem(item, empty);
+                if(empty){
+                    this.setText(null);
+                }
+                else{
+                    this.setText(item.getFirstName()+" "+item.getLastName()+"\n"+(item.getEmailAddress())+"\n"+item.getRole().getRoleName().toString());
+                }
+            }
+        });
+
+        this.usersListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
+            applicationEventPublisher.publishEvent(new ControlPanelSelectionChangeEvent(this));
+        });
+
+    }
 
     public void setStage(Stage s){
         this.stage = s;
@@ -79,8 +94,21 @@ public class AdminController {
 
     @FXML
     private void onClickSet(){
-        String role = this.roleChoiceBox.getValue();
-        System.out.println(role);
+        if(this.roleChoiceBox.getValue() != null){
+            if(this.usersListView.getSelectionModel().getSelectedItem() != null){
+                User u = this.usersListView.getSelectionModel().getSelectedItem();
+                this.userService.getRoleFromName(RoleName.getEnum(this.roleChoiceBox.getValue()).toString()).ifPresent( role ->{
+                    u.setRole(role);
+                    this.userService.updateUser(u);
+                    this.usersListView.refresh();
+                });
+            }
+        }
     }
 
+    @Override
+    public void onApplicationEvent(ControlPanelSelectionChangeEvent event) {
+        if(this.usersListView.getSelectionModel().getSelectedItem() != null)
+            this.roleChoiceBox.setValue(this.usersListView.getSelectionModel().getSelectedItem().getRole().getRoleName().toString());
+    }
 }

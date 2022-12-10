@@ -43,10 +43,16 @@ public class Generator {
         }
 
         if (userRepository.count() == 0){
-            User user = generateAdmin();
-            if(user != null) {
-                userRepository.save(user);
+            User admin = generateAdmin();
+            if(admin != null) {
+                userRepository.save(admin);
             }
+
+            User employee = generateEmployee();
+            if(employee != null){
+                userRepository.save(employee);
+            }
+
         }
     }
 
@@ -83,6 +89,17 @@ public class Generator {
             return user;
         }
 
+        return null;
+    }
+
+    public User generateEmployee() {
+        User user = new User("employee","employee", "employee@gmail.com", "employee");
+        Optional<Role> role = roleRepository.findByRoleName(RoleName.Employee.toString());
+        if (role.isPresent()){
+            user.setRole(role.get());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            return user;
+        }
         return null;
     }
 

@@ -49,6 +49,10 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
+    public Optional<Role> getRoleFromName(String roleName){
+        return roleRepository.findByRoleName(roleName);
+    }
+
     public void updateUser(User user) {
         userRepository.save(user);
     }
