@@ -1,57 +1,41 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
-import java.sql.SQLException;
-import java.util.Arrays;
-
 @Component
 @FxmlView("register-view.fxml")
 public class RegisterController {
-
     @FXML
     private TextField textFieldFirstName;
-
     @FXML
     private TextField textFieldLastName;
-
     @FXML
     private TextField textFieldEmail;
-
     @FXML
     private TextField textFieldPassword;
-
     @FXML
     private Button buttonExit;
-
     @FXML
     private Button buttonRegister;
-
     @FXML
     private Button buttonLogin;
-
-    private UserService userService;
+    private final UserService userService;
     private Stage stage;
     private final FxWeaver fxWeaver;
+
     public RegisterController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;
@@ -62,13 +46,13 @@ public class RegisterController {
     }
 
     @FXML
-    private void onButtonExitClick(){
+    private void onButtonExitClick() {
         Platform.exit();
     }
 
     @FXML
-    private void onButtonRegisterClick(){
-        if(textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty() || textFieldEmail.getText().isEmpty() || textFieldPassword.getText().isEmpty()){
+    private void onButtonRegisterClick() {
+        if(textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty() || textFieldEmail.getText().isEmpty() || textFieldPassword.getText().isEmpty()) {
             Alert dialog = new Alert(Alert.AlertType.ERROR);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(stage);
@@ -80,7 +64,7 @@ public class RegisterController {
             return;
         }
 
-        if(!EmailValidator.getInstance().isValid(textFieldEmail.getText())){
+        if(!EmailValidator.getInstance().isValid(textFieldEmail.getText())) {
             Alert dialog = new Alert(Alert.AlertType.ERROR);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(stage);
@@ -88,17 +72,14 @@ public class RegisterController {
             dialog.setHeaderText("Error occurred while creating an account!");
             dialog.setContentText("Email is not valid!");
             dialog.show();
+
             return;
         }
 
-        User userDto = new User();
-        userDto.setFirstName(textFieldFirstName.getText());
-        userDto.setLastName(textFieldLastName.getText());
-        userDto.setEmailAddress(textFieldEmail.getText());
-        userDto.setPassword(textFieldPassword.getText());
+        User newUser = new User(textFieldFirstName.getText(), textFieldLastName.getText(), textFieldEmail.getText(), textFieldPassword.getText());
 
         try {
-            userService.addUser(userDto);
+            userService.addUser(newUser);
         } catch (Exception|Error e) {
             Alert dialog = new Alert(Alert.AlertType.ERROR);
             dialog.initModality(Modality.APPLICATION_MODAL);
@@ -107,13 +88,9 @@ public class RegisterController {
             dialog.setHeaderText("Error occurred while creating an account!");
             dialog.setContentText(getCauseMessage(e));
             dialog.show();
+
             return;
         }
-
-        textFieldFirstName.setText("");
-        textFieldLastName.setText("");
-        textFieldEmail.setText("");
-        textFieldPassword.setText("");
 
         Alert dialog = new Alert(Alert.AlertType.INFORMATION);
         dialog.initModality(Modality.APPLICATION_MODAL);
@@ -123,15 +100,17 @@ public class RegisterController {
         dialog.setContentText("You can log in now!");
         dialog.show();
         dialog.setOnCloseRequest(event -> {
-            Scene scene = new Scene(fxWeaver.loadView(LoginController.class), 616, 433);
-            stage.setScene(scene);
+            Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class), 616, 433);
+            stage.setScene(loginScene);
         });
+
+        clearForm();
     }
 
     @FXML
     private void onButtonLogin() {
-        Scene scene = new Scene(fxWeaver.loadView(LoginController.class), 616, 433);
-        stage.setScene(scene);
+        Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class), 616, 433);
+        stage.setScene(loginScene);
     }
 
     private String getCauseMessage(Throwable t){
@@ -141,5 +120,12 @@ public class RegisterController {
         }
 
         return cause.getLocalizedMessage();
+    }
+
+    private void clearForm() {
+        textFieldFirstName.setText("");
+        textFieldLastName.setText("");
+        textFieldEmail.setText("");
+        textFieldPassword.setText("");
     }
 }
