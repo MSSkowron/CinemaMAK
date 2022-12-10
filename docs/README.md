@@ -9,11 +9,13 @@
 * [Instalacja](#instalacja)
 * [Uruchomienie](#uruchomienie)
 
+<a name="skład"></a>
 ## Skład
 - Skowron Mateusz
 - Chrobot Adrian
 - Wilk Karol
 
+<a name="technologie"></a>
 ## Technologie
 - Java
 - Gradle
@@ -22,6 +24,7 @@
 - PostgreSQL
 - Docker
 
+<a name="opis-projektu"></a>
 ## Opis projektu
 Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego.
 
@@ -35,6 +38,7 @@ Użytkownik chcąc założyć konto musi podać niezbędne do tego dane.
 Proces uwierzytelniania wymaga podania nazwy użytkownika, którą jest adres email oraz hasła.
 Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej trzymane są w bazie danych w odpowiedniej tabeli.
 
+<a name="model-obiektowy"></a>
 ## Model obiektowy
 ![Model_obiektowy](../images/model_obiektowy.png)
 
@@ -52,6 +56,7 @@ Następna warstwa aplikacji składa się z obiektów `Controller`, które realiz
 
 Każdemu kontrolerowi przypada odpowiedni widok - są to widoki `FXML` z biblioteki JavaFX, pozwalające na imlpementację reaktywnego GUI poprzez powiązania `Binding` JavaFX.
 
+<a name="schemat-bazy-danych"></a>
 ## Schemat bazy danych
 Ze względu na potrzebę zapewnienia wszystkich potrzebnych informacji, które zostaną wykorzystane do statystyk
 oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w bazie znalazły się następujące tabele:
@@ -98,6 +103,7 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Klucz obcy *performance_id* wskazuje rekord z tabeli performances, definiuje to, na był/jaki seans jest dany bilet.
   Klucz obcy *seat_id* wskazuje rekord z tabeli seats, definiuje to, które miejsce zostało zarezerwowane.
 
+<a name="widoki"></a>
 ## Widoki
 - **Logowanie**
 
@@ -125,11 +131,13 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Przycisk *Register* zatwierdza formularz.\
   Przycisk *Log in* umożliwia przejścia do okna logowania.
 
+<a name="instalacja"></a>
 ## Instalacja
 ```
 git clone https://bitbucket.lab.ii.agh.edu.pl/scm/to2022/jk-pn-1300-cinemamak.git
 ```
 
+<a name="uruchomienie"></a>
 ## Uruchomienie
 Pierwszym krokiem jest uruchomienie bazy danych, która będzie działać w kontenerze.  
 W katalogu głównym projektu wykonujemy polecenie:
