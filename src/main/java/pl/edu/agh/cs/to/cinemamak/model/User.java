@@ -13,17 +13,17 @@ public class User {
     @Column(name="email_address", nullable = false, unique = true)
     private String emailAddress;
 
-    @Column(name="first_name", nullable = false,unique = false)
+    @Column(name="first_name", nullable = false)
     private String firstName;
 
-    @Column(name="last_name", nullable = false, unique = false)
+    @Column(name="last_name", nullable = false)
     private String lastName;
 
     @ManyToOne
     @JoinColumn(name="role_id", nullable = false)
     private Role role;
 
-    @Column(name="password",nullable = false, unique = true)
+    @Column(name="password",nullable = false)
     private String password;
 
     public User(String firstName, String lastName, String emailAddress, String password) {

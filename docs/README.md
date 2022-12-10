@@ -1,34 +1,13 @@
 # CinemaMAK
-
-<details>
-  <summary>Spis treści</summary>
-  <ol>
-    <li>
-      <a href="#skład">Skład</a>
-    </li>
-    <li>
-      <a href="#technologie">Technologie</a>
-    </li>
-    <li>
-      <a href="#opis-projektu">Opis projektu</a>
-    </li>
-    <li>
-      <a href="#model-obiektowy">Model obiektowy</a>
-    </li>
-    <li>
-      <a href="#schemat-bazy-danych">Schemat bazy danych</a>
-    </li>
-    <li>
-      <a href="#widoki">Widoki</a>
-    </li>
-    <li>
-      <a href="#instalacja">Instalacja</a>
-    </li>
-    <li>
-      <a href="#uruchomienie">Uruchomienie</a>
-    </li>
-  </ol>
-</details>
+## Spis treści
+* [Skład](#skład)
+* [Technologie](#technologie)
+* [Opis projektu](#opis-projektu)
+* [Model obiektowy](#model-obiektowy)
+* [Schemat bazy danych](#schemat-bazy-danych)
+* [Widoki](#widoki)
+* [Instalacja](#instalacja)
+* [Uruchomienie](#uruchomienie)
 
 ## Skład
 - Skowron Mateusz
@@ -40,8 +19,8 @@
 - Gradle
 - Spring Framework
 - JavaFX
-- JPA
 - PostgreSQL
+- Docker
 
 ## Opis projektu
 Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego.
@@ -147,7 +126,12 @@ git clone https://bitbucket.lab.ii.agh.edu.pl/scm/to2022/jk-pn-1300-cinemamak.gi
 ```
 
 ## Uruchomienie
-W katalogu głównym projektu wykonujemy polecenie
+Pierwszym krokiem jest uruchomienie bazy danych, która będzie działać w kontenerze.  
+W katalogu głównym projektu wykonujemy polecenie:
+```
+docker compose -f .\src\main\resources\docker-compose.yml up -d
+```
+Następnie uruchamiamy aplikację:
 ```
 ./gradlew bootRun
 ```
