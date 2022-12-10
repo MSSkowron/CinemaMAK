@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.model.Role;
+import pl.edu.agh.cs.to.cinemamak.model.RoleName;
+import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
@@ -55,11 +58,10 @@ public class LoginController {
 
     @FXML
     private void onButtonLogin(){
-
-        String username = this.textFieldEmail.getCharacters().toString();
+        String email = this.textFieldEmail.getCharacters().toString();
         String password = this.textFieldPassword.getCharacters().toString();
 
-        if (userService.authenticate(username, password)){
+        if (userService.authenticate(email, password)){
             Alert dialog = new Alert(Alert.AlertType.INFORMATION);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(stage);
@@ -68,7 +70,7 @@ public class LoginController {
             dialog.setContentText("Enjoy!");
             dialog.show();
             dialog.setOnCloseRequest(event -> {
-                sessionService.setCurrentUser(userService.getUserByUsername(username).get());
+                sessionService.setCurrentUser(userService.getUserByEmail(email).get());
                 Scene scene = new Scene(fxWeaver.loadView(HomeController.class), 616, 433);
                 stage.setScene(scene);
             });

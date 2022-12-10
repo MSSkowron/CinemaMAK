@@ -1,5 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -19,12 +21,23 @@ public class Role {
         this.id = id;
     }
 
-    public String getRoleName() {
-        return roleName;
+
+    public RoleName getRoleName() {
+        switch(roleName){
+            case "Admin" -> {
+                return RoleName.Admin;
+            }
+            case "Manager" -> {
+                return RoleName.Manager;
+            }
+            default -> {
+                return RoleName.Employee;
+            }
+        }
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setRoleName(RoleName roleName) {
+        this.roleName = roleName.toString();
     }
 
     public Set<User> getUsers() {
@@ -41,11 +54,20 @@ public class Role {
     @OneToMany(mappedBy = "role")
     private Set<User> users;
 
-    public Role(String roleName) {
-        this.roleName = roleName;
+    public Role(RoleName roleName) {
+        this.roleName = roleName.toString();
     }
-
     public Role() {
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) return true;
+        if(!(obj instanceof Role)) return false;
+
+        Role r = (Role)obj;
+
+        return r.getRoleName().equals(this.getRoleName());
     }
 }

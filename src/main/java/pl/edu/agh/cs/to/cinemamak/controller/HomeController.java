@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.model.RoleName;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import javax.naming.Binding;
@@ -20,6 +21,10 @@ import javax.naming.Binding;
 public class HomeController {
     @FXML
     private Label helloLabel;
+
+    @FXML
+    private Button controlPanelButton;
+
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -41,6 +46,10 @@ public class HomeController {
             var user = sessionService.getCurrentUser().get();
             return "Hello, %s %s!".formatted(user.getFirstName(), user.getLastName());
         }, sessionService.getCurrentUserProperty()));
+
+        if(sessionService.getCurrentUser().isPresent())
+            if(!sessionService.getCurrentUser().get().getRole().getRoleName().equals(RoleName.Admin))
+                controlPanelButton.setOpacity(0);
     }
 
     public void onLogOutClick() {
@@ -48,4 +57,11 @@ public class HomeController {
         var scene = new Scene(fxWeaver.loadView(LoginController.class));
         stage.setScene(scene);
     }
+
+    @FXML
+    public void onControlClick(){
+        Scene scene = new Scene(fxWeaver.loadView(AdminController.class));
+        stage.setScene(scene);
+    }
+
 }

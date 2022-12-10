@@ -8,7 +8,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
-    private long id;
+    private Long id;
 
     @Column(name="email_address", nullable = false, unique = true)
     private String emailAddress;
@@ -37,11 +37,11 @@ public class User {
 
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long userID) {
+    public void setId(Long userID) {
         this.id = userID;
     }
 
@@ -86,4 +86,17 @@ public class User {
         this.role = role;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) return true;
+        if(!(obj instanceof User)) return false;
+
+        User u = (User)obj;
+
+        return u.getFirstName().equals(this.getFirstName()) &&
+                u.getLastName().equals(this.getLastName()) &&
+                u.getPassword().equals(this.getPassword()) &&
+                u.getEmailAddress().equals(this.getEmailAddress())&&
+                u.getRole().equals(this.getRole());
+    }
 }

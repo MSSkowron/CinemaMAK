@@ -1,9 +1,11 @@
 package pl.edu.agh.cs.to.cinemamak.generator;
 
+import org.springframework.data.repository.cdi.Eager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import pl.edu.agh.cs.to.cinemamak.model.Role;
+import pl.edu.agh.cs.to.cinemamak.model.RoleName;
 import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.repository.GenreRepository;
 import pl.edu.agh.cs.to.cinemamak.repository.RoleRepository;
@@ -29,6 +31,7 @@ public class Generator {
 
     @PostConstruct
     public void fillDatabase() {
+
         if (roleRepository.count() == 0) {
             List<Role> roles = generateRoles();
             roleRepository.saveAll(roles);
@@ -48,15 +51,12 @@ public class Generator {
     }
 
     public List<Role> generateRoles() {
-        List<Role> roles = new ArrayList<>();
 
-        try (var scanner = new Scanner(Objects.requireNonNull(Generator.class.getResourceAsStream("roles.txt")))) {
-            while (scanner.hasNext()) {
-                var name = scanner.nextLine();
-                var role = new Role(name);
-                roles.add(role);
-            }
-        }
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role(RoleName.Admin));
+        roles.add(new Role(RoleName.Manager));
+        roles.add(new Role(RoleName.Employee));
+
         return roles;
     }
 
@@ -74,11 +74,12 @@ public class Generator {
     }
 
     public User generateAdmin() {
-        User user = new User("admin","admin", "admin@gmail.com", "admin-123@");
-        Optional<Role> role = roleRepository.findByRoleName("Admin");
+        User user = new User("admin","admin", "admin@gmail.com", "admin");
+        Optional<Role> role = roleRepository.findByRoleName(RoleName.Admin.toString());
         if (role.isPresent()){
             user.setRole(role.get());
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(user.getPassword());
             return user;
         }
 
