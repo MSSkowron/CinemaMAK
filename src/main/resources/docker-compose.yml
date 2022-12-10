@@ -1,6 +1,6 @@
 version: '3.1'
 services:
-  postgresdb:
+  db:
     image: postgres
     environment:
       - POSTGRES_USER=cinemamakuser
@@ -8,8 +8,8 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgresdbdata:/var/lib/postgresql/data
+      - cinemamakdb:/var/lib/postgresql/data
 
 volumes:
-  postgresdbdata:
+  cinemamakdb:
     driver: local
