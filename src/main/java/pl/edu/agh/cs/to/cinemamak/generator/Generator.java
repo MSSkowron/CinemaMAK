@@ -78,8 +78,8 @@ public class Generator {
         Optional<Role> role = roleRepository.findByRoleName(RoleName.Admin.toString());
         if (role.isPresent()){
             user.setRole(role.get());
-//            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setPassword(user.getPassword());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
             return user;
         }
 

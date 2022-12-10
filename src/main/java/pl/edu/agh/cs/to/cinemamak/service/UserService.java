@@ -26,19 +26,15 @@ public class UserService {
 
     public boolean authenticate(String email, String password) {
         var user = getUserByEmail(email);
-//        System.out.println("Authenticate: "+password+" "+passwordEncoder.encode(password));
-//        return user.isPresent() && user.get().getPassword().equals(passwordEncoder.encode(password));
-        return user.isPresent() && user.get().getPassword().equals(password);
+
+        return user.isPresent() && passwordEncoder.matches(password, user.get().getPassword());
     }
 
     public void addUser(User user) throws Exception{
         Optional<Role> role = roleRepository.findByRoleName(RoleName.Employee.toString());
         if(role.isPresent()){
             user.setRole(role.get());
-//            String passEncode = passwordEncoder.encode(user.getPassword());
-//            System.out.println("Adduser: "+user.getPassword()+" "+passEncode);
-//            user.setPassword(passEncode);
-            user.setPassword(user.getPassword());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         }
     }
@@ -66,8 +62,7 @@ public class UserService {
         Optional<Role> role = roleRepository.findByRoleName(user.getRole().getRoleName().toString());
         if(role.isPresent()){
             user.setRole(role.get());
-//            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setPassword(user.getPassword());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         }
     }
