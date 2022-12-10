@@ -112,6 +112,7 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Przycisk *Register* umożliwia przejścia do okna rejestracji użytkownika.
 
 
+
 - **Rejestracja**
 
   ![Rejestracja](../images/rejestracja.png)
