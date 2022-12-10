@@ -100,7 +100,9 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
 ## Widoki
 - **Logowanie**
+
   ![Logowanie](../images/logowanie.png)
+
   Widok umożliwia logowanie się do systemu. \
   Po podaniu niepoprawnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba logowania. \
@@ -111,7 +113,9 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
 
 - **Rejestracja**
+
   ![Rejestracja](../images/rejestracja.png)
+
   Widok umożliwia założenie konta w systemie. \
   Po podaniu niepoprawnych lub niekompletnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba rejestracji. \
