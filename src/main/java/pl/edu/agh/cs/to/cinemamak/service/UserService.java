@@ -1,6 +1,5 @@
 package pl.edu.agh.cs.to.cinemamak.service;
 
-import org.hibernate.AssertionFailure;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.cs.to.cinemamak.model.Role;

@@ -30,12 +30,12 @@ public class CinemaMakGUI extends Application {
     @Override
     public void start(Stage stage) {
         FxWeaver fxWeaver = applicationContext.getBean(FxWeaver.class);
+        setPrimaryStage(stage, fxWeaver);
+
         Parent root = fxWeaver.loadView(LoginController.class);
         Scene scene = new Scene(root,616, 433);
         stage.setTitle("CinemaMAK");
         stage.setScene(scene);
-
-        setPrimaryStage(stage, fxWeaver);
 
         stage.show();
     }
