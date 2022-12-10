@@ -50,20 +50,7 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-        //    Update operation requires object user to have specified id and role.
-
-        if(user.getRole() == null){
-            throw new NullPointerException();
-        }
-
-        this.deleteUser(user);
-
-        Optional<Role> role = roleRepository.findByRoleName(user.getRole().getRoleName().toString());
-        if(role.isPresent()){
-            user.setRole(role.get());
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
-        }
+        userRepository.save(user);
     }
 
     public void deleteUser(User u){
