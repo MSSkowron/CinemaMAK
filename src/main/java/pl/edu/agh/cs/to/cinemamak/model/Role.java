@@ -1,7 +1,5 @@
 package pl.edu.agh.cs.to.cinemamak.model;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -13,6 +11,20 @@ public class Role {
     @Column(name="id")
     private long id;
 
+    @Column(name="name",nullable = false, unique = true)
+    private String roleName;
+
+    @OneToMany(mappedBy = "role")
+    private Set<User> users;
+
+    public Role(RoleName roleName) {
+        this.roleName = roleName.toString();
+    }
+
+    public Role() {
+
+    }
+
     public long getId() {
         return id;
     }
@@ -20,7 +32,6 @@ public class Role {
     public void setId(long id) {
         this.id = id;
     }
-
 
     public RoleName getRoleName() {
         switch(roleName){
@@ -37,7 +48,7 @@ public class Role {
     }
 
     public void setRoleName(RoleName roleName) {
-        this.roleName = roleName.toString();
+        this.roleName = String.valueOf(roleName);
     }
 
     public Set<User> getUsers() {
@@ -48,25 +59,15 @@ public class Role {
         this.users = users;
     }
 
-    @Column(name="name",nullable = false, unique = true)
-    private String roleName;
-
-    @OneToMany(mappedBy = "role")
-    private Set<User> users;
-
-    public Role(RoleName roleName) {
-        this.roleName = roleName.toString();
-    }
-    public Role() {
-
-    }
-
     @Override
     public boolean equals(Object obj) {
-        if(obj == this) return true;
-        if(!(obj instanceof Role)) return false;
+        if (obj == this) {
+            return true;
+        }
 
-        Role r = (Role)obj;
+        if (!(obj instanceof Role r)) {
+            return false;
+        }
 
         return r.getRoleName().equals(this.getRoleName());
     }

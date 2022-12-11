@@ -88,10 +88,13 @@ public class User {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == this) return true;
-        if(!(obj instanceof User)) return false;
+        if(obj == this) {
+            return true;
+        }
 
-        User u = (User)obj;
+        if(!(obj instanceof User u)) {
+            return false;
+        }
 
         return u.getFirstName().equals(this.getFirstName()) &&
                 u.getLastName().equals(this.getLastName()) &&

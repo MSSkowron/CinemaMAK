@@ -8,8 +8,7 @@ public enum RoleName {
             case "Admin" -> { return RoleName.Admin; }
             case "Manager" -> { return RoleName.Manager; }
             case "Employee" -> { return RoleName.Employee; }
-            default -> { throw new IllegalArgumentException(); }
+            default -> throw new IllegalArgumentException();
         }
     }
-
 }
