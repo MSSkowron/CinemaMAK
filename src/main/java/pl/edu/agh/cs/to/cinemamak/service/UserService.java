@@ -7,7 +7,6 @@ import pl.edu.agh.cs.to.cinemamak.model.RoleName;
 import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.repository.RoleRepository;
 import pl.edu.agh.cs.to.cinemamak.repository.UserRepository;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +23,7 @@ public class UserService {
     }
 
     public boolean authenticate(String email, String password) {
-        var user = getUserByEmail(email);
+        Optional<User> user = getUserByEmail(email);
 
         return user.isPresent() && passwordEncoder.matches(password, user.get().getPassword());
     }
@@ -37,16 +36,13 @@ public class UserService {
             userRepository.save(user);
         }
     }
+
     public Optional<User> getUserByEmail(String emailAddress) {
         if (emailAddress == null || emailAddress.isEmpty()) {
             return Optional.empty();
         }
 
         return userRepository.findByEmailAddress(emailAddress);
-    }
-
-    public Optional<User> getUserById(long userId) {
-        return userRepository.findById(userId);
     }
 
     public Optional<Role> getRoleFromName(String roleName){
@@ -57,8 +53,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void deleteUser(User u){
-
+    public void deleteUser(User u) {
         if(u.getId() == null){
             throw new NullPointerException();
         }
