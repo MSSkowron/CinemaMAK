@@ -1,8 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.service;
 
 import org.springframework.stereotype.Service;
-import pl.edu.agh.cs.to.cinemamak.model.Genre;
-import pl.edu.agh.cs.to.cinemamak.model.Movie;
+import pl.edu.agh.cs.to.cinemamak.model.*;
 import pl.edu.agh.cs.to.cinemamak.repository.GenreRepository;
 import pl.edu.agh.cs.to.cinemamak.repository.MovieRepository;
 
@@ -24,5 +23,11 @@ public class MovieService {
     }
     public Optional<List<Genre>> getGenres(){
         return Optional.of(genreRepository.findAll());
+    }
+    public Optional<Genre> getGenreByName(String name) {
+        return genreRepository.findGenreByGenreName(name);
+    }
+    public void addMovie(Movie movie) {
+        movieRepository.save(movie);
     }
 }
