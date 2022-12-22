@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.RoleName;
 import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
@@ -26,6 +27,8 @@ public class HomeController {
     private AnchorPane ap;
     @FXML
     private Label helloLabel;
+    @FXML
+    public Button movieViewButton;
     @FXML
     private Button adminViewButton;
     private final SessionService sessionService;
@@ -65,6 +68,13 @@ public class HomeController {
     private void adminView(javafx.scene.input.MouseEvent mouseEvent) {
         Parent root;
         root = fxWeaver.loadView(AdminController.class);
+        bp.setCenter(root);
+    }
+
+    @FXML
+    private void movieView(javafx.scene.input.MouseEvent mouseEvent) {
+        Parent root;
+        root = fxWeaver.loadView(MovieController.class);
         bp.setCenter(root);
     }
 
