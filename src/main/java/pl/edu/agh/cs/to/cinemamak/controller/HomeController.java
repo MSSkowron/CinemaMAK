@@ -27,6 +27,8 @@ public class HomeController {
     @FXML
     private Label helloLabel;
     @FXML
+    public Button movieViewButton;
+    @FXML
     private Button adminViewButton;
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
@@ -65,6 +67,13 @@ public class HomeController {
     private void adminView(javafx.scene.input.MouseEvent mouseEvent) {
         Parent root;
         root = fxWeaver.loadView(AdminController.class);
+        bp.setCenter(root);
+    }
+
+    @FXML
+    private void movieView(javafx.scene.input.MouseEvent mouseEvent) {
+        Parent root;
+        root = fxWeaver.loadView(MovieController.class);
         bp.setCenter(root);
     }
 
