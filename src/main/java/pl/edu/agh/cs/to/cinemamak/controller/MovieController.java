@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 
 @Component
@@ -25,13 +26,17 @@ public class MovieController {
     }
 
     public void initialize() {
-        movieService.getMovies().ifPresent( listM -> listM.forEach(movie -> this.tableView.getItems().add(movie)));
     }
 
     @FXML
     private void newMovie(javafx.scene.input.MouseEvent mouseEvent) {
-        Scene formScene = new Scene(fxWeaver.loadView(MovieFormController.class));
+        movieService.getMovies().ifPresent( listM -> listM.forEach(movie -> System.out.println(movie.getTitle())));
+
         Stage formStage = new Stage();
+        fxWeaver.loadController(MovieFormController.class).setStage(formStage);
+
+        Scene formScene = new Scene(fxWeaver.loadView(MovieFormController.class));
+
         formStage.setTitle("CinemaMAK-NewMovieForm");
         formStage.setScene(formScene);
         formStage.initModality(Modality.WINDOW_MODAL);
