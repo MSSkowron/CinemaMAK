@@ -25,8 +25,6 @@ public class AdminController implements ApplicationListener<ControlPanelSelectio
     private ChoiceBox<String> roleChoiceBox;
     @FXML
     private Button roleSetButton;
-    @FXML
-    private Button exitButton;
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
     private Stage stage;
@@ -65,11 +63,6 @@ public class AdminController implements ApplicationListener<ControlPanelSelectio
 
     public void setStage(Stage s) {
         this.stage = s;
-    }
-
-    @FXML
-    private void onClickExit() {
-        stage.setScene(new Scene(fxWeaver.loadView(HomeController.class), 616, 433));
     }
 
     @FXML

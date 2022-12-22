@@ -13,7 +13,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.AdminController">
    <children>
-      <Label alignment="CENTER" prefHeight="129.0" prefWidth="600.0" text="Control Panel">
+      <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Control Panel">
          <font>
             <Font name="Book Antiqua Bold" size="48.0" />
          </font></Label>
@@ -25,7 +25,7 @@
                      <font>
                         <Font name="Book Antiqua" size="18.0" />
                      </font></Label>
-                  <ListView fx:id="usersListView" prefHeight="329.0" prefWidth="171.0" />
+                  <ListView fx:id="usersListView" />
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -33,7 +33,7 @@
                <children>
                   <HBox prefHeight="20.0" prefWidth="433.0">
                      <children>
-                        <Label alignment="CENTER_RIGHT" prefHeight="103.0" prefWidth="138.0" text="Role:">
+                        <Label alignment="CENTER_RIGHT" prefHeight="103.0" text="Role:">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -49,11 +49,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <BorderPane prefHeight="272.0" prefWidth="433.0">
-                     <bottom>
-                        <Button fx:id="exitButton" alignment="CENTER" mnemonicParsing="false" onAction="#onClickExit" prefHeight="21.0" prefWidth="111.0" text="Exit" BorderPane.alignment="CENTER" />
-                     </bottom>
-                  </BorderPane>
+                  <BorderPane />
                </children>
             </VBox>
          </children>

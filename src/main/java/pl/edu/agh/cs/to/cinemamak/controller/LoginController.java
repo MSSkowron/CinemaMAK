@@ -62,7 +62,7 @@ public class LoginController {
             dialog.show();
             dialog.setOnCloseRequest(event -> {
                 sessionService.setCurrentUser(userService.getUserByEmail(email).get());
-                Scene scene = new Scene(fxWeaver.loadView(HomeController.class), 616, 433);
+                Scene scene = new Scene(fxWeaver.loadView(HomeController.class));
                 stage.setScene(scene);
             });
         } else {

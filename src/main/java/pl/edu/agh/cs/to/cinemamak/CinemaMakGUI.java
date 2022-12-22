@@ -30,7 +30,7 @@ public class CinemaMakGUI extends Application {
 
         setPrimaryStage(stage, fxWeaver);
 
-        Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class),616, 433);
+        Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class));
 
         stage.setTitle("CinemaMAK");
         stage.setScene(loginScene);
