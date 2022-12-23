@@ -2,11 +2,13 @@ package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -64,6 +66,23 @@ public class MovieController {
         formStage.initOwner(stage);
 
         formStage.show();
+    }
+
+    public void onMousePressed(MouseEvent event) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            Stage detailsStage = new Stage();
+            fxWeaver.loadController(MovieDetailsController.class).setStage(detailsStage);
+            fxWeaver.loadController(MovieDetailsController.class).setMovie(tableView.getSelectionModel().getSelectedItem());
+
+            Scene detailsScene = new Scene(fxWeaver.loadView(MovieDetailsController.class));
+
+            detailsStage.setTitle("CinemaMAK-MovieDetails");
+            detailsStage.setScene(detailsScene);
+            detailsStage.initModality(Modality.WINDOW_MODAL);
+            detailsStage.initOwner(stage);
+
+            detailsStage.show();
+        }
     }
 
     public void setStage(Stage s) {
