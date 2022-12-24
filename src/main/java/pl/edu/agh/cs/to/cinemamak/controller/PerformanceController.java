@@ -18,4 +18,12 @@ public class PerformanceController {
 
     }
 
+    public void setAddButton(){
+
+    }
+
+    public void setDeleteButton(){
+
+    }
+
 }

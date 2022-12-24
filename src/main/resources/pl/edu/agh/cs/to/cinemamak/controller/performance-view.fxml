@@ -30,12 +30,12 @@
       </TableView>
       <HBox prefHeight="67.0" prefWidth="620.0">
          <children>
-            <Button fx:id="addButton" mnemonicParsing="false" prefWidth="100.0" text="Add">
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#setAddButton" prefWidth="100.0" text="Add">
                <HBox.margin>
                   <Insets bottom="15.0" left="150.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="deleteButton" mnemonicParsing="false" prefWidth="100.0" text="Delete">
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#setDeleteButton" prefWidth="100.0" text="Delete">
                <HBox.margin>
                   <Insets bottom="15.0" left="100.0" top="15.0" />
                </HBox.margin>
