@@ -1,0 +1,27 @@
+[
+  {
+    "name": "S1",
+    "seatRows": 17,
+    "seatsPerRow": 24
+  },
+  {
+    "name": "S2",
+    "seatRows": 15,
+    "seatsPerRow": 25
+  },
+  {
+    "name": "S3",
+    "seatRows": 15,
+    "seatsPerRow": 15
+  },
+  {
+    "name": "S4",
+    "seatRows": 10,
+    "seatsPerRow": 30
+  },
+  {
+    "name": "S5",
+    "seatRows": 12,
+    "seatsPerRow": 15
+  }
+]
