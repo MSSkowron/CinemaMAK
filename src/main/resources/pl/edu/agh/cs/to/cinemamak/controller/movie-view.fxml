@@ -11,8 +11,8 @@
    <children>
       <TableView fx:id="tableView" onMousePressed="#onMousePressed" prefHeight="362.0" prefWidth="600.0">
         <columns>
-          <TableColumn fx:id="tableColumnID" editable="false" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="tableColumnTitle" editable="false" prefWidth="130.0" text="Title" />
+          <TableColumn fx:id="tableColumnID" editable="false" prefWidth="81.0" text="ID" />
+          <TableColumn fx:id="tableColumnTitle" editable="false" prefWidth="318.0" text="Title" />
             <TableColumn fx:id="tableColumnDirector" editable="false" prefWidth="151.33331298828125" text="Director" />
         </columns>
          <columnResizePolicy>

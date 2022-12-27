@@ -7,7 +7,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.event.ControlPanelSelectionChangeEvent;
+import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
@@ -39,6 +43,9 @@ public class MovieFormController {
     public TextField textFieldImage;
     @FXML
     public Button buttonSubmit;
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
     private Stage stage;
 
     public MovieFormController(MovieService movieService) {
@@ -70,7 +77,7 @@ public class MovieFormController {
 
         Optional<Genre> genre = movieService.getGenreByName(genreName);
         if (genre.isPresent()) {
-            Movie movie = new Movie(title, director, description, duration, genre.get(), Date.valueOf(date));
+            Movie movie = new Movie(title, director, description, duration, genre.get(), Date.valueOf(date), image);
             movieService.addMovie(movie);
 
             Alert dialog = new Alert(Alert.AlertType.INFORMATION);
@@ -80,6 +87,7 @@ public class MovieFormController {
             dialog.setHeaderText("New movie added successfully!");
             dialog.show();
             dialog.setOnCloseRequest(event -> {
+                applicationEventPublisher.publishEvent(new NewMovieAddedEvent(this));
                 stage.close();
             });
         }

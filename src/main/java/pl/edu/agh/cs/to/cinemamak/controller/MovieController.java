@@ -2,7 +2,6 @@ package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
@@ -13,13 +12,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 
 @Component
 @FxmlView("movie-view.fxml")
-public class MovieController {
+public class MovieController implements ApplicationListener<NewMovieAddedEvent> {
     @FXML
     private TableView<Movie> tableView;
     @FXML
@@ -87,5 +88,12 @@ public class MovieController {
 
     public void setStage(Stage s) {
         this.stage = s;
+    }
+
+    @Override
+    public void onApplicationEvent(NewMovieAddedEvent event) {
+        tableView.getItems().removeAll();
+        tableView.setItems(getMovies());
+        tableView.refresh();
     }
 }

@@ -20,6 +20,9 @@ public class Movie {
     @Column(name="description", nullable = false)
     private String description;
 
+    @Column(name="image", nullable = false)
+    private String image;
+
     @Column(name="duration", nullable = false)
     private int duration;
 
@@ -30,13 +33,14 @@ public class Movie {
     @Column(name="date", nullable = false)
     private Date date;
 
-    public Movie(String title, String director, String description, int duration, Genre genre, Date date) {
+    public Movie(String title, String director, String description, int duration, Genre genre, Date date, String image) {
         this.title = title;
         this.director = director;
         this.description = description;
         this.duration = duration;
         this.genre = genre;
         this.date = date;
+        this.image = image;
     }
 
     public Movie() {
@@ -97,5 +101,13 @@ public class Movie {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
