@@ -8,6 +8,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
@@ -15,6 +19,13 @@ import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
@@ -36,9 +47,11 @@ public class MovieFormController {
     @FXML
     public DatePicker datePicker;
     @FXML
-    public TextField textFieldImage;
+    public TextField textFieldImageURL;
     @FXML
     public Button buttonSubmit;
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
     private Stage stage;
 
     public MovieFormController(MovieService movieService) {
@@ -56,32 +69,131 @@ public class MovieFormController {
 
         textFieldDuration.setTextFormatter(new TextFormatter<String>(integerFilter));
 
-        movieService.getGenres().ifPresent( listM -> listM.forEach(genre -> this.choiceBoxGenre.getItems().add(genre.getGenreName())));
+        movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.choiceBoxGenre.getItems().add(genre.getGenreName())));
     }
+
     @FXML
     public void onButtonSubmit(MouseEvent actionEvent) {
         String title = this.textFieldTitle.getCharacters().toString();
         String director = this.textFieldDirector.getCharacters().toString();
         String description = this.textAreaDescription.getText();
-        int duration = Integer.parseInt(this.textFieldDuration.getCharacters().toString());
+//<<<<<<< HEAD
+//        int duration = Integer.parseInt(this.textFieldDuration.getCharacters().toString());
+//        String genreName = choiceBoxGenre.getValue();
+//        LocalDate date =  datePicker.getValue();
+//        String image = this.textFieldImage.getCharacters().toString();
+//
+//        Optional<Genre> genre = movieService.getGenreByName(genreName);
+//        if (genre.isPresent()) {
+//            Movie movie = new Movie(title, director, description, duration, genre.get(), Date.valueOf(date));
+//            movieService.addMovie(movie);
+//=======
+        String durationStr = this.textFieldDuration.getCharacters().toString();
         String genreName = choiceBoxGenre.getValue();
+        String imageURL = this.textFieldImageURL.getCharacters().toString();
         LocalDate date =  datePicker.getValue();
-        String image = this.textFieldImage.getCharacters().toString();
 
-        Optional<Genre> genre = movieService.getGenreByName(genreName);
-        if (genre.isPresent()) {
-            Movie movie = new Movie(title, director, description, duration, genre.get(), Date.valueOf(date));
-            movieService.addMovie(movie);
+        if (validate(title, director, description, genreName, imageURL, durationStr, date)) {
+            movieService.addMovie(new Movie(title, director, description, Integer.parseInt(durationStr), movieService.getGenreByName(genreName).get(), Date.valueOf(date), imageURL));
 
             Alert dialog = new Alert(Alert.AlertType.INFORMATION);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(stage);
             dialog.setTitle("Information");
-            dialog.setHeaderText("New movie added successfully!");
+            dialog.setHeaderText("New movie added successfully");
             dialog.show();
             dialog.setOnCloseRequest(event -> {
+                applicationEventPublisher.publishEvent(new NewMovieAddedEvent(this));
                 stage.close();
             });
+        }
+    }
+
+    public boolean validate(String title, String director, String description, String genreName, String imageURL, String durationStr, LocalDate date) {
+        if (title.isEmpty() || director.isEmpty() || description.isEmpty() || genreName.isEmpty() || durationStr.isEmpty() || imageURL.isEmpty() || date == null) {
+            Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            dialog.setTitle("Error");
+            dialog.setHeaderText("Error occurred while adding a new movie");
+            dialog.setContentText("All fields need to be filled!");
+            dialog.show();
+
+            return false;
+        }
+
+        try {
+            Integer.parseInt(durationStr);
+        } catch (NumberFormatException e) {
+            Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            dialog.setTitle("Error");
+            dialog.setHeaderText("Error occurred while adding a new movie");
+            dialog.setContentText("Duration should be a positive integer!");
+            dialog.show();
+
+            return false;
+        }
+
+        Optional<Genre> genre =  movieService.getGenreByName(genreName);
+        if (genre.isEmpty()) {
+            Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            dialog.setTitle("Error");
+            dialog.setHeaderText("Error occurred while adding a new movie");
+            dialog.setContentText("Genre does not exist!");
+            dialog.show();
+
+            return false;
+        }
+
+        if (!isValidURL(imageURL)) {
+            Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            dialog.setTitle("Error");
+            dialog.setHeaderText("Error occurred while adding a new movie");
+            dialog.setContentText("Image URL is not valid!");
+            dialog.show();
+
+            return false;
+        }
+
+        try {
+            if(ImageIO.read(new URL(imageURL)) == null) {
+                Alert dialog = new Alert(Alert.AlertType.ERROR);
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.initOwner(stage);
+                dialog.setTitle("Error");
+                dialog.setHeaderText("Error occurred while adding a new movie");
+                dialog.setContentText("Image is not valid!");
+                dialog.show();
+
+                return false;
+            }
+        } catch (IOException e) {
+            Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            dialog.setTitle("Error");
+            dialog.setHeaderText("Error occurred while adding a new movie");
+            dialog.setContentText("Image is not valid!");
+            dialog.show();
+
+            return false;
+        }
+
+        return true;
+   }
+
+    boolean isValidURL(String url) {
+        try {
+            new URL(url).toURI();
+            return true;
+        } catch (MalformedURLException | URISyntaxException e) {
+            return false;
         }
     }
 

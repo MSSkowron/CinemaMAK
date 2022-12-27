@@ -2,7 +2,6 @@ package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +12,7 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.model.Movie;
+import pl.edu.agh.cs.to.cinemamak.helpers.RoleUIHelper;
 import pl.edu.agh.cs.to.cinemamak.model.RoleName;
 import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
@@ -34,10 +33,12 @@ public class HomeController {
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
+    private final RoleUIHelper roleUIHelper;
 
-    public HomeController(SessionService sessionService, FxWeaver fxWeaver) {
+    public HomeController(SessionService sessionService, FxWeaver fxWeaver, RoleUIHelper roleUIHelper) {
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
+        this.roleUIHelper = roleUIHelper;
     }
 
     public void setStage(Stage stage) {
@@ -54,9 +55,7 @@ public class HomeController {
             return "%s %s".formatted(currUser.getFirstName(), currUser.getLastName());
         }, sessionService.getCurrentUserProperty()));
 
-        if(sessionService.getCurrentUser().isPresent() && !sessionService.getCurrentUser().get().getRole().getRoleName().equals(RoleName.Admin)) {
-            adminViewButton.setOpacity(0);
-        }
+        roleUIHelper.bindVisibleOnlyToRoles(adminViewButton, RoleName.Admin);
     }
 
     @FXML

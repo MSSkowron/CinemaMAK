@@ -30,4 +30,9 @@ public class MovieService {
     public void addMovie(Movie movie) {
         movieRepository.save(movie);
     }
+
+    public void deleteMovie(Movie movie) {
+        movieRepository.delete(movie);
+    }
+
 }
