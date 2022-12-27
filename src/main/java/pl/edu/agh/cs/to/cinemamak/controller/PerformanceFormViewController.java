@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +25,14 @@ public class PerformanceFormViewController {
     @FXML
     private Button cancelButton;
 
+    private Stage stage;
+
     public PerformanceFormViewController(){
 
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     public void initialize(){
