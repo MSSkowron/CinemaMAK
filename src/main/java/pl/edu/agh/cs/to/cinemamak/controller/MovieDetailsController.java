@@ -1,8 +1,11 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
+
+import javax.annotation.PostConstruct;
 
 @Component
 @FxmlView("movie-details-view.fxml")
@@ -47,6 +52,7 @@ public class MovieDetailsController {
     }
 
     public void initialize() {
+        imageView.imageProperty().bind(Bindings.createObjectBinding(() -> new Image(movie.getImage())));
         labelTitle.textProperty().bind(Bindings.createStringBinding(() -> movie.getTitle()));
         labelDirector.textProperty().bind(Bindings.createStringBinding(() -> movie.getDirector()));
         labelDate.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf(movie.getDate())));
@@ -56,10 +62,10 @@ public class MovieDetailsController {
     }
 
     public void setStage(Stage s) {
-        this.stage = s;
+        stage = s;
     }
     public void setMovie(Movie m) {
-        this.movie = m;
+        movie = m;
     }
 
     public void onButtonDelete(MouseEvent event) {
