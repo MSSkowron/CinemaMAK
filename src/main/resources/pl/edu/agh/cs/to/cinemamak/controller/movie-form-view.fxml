@@ -61,7 +61,7 @@
                      </children>
                   </VBox>
                   <ChoiceBox fx:id="choiceBoxGenre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <DatePicker fx:id="datePicker" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label text="Image" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
                   <TextField fx:id="textFieldImage" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                </children>

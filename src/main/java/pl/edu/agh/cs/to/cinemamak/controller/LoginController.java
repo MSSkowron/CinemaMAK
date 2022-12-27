@@ -21,12 +21,6 @@ public class LoginController {
     private TextField textFieldEmail;
     @FXML
     private TextField textFieldPassword;
-    @FXML
-    private Button buttonExit;
-    @FXML
-    private Button buttonLogin;
-    @FXML
-    private Button buttonRegister;
     private final UserService userService;
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
