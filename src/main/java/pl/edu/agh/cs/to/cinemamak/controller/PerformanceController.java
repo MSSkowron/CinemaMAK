@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.data.convert.PropertyValueConverter;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import java.util.List;
@@ -23,47 +25,6 @@ import java.util.List;
 @Component
 @FxmlView("performance-view.fxml")
 public class PerformanceController {
-
-    public class Performance{
-        private StringProperty title;
-        public void setTitle(String strTitle){ this.title.setValue(strTitle); }
-        public String getTitle(){ return this.title.getValue(); }
-        public StringProperty titleProperty(){
-            if( this.title == null) this.title = new SimpleStringProperty("title");
-            return this.title;
-        }
-
-        private StringProperty date;
-        public void setDate(String strDate){ this.date.setValue(strDate);}
-        public String getDate(){ return this.date.get(); }
-        public StringProperty dateProperty(){
-            if(this.date == null) this.date = new SimpleStringProperty("date");
-            return this.date;
-        }
-
-        private StringProperty room;
-        public void setRoom(String strRoom){ this.room.setValue(strRoom);}
-        public String getRoom(){ return this.room.get(); }
-        public StringProperty roomProperty(){
-            if(this.room == null) this.room = new SimpleStringProperty("0");
-            return this.room;
-        }
-
-        private StringProperty supervisor;
-        public void setSupervisor(String strSup){ this.supervisor.setValue(strSup);}
-        public String getSupervisor(){ return this.supervisor.get(); }
-        public StringProperty supervisorProperty(){
-            if(this.supervisor == null) this.supervisor = new SimpleStringProperty("supervisor");
-            return this.supervisor;
-        }
-
-        public Performance(String title, String date, String room, String supervisor){
-            this.supervisor = new SimpleStringProperty(supervisor);
-            this.date = new SimpleStringProperty(date);
-            this.room = new SimpleStringProperty(room);
-            this.title = new SimpleStringProperty(title);
-        }
-    }
 
     @FXML
     private TableView<Performance> table;
@@ -96,11 +57,19 @@ public class PerformanceController {
     }
 
     public void initialize(){
-        this.table.setEditable(true);
+
+        this.columnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        this.columnDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        this.columnSupervisor.setCellValueFactory(new PropertyValueFactory<>("supervisor"));
+        this.columnRoom.setCellValueFactory(new PropertyValueFactory<>("room"));
+
+        ObservableList<Performance> performanceObservableList1 = FXCollections.observableArrayList();
+
+        FilteredList<Performance> filteredList = new FilteredList<>(performanceObservableList1);
 //        this.table.getColumns().setAll(columnTitle, columnDate, columnRoom, columnSupervisor);
-        performanceList = List.of(new Performance("title1", "date1", "room1", "sup1"));
-        performanceObservableList = FXCollections.observableArrayList(performanceList);
-        this.table.setItems(performanceObservableList);
+//        performanceList = List.of(new Performance("title1", "date1", "room1", "sup1"));
+//        performanceObservableList = FXCollections.observableArrayList(performanceList);
+//        this.table.setItems(performanceObservableList);
     }
 
     public void setAddButton(){
