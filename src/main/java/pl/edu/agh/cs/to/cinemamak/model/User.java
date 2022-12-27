@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name="users")
@@ -25,6 +26,7 @@ public class User {
 
     @Column(name="password",nullable = false)
     private String password;
+
 
     public User(String firstName, String lastName, String emailAddress, String password) {
         this.firstName = firstName;
@@ -101,5 +103,15 @@ public class User {
                 u.getPassword().equals(this.getPassword()) &&
                 u.getEmailAddress().equals(this.getEmailAddress())&&
                 u.getRole().equals(this.getRole());
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = this.id.hashCode();
+        hashCode = 31 * hashCode + this.emailAddress.hashCode();
+        hashCode = 31 * hashCode + this.firstName.hashCode();
+        hashCode = 31 * hashCode + this.lastName.hashCode();
+        hashCode = 31 * hashCode + this.password.hashCode();
+        return hashCode;
     }
 }

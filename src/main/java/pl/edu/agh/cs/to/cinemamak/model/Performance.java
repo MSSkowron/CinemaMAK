@@ -89,4 +89,16 @@ public class Performance {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Performance{" +
+                "id=" + id +
+                ", movie=" + movie +
+                ", room=" + room +
+                ", date=" + date +
+                ", price=" + price +
+                ", user=" + user +
+                '}';
+    }
 }

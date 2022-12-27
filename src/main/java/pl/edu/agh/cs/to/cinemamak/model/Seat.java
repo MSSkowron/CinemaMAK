@@ -50,4 +50,13 @@ public class Seat {
     public void setRoom(Room room) {
         this.room = room;
     }
+
+    @Override
+    public String toString() {
+        return "Seat{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", room=" + room +
+                '}';
+    }
 }

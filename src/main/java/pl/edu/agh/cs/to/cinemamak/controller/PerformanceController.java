@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -36,6 +37,8 @@ public class PerformanceController {
     private TableColumn<Performance, String> columnRoom;
     @FXML
     private TableColumn<Performance, String> columnSupervisor;
+    @FXML
+    private TableColumn<Performance, BigDecimal> columnPrice;
     @FXML
     public Button addButton;
     @FXML
