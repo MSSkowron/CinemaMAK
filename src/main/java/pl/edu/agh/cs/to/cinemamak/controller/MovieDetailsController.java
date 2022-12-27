@@ -48,7 +48,7 @@ public class MovieDetailsController {
     }
 
     public void initialize() {
-        imageView.imageProperty().bind(Bindings.createObjectBinding(() -> new Image(movie.getImage())));
+        imageView.imageProperty().bind(Bindings.createObjectBinding(() -> new Image(movie.getImageURL())));
         labelTitle.textProperty().bind(Bindings.createStringBinding(() -> movie.getTitle()));
         labelDirector.textProperty().bind(Bindings.createStringBinding(() -> movie.getDirector()));
         labelDate.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf(movie.getDate())));

@@ -42,7 +42,7 @@ public class MovieFormController {
     @FXML
     public DatePicker datePicker;
     @FXML
-    public TextField textFieldImage;
+    public TextField textFieldImageURL;
     @FXML
     public Button buttonSubmit;
 
@@ -74,11 +74,11 @@ public class MovieFormController {
         String description = this.textAreaDescription.getText();
         String durationStr = this.textFieldDuration.getCharacters().toString();
         String genreName = choiceBoxGenre.getValue();
-        String image = this.textFieldImage.getCharacters().toString();
+        String imageURL = this.textFieldImageURL.getCharacters().toString();
         LocalDate date =  datePicker.getValue();
 
-        if (validate(title, director, description, genreName, image, durationStr, date)) {
-            movieService.addMovie(new Movie(title, director, description, Integer.parseInt(durationStr), movieService.getGenreByName(genreName).get(), Date.valueOf(date), image));
+        if (validate(title, director, description, genreName, imageURL, durationStr, date)) {
+            movieService.addMovie(new Movie(title, director, description, Integer.parseInt(durationStr), movieService.getGenreByName(genreName).get(), Date.valueOf(date), imageURL));
 
             Alert dialog = new Alert(Alert.AlertType.INFORMATION);
             dialog.initModality(Modality.APPLICATION_MODAL);

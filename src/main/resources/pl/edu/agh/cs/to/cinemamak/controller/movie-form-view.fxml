@@ -62,8 +62,8 @@
                   </VBox>
                   <ChoiceBox fx:id="choiceBoxGenre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <DatePicker fx:id="datePicker" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label text="Image" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-                  <TextField fx:id="textFieldImage" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label text="Image URL" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+                  <TextField fx:id="textFieldImageURL" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                </children>
                <VBox.margin>
                   <Insets right="15.0" />
