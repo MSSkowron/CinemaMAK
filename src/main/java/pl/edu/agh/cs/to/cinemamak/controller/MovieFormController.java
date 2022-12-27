@@ -14,6 +14,8 @@ import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 
+import javax.imageio.ImageIO;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -137,7 +139,31 @@ public class MovieFormController {
             dialog.initOwner(stage);
             dialog.setTitle("Error");
             dialog.setHeaderText("Error occurred while adding a new movie");
-            dialog.setContentText("URL is not valid!");
+            dialog.setContentText("Image URL is not valid!");
+            dialog.show();
+
+            return false;
+        }
+
+        try {
+            if(ImageIO.read(new URL(imageURL)) == null) {
+                Alert dialog = new Alert(Alert.AlertType.ERROR);
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.initOwner(stage);
+                dialog.setTitle("Error");
+                dialog.setHeaderText("Error occurred while adding a new movie");
+                dialog.setContentText("Image is not valid!");
+                dialog.show();
+
+                return false;
+            }
+        } catch (IOException e) {
+            Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            dialog.setTitle("Error");
+            dialog.setHeaderText("Error occurred while adding a new movie");
+            dialog.setContentText("Image is not valid!");
             dialog.show();
 
             return false;
