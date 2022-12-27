@@ -28,6 +28,10 @@ public class HomeController {
     private Label helloLabel;
     @FXML
     private Button adminViewButton;
+
+    @FXML
+    private Button performanceButton;
+
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -65,6 +69,13 @@ public class HomeController {
     private void adminView(javafx.scene.input.MouseEvent mouseEvent) {
         Parent root;
         root = fxWeaver.loadView(AdminController.class);
+        bp.setCenter(root);
+    }
+
+    @FXML
+    private void performanceView(){
+        Parent root;
+        root = fxWeaver.loadView(PerformanceController.class);
         bp.setCenter(root);
     }
 
