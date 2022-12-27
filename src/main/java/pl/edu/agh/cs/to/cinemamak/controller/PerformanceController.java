@@ -17,11 +17,11 @@ import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import java.util.List;
 
-//@Component
-//@FxmlView("performance-view.fxml")
+@Component
+@FxmlView("performance-view.fxml")
 public class PerformanceController {
 
-    public class Performance{
+    public static class Performance{
         private StringProperty title;
         public void setTitle(String strTitle){ this.title.setValue(strTitle); }
         public String getTitle(){ return this.title.get(); }
@@ -84,7 +84,7 @@ public class PerformanceController {
     public PerformanceController(SessionService sessionService, FxWeaver fxWeaver){
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
-        this.stage = new Stage();
+//        this.stage = new Stage();
     }
 
     public void setStage(Stage stage) {
@@ -98,6 +98,7 @@ public class PerformanceController {
     }
 
     public void setAddButton(){
+        if(this.stage == null) return;
         Scene scene = new Scene(fxWeaver.loadView(PerformanceFormViewController.class));
         this.stage.setScene(scene);
         this.stage.show();

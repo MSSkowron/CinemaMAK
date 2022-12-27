@@ -19,7 +19,7 @@
             <Button mnemonicParsing="false" onMouseClicked="#logOut" prefHeight="25.0" prefWidth="102.0" text="Log Out" />
             <Button mnemonicParsing="false" onMouseClicked="#home" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Home" textFill="WHITE" />
             <Button fx:id="adminViewButton" layoutX="10.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#adminView" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Admin Panel" textFill="WHITE" />
-            <Button fx:id="performanceButton" mnemonicParsing="false" onAction="#performanceView" onMouseClicked="#home" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Performance" textFill="WHITE" />
+            <Button fx:id="performanceButton" mnemonicParsing="false" onMouseClicked="#performanceView" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Performance" textFill="WHITE" />
          </children>
       </VBox>
    </left>

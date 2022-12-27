@@ -73,7 +73,7 @@ public class HomeController {
     }
 
     @FXML
-    private void performanceView(){
+    private void performanceView(javafx.scene.input.MouseEvent mouseEvent){
         Parent root;
         root = fxWeaver.loadView(PerformanceController.class);
         bp.setCenter(root);

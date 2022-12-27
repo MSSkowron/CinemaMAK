@@ -44,7 +44,7 @@ public class UserServiceTest {
         Long len = userService.getUsers().get().stream().count();
 
         assertFalse(userService.getUsers().get().isEmpty());
-        assertEquals(Long.valueOf(3), len);
+        assertEquals(Long.valueOf(4), len);
 
         userService.deleteUser(u);
         userService.deleteUser(u2);
