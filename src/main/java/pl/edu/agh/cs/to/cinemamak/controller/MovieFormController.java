@@ -28,7 +28,6 @@ import java.util.function.UnaryOperator;
 @FxmlView("movie-form-view.fxml")
 public class MovieFormController {
     private final MovieService movieService;
-
     @FXML
     public TextField textFieldTitle;
     @FXML
@@ -45,7 +44,6 @@ public class MovieFormController {
     public TextField textFieldImageURL;
     @FXML
     public Button buttonSubmit;
-
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
     private Stage stage;
@@ -65,8 +63,9 @@ public class MovieFormController {
 
         textFieldDuration.setTextFormatter(new TextFormatter<String>(integerFilter));
 
-        movieService.getGenres().ifPresent( listM -> listM.forEach(genre -> this.choiceBoxGenre.getItems().add(genre.getGenreName())));
+        movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.choiceBoxGenre.getItems().add(genre.getGenreName())));
     }
+
     @FXML
     public void onButtonSubmit(MouseEvent actionEvent) {
         String title = this.textFieldTitle.getCharacters().toString();

@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -40,16 +39,12 @@ public class MovieDetailsController {
     TextArea textAreaDescription;
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-
-    private final FxWeaver fxWeaver;
     private Stage stage;
     private final MovieService movieService;
-
     private final ObjectProperty<Optional<Movie>> movie = new SimpleObjectProperty<>(Optional.empty());
 
-    public MovieDetailsController(MovieService movieService, FxWeaver fxWeaver) {
+    public MovieDetailsController(MovieService movieService) {
         this.movieService = movieService;
-        this.fxWeaver = fxWeaver;
     }
 
     public void initialize() {
