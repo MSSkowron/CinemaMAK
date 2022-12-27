@@ -1,8 +1,6 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,8 +16,6 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
-
-import javax.annotation.PostConstruct;
 
 @Component
 @FxmlView("movie-details-view.fxml")
