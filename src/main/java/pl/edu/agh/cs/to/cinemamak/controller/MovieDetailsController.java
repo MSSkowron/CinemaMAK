@@ -1,6 +1,8 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
+
+import java.util.Optional;
 
 @Component
 @FxmlView("movie-details-view.fxml")
@@ -40,7 +44,8 @@ public class MovieDetailsController {
     private final FxWeaver fxWeaver;
     private Stage stage;
     private final MovieService movieService;
-    private Movie movie;
+
+    private final ObjectProperty<Optional<Movie>> movie = new SimpleObjectProperty<>(Optional.empty());
 
     public MovieDetailsController(MovieService movieService, FxWeaver fxWeaver) {
         this.movieService = movieService;
@@ -48,24 +53,93 @@ public class MovieDetailsController {
     }
 
     public void initialize() {
-        imageView.imageProperty().bind(Bindings.createObjectBinding(() -> new Image(movie.getImageURL())));
-        labelTitle.textProperty().bind(Bindings.createStringBinding(() -> movie.getTitle()));
-        labelDirector.textProperty().bind(Bindings.createStringBinding(() -> movie.getDirector()));
-        labelDate.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf(movie.getDate())));
-        labelDuration.textProperty().bind(Bindings.createStringBinding(() -> movie.getDuration() + " min"));
-        labelGenre.textProperty().bind(Bindings.createStringBinding(() -> movie.getGenre().getGenreName()));
-        textAreaDescription.textProperty().bind(Bindings.createStringBinding(() -> movie.getDescription()));
+        imageView.imageProperty().bind(Bindings.createObjectBinding(() -> {
+            if (getMovie().isEmpty()) {
+                return null;
+            }
+
+            Movie movie = getMovie().get();
+            return new Image(movie.getImageURL());
+        }, getMovieProperty()));
+
+        labelTitle.textProperty().bind(Bindings.createStringBinding(() -> {
+            if (getMovie().isEmpty()) {
+                return "";
+            }
+
+            Movie movie = getMovie().get();
+            return movie.getTitle();
+        }, getMovieProperty()));
+
+        labelDirector.textProperty().bind(Bindings.createStringBinding(() -> {
+            if (getMovie().isEmpty()) {
+                return "";
+            }
+
+            Movie movie = getMovie().get();
+            return movie.getDirector();
+        }, getMovieProperty()));
+
+        labelDate.textProperty().bind(Bindings.createStringBinding(() -> {
+            if (getMovie().isEmpty()) {
+                return "";
+            }
+
+            Movie movie = getMovie().get();
+            return String.valueOf(movie.getDate());
+        }, getMovieProperty()));
+
+        labelDuration.textProperty().bind(Bindings.createStringBinding(() -> {
+            if (getMovie().isEmpty()) {
+                return "";
+            }
+
+            Movie movie = getMovie().get();
+            return movie.getDuration() + " min" ;
+        }, getMovieProperty()));
+
+        labelGenre.textProperty().bind(Bindings.createStringBinding(() -> {
+            if (getMovie().isEmpty()) {
+                return "";
+            }
+
+            Movie movie = getMovie().get();
+            return movie.getGenre().getGenreName();
+        }, getMovieProperty()));
+
+        textAreaDescription.textProperty().bind(Bindings.createStringBinding(() -> {
+            if (getMovie().isEmpty()) {
+                return "";
+            }
+
+            Movie movie = getMovie().get();
+            return movie.getDescription();
+        }, getMovieProperty()));
     }
 
     public void setStage(Stage s) {
         stage = s;
     }
+
     public void setMovie(Movie m) {
-        movie = m;
+        movie.set(Optional.of(m));
+    }
+
+    public Optional<Movie> getMovie() {
+        return movie.get();
+    }
+
+    public ObjectProperty<Optional<Movie>> getMovieProperty() {
+        return movie;
     }
 
     public void onButtonDelete(MouseEvent event) {
-        movieService.deleteMovie(movie);
+        Optional<Movie> movie = getMovie();
+        if (movie.isEmpty()) {
+            return;
+        }
+
+        movieService.deleteMovie(movie.get());
 
         Alert dialog = new Alert(Alert.AlertType.INFORMATION);
         dialog.initModality(Modality.APPLICATION_MODAL);
