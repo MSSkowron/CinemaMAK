@@ -1,7 +1,6 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -10,15 +9,16 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.event.ControlPanelSelectionChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
@@ -91,8 +91,8 @@ public class MovieFormController {
         }
     }
 
-    public boolean validate(String title, String director, String description, String genreName, String image, String durationStr, LocalDate date) {
-        if (title.isEmpty() || director.isEmpty() || description.isEmpty() || genreName.isEmpty() || durationStr.isEmpty() || image.isEmpty() || date == null) {
+    public boolean validate(String title, String director, String description, String genreName, String imageURL, String durationStr, LocalDate date) {
+        if (title.isEmpty() || director.isEmpty() || description.isEmpty() || genreName.isEmpty() || durationStr.isEmpty() || imageURL.isEmpty() || date == null) {
             Alert dialog = new Alert(Alert.AlertType.ERROR);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(stage);
@@ -124,14 +124,35 @@ public class MovieFormController {
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(stage);
             dialog.setTitle("Error");
-            dialog.setHeaderText("Error occurred while adding a new movie!");
+            dialog.setHeaderText("Error occurred while adding a new movie");
             dialog.setContentText("Genre does not exist!");
             dialog.show();
 
             return false;
         }
 
+        if (!isValidURL(imageURL)) {
+            Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            dialog.setTitle("Error");
+            dialog.setHeaderText("Error occurred while adding a new movie");
+            dialog.setContentText("URL is not valid!");
+            dialog.show();
+
+            return false;
+        }
+
         return true;
+   }
+
+    boolean isValidURL(String url) {
+        try {
+            new URL(url).toURI();
+            return true;
+        } catch (MalformedURLException | URISyntaxException e) {
+            return false;
+        }
     }
 
     public void setStage(Stage s) {
