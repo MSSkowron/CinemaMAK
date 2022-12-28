@@ -8,6 +8,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
 import pl.edu.agh.cs.to.cinemamak.event.TableChangePerformanceEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
@@ -145,8 +146,18 @@ public class PerformanceFormViewController {
                                         localDateTime1,
                                         BigDecimal.valueOf(price),
                                         user.get()));
-                applicationEventPublisher.publishEvent(new TableChangePerformanceEvent(this));
-                stage.close();
+
+                Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.initOwner(stage);
+                dialog.setTitle("Information");
+                dialog.setHeaderText("New performance added successfully");
+                dialog.show();
+                dialog.setOnCloseRequest(event -> {
+                    applicationEventPublisher.publishEvent(new TableChangePerformanceEvent(this));
+                    stage.close();
+                });
+
             }
             else{
                 showErrorDialog("Error occurred while adding a new performance",
