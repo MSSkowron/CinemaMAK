@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceController">
    <children>
       <Label alignment="CENTER" prefHeight="78.0" prefWidth="628.0" text="Performance" textAlignment="CENTER">
          <font>
             <Font name="Cambria" size="34.0" />
          </font>
       </Label>
-      <TableView fx:id="table" prefHeight="333.0" prefWidth="560.0">
+      <TableView fx:id="table" onMousePressed="#onMousePressed" prefHeight="333.0" prefWidth="560.0">
         <columns>
           <TableColumn fx:id="columnTitle" prefWidth="112.0" text="Title" />
           <TableColumn fx:id="columnDate" prefWidth="112.0" text="Date" />

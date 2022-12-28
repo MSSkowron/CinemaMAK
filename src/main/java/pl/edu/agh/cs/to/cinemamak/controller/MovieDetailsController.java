@@ -7,24 +7,21 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
-import pl.edu.agh.cs.to.cinemamak.model.User;
+import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
-import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
-import pl.edu.agh.cs.to.cinemamak.model.Movie;
+import pl.edu.agh.cs.to.cinemamak.event.TableMovieChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
+import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -48,10 +45,12 @@ public class MovieDetailsController {
     private ApplicationEventPublisher applicationEventPublisher;
     private Stage stage;
     private final MovieService movieService;
+    private final PerformanceService performanceService;
     private final ObjectProperty<Optional<Movie>> movie = new SimpleObjectProperty<>(Optional.empty());
 
-    public MovieDetailsController(MovieService movieService) {
+    public MovieDetailsController(PerformanceService performanceService, MovieService movieService) {
         this.movieService = movieService;
+        this.performanceService = performanceService;
     }
 
     public void initialize() {
@@ -140,6 +139,30 @@ public class MovieDetailsController {
         if (movie.isEmpty()) {
             return;
         }
+        Optional<List<Performance>> listPerf = performanceService.
+                getPerformancesByMovieId(movie.get().getId());
+        if(listPerf.isPresent() && !listPerf.get().isEmpty()){
+            Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            dialog.setTitle("Error during delete operation.");
+            dialog.setHeaderText("Movie belongs to some performances.");
+            dialog.setContentText("Do you want to delete all associated performances?");
+            Optional<ButtonType> result = dialog.showAndWait();
+            if(result.isPresent()){
+                if(result.get() == ButtonType.OK){
+                    for(Performance p: listPerf.get()) {
+                        performanceService.deletePerformanceById(p.getId());
+                    }
+                    movieService.deleteMovie(movie.get());
+                    applicationEventPublisher.publishEvent(new TableMovieChangeEvent(this));
+                    stage.close();
+                }
+                else{
+                    return;
+                }
+            }
+        }
 
         movieService.deleteMovie(movie.get());
 
@@ -150,7 +173,7 @@ public class MovieDetailsController {
         dialog.setHeaderText("Movie deleted successfully!");
         dialog.show();
         dialog.setOnCloseRequest(e -> {
-            applicationEventPublisher.publishEvent(new NewMovieAddedEvent(this));
+            applicationEventPublisher.publishEvent(new TableMovieChangeEvent(this));
             stage.close();
         });
     }

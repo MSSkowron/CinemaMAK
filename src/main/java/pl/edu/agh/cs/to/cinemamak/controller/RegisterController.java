@@ -53,26 +53,12 @@ public class RegisterController {
     @FXML
     private void onButtonRegisterClick() {
         if(textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty() || textFieldEmail.getText().isEmpty() || textFieldPassword.getText().isEmpty()) {
-            Alert dialog = new Alert(Alert.AlertType.ERROR);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Error");
-            dialog.setHeaderText("Error occurred while creating an account!");
-            dialog.setContentText("All fields need to be filled!");
-            dialog.show();
-
+            showErrorDialog("All fields need to be filled!");
             return;
         }
 
         if(!EmailValidator.getInstance().isValid(textFieldEmail.getText())) {
-            Alert dialog = new Alert(Alert.AlertType.ERROR);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Error");
-            dialog.setHeaderText("Error occurred while creating an account!");
-            dialog.setContentText("Email is not valid!");
-            dialog.show();
-
+            showErrorDialog("Email is not valid!");
             return;
         }
 
@@ -81,14 +67,7 @@ public class RegisterController {
         try {
             userService.addUser(newUser);
         } catch (Exception|Error e) {
-            Alert dialog = new Alert(Alert.AlertType.ERROR);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Error");
-            dialog.setHeaderText("Error occurred while creating an account!");
-            dialog.setContentText(getCauseMessage(e));
-            dialog.show();
-
+            showErrorDialog(getCauseMessage(e));
             return;
         }
 
@@ -128,4 +107,15 @@ public class RegisterController {
         textFieldEmail.setText("");
         textFieldPassword.setText("");
     }
+
+    public void showErrorDialog(String info){
+        Alert dialog = new Alert(Alert.AlertType.ERROR);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(stage);
+        dialog.setTitle("Error");
+        dialog.setHeaderText("Error occurred while creating an account!");
+        dialog.setContentText(info);
+        dialog.show();
+    }
+
 }
