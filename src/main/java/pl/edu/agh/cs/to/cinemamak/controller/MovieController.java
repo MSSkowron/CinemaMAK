@@ -2,7 +2,6 @@ package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
@@ -18,13 +17,13 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import org.springframework.context.ApplicationListener;
-import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
+import pl.edu.agh.cs.to.cinemamak.event.TableMovieChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 
 @Component
 @FxmlView("movie-view.fxml")
-public class MovieController implements ApplicationListener<NewMovieAddedEvent> {
+public class MovieController implements ApplicationListener<TableMovieChangeEvent> {
     @FXML
     private TextField textFieldSearchMovie;
     @FXML
@@ -122,7 +121,7 @@ public class MovieController implements ApplicationListener<NewMovieAddedEvent> 
     }
 
     @Override
-    public void onApplicationEvent(NewMovieAddedEvent event) {
+    public void onApplicationEvent(TableMovieChangeEvent event) {
         setMovies();
         tableView.refresh();
     }

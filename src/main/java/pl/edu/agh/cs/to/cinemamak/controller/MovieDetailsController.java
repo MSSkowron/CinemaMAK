@@ -6,25 +6,18 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.event.TableChangePerformanceEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
-import pl.edu.agh.cs.to.cinemamak.model.User;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
-import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
-import pl.edu.agh.cs.to.cinemamak.model.Movie;
+import pl.edu.agh.cs.to.cinemamak.event.TableMovieChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
 
@@ -162,7 +155,7 @@ public class MovieDetailsController {
                         performanceService.deletePerformanceById(p.getId());
                     }
                     movieService.deleteMovie(movie.get());
-                    applicationEventPublisher.publishEvent(new NewMovieAddedEvent(this));
+                    applicationEventPublisher.publishEvent(new TableMovieChangeEvent(this));
                     stage.close();
                 }
                 else{
@@ -180,7 +173,7 @@ public class MovieDetailsController {
         dialog.setHeaderText("Movie deleted successfully!");
         dialog.show();
         dialog.setOnCloseRequest(e -> {
-            applicationEventPublisher.publishEvent(new NewMovieAddedEvent(this));
+            applicationEventPublisher.publishEvent(new TableMovieChangeEvent(this));
             stage.close();
         });
     }

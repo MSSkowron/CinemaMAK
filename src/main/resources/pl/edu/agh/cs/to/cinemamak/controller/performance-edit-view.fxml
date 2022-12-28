@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceFormController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceEditController">
    <children>
-      <Label alignment="CENTER" prefHeight="95.0" prefWidth="558.0" text="Add performance">
+      <Label alignment="CENTER" prefHeight="95.0" prefWidth="558.0" text="Edit performance">
          <font>
             <Font size="48.0" />
          </font></Label>
@@ -127,7 +127,7 @@
       </HBox>
       <HBox prefHeight="29.0" prefWidth="558.0">
          <children>
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#onActionAdd" prefWidth="100.0" text="Add">
+            <Button fx:id="applyButton" mnemonicParsing="false" onAction="#onActionApply" prefWidth="100.0" text="Apply">
                <HBox.margin>
                   <Insets left="130.0" />
                </HBox.margin>

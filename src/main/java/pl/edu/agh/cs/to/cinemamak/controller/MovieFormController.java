@@ -1,7 +1,6 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -10,22 +9,18 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
+import pl.edu.agh.cs.to.cinemamak.event.TableMovieChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
@@ -92,7 +87,7 @@ public class MovieFormController {
             dialog.setHeaderText("New movie added successfully");
             dialog.show();
             dialog.setOnCloseRequest(event -> {
-                applicationEventPublisher.publishEvent(new NewMovieAddedEvent(this));
+                applicationEventPublisher.publishEvent(new TableMovieChangeEvent(this));
                 stage.close();
             });
         }

@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -21,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.event.TableChangePerformanceEvent;
+import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
@@ -31,7 +32,7 @@ import java.time.format.DateTimeFormatter;
 
 @Component
 @FxmlView("performance-view.fxml")
-public class PerformanceController implements ApplicationListener<TableChangePerformanceEvent> {
+public class PerformanceController implements ApplicationListener<TablePerformanceChangeEvent> {
 
     @FXML
     private TableView<Performance> table;
@@ -124,6 +125,23 @@ public class PerformanceController implements ApplicationListener<TableChangePer
 
     }
 
+    public void onMousePressed(MouseEvent event) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            Stage newStage = new Stage();
+
+            fxWeaver.loadController(PerformanceEditController.class).setPerformance(this.table.getSelectionModel().getSelectedItem()).setStage(newStage);
+
+            Scene newScene = new Scene(fxWeaver.loadView(PerformanceEditController.class));
+
+            newStage.setTitle("Edit performance");
+            newStage.setScene(newScene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(stage);
+
+            newStage.show();
+        }
+    }
+
     public ObservableList<Performance> getPerformances(){
         ObservableList<Performance> performanceObservableList = FXCollections.observableArrayList();
         this.performanceService.getPerformances().ifPresent(performanceObservableList::addAll);
@@ -140,8 +158,8 @@ public class PerformanceController implements ApplicationListener<TableChangePer
 
     public void setAddButton(){
         Stage form = new Stage();
-        fxWeaver.loadController(PerformanceFormViewController.class).setStage(form);
-        Scene scene = new Scene(fxWeaver.loadView(PerformanceFormViewController.class));
+        fxWeaver.loadController(PerformanceFormController.class).setStage(form);
+        Scene scene = new Scene(fxWeaver.loadView(PerformanceFormController.class));
         form.setScene(scene);
         form.setTitle("Add performance");
         form.initModality(Modality.WINDOW_MODAL);
@@ -153,11 +171,11 @@ public class PerformanceController implements ApplicationListener<TableChangePer
     public void setDeleteButton(){
         Performance performance = this.table.getSelectionModel().getSelectedItem();
         this.performanceService.deletePerformanceById(performance.getId());
-        applicationEventPublisher.publishEvent(new TableChangePerformanceEvent(this));
+        applicationEventPublisher.publishEvent(new TablePerformanceChangeEvent(this));
     }
 
     @Override
-    public void onApplicationEvent(TableChangePerformanceEvent event) {
+    public void onApplicationEvent(TablePerformanceChangeEvent event) {
         setPerformances();
         this.table.refresh();
     }

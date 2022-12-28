@@ -1,5 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
@@ -8,8 +10,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
-import pl.edu.agh.cs.to.cinemamak.event.TableChangePerformanceEvent;
+import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.model.Room;
@@ -20,17 +21,16 @@ import pl.edu.agh.cs.to.cinemamak.service.RoomService;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-@FxmlView("performance-form-view.fxml")
-public class PerformanceFormViewController {
+@FxmlView("performance-edit-view.fxml")
+public class PerformanceEditController {
 
     @FXML
     private ChoiceBox<String> movieChoiceBox;
@@ -43,7 +43,7 @@ public class PerformanceFormViewController {
     @FXML
     private Spinner<String> hourSpinner;
     @FXML
-    private Button addButton;
+    private Button applyButton;
     @FXML
     private Button cancelButton;
     @FXML
@@ -57,22 +57,33 @@ public class PerformanceFormViewController {
     private final PerformanceService performanceService;
     private Stage stage;
 
-    public PerformanceFormViewController(MovieService movieService,
-                                         RoomService roomService,
-                                         UserService userService,
-                                         PerformanceService performanceService){
+    private Optional<Performance> performance = Optional.empty();
+
+    public PerformanceEditController(MovieService movieService,
+                                     RoomService roomService,
+                                     UserService userService,
+                                     PerformanceService performanceService){
         this.userService = userService;
         this.roomService = roomService;
         this.movieService = movieService;
         this.performanceService = performanceService;
     }
 
-    public void setStage(Stage stage) {
+    public PerformanceEditController setStage(Stage stage) {
         this.stage = stage;
+        return this;
+    }
+
+    public PerformanceEditController setPerformance(Performance perf) {
+        this.performance = Optional.of(perf);
+        return this;
     }
 
     public void initialize(){
 
+        if(performance.isPresent()) {
+            this.setFields();
+        }
         this.userService.getUsers().ifPresent(list -> list.forEach(user ->
                 this.supervisorChoiceBox.getItems().add(user.getId()+" "+user.getFirstName()+ " " + user.getLastName())));
 
@@ -104,10 +115,29 @@ public class PerformanceFormViewController {
         };
 
         this.hourSpinner.setValueFactory(valueFactory);
-
     }
 
-    public void onActionAdd(){
+    public void setFields(){
+        if(this.performance.isPresent()) {
+            Performance perf = this.performance.get();
+            System.out.println(perf);
+            this.supervisorChoiceBox.setValue("value2");
+            String hourStr;
+            if (perf.getDate().getMinute() == 0) {
+                hourStr = perf.getDate().getHour() + ":00";
+            } else {
+                hourStr = perf.getDate().getHour() + ":" + perf.getDate().getMinute();
+            }
+            this.hourSpinner.setPromptText(hourStr);
+            this.priceTextField.setText(perf.getPrice().toString());
+            this.datePicker.setValue(perf.getDate().toLocalDate());
+            this.movieChoiceBox.setValue(perf.getMovie().getId() + " " + perf.getMovie().getTitle());
+            this.roomChoiceBox.setValue(perf.getRoom().getId() + " " + perf.getRoom().getName());
+            this.supervisorChoiceBox.setValue(perf.getUser().getId() + " " + perf.getUser().getFirstName() + " " + perf.getUser().getLastName());
+        }
+    }
+
+    public void onActionApply(){
         String title = this.movieChoiceBox.getValue();
         String name_room = this.roomChoiceBox.getValue();
         String supervisor = this.supervisorChoiceBox.getValue();
@@ -117,56 +147,57 @@ public class PerformanceFormViewController {
             price = Double.parseDouble(
                     this.priceTextField.getCharacters().toString());
         } catch (NullPointerException nullPointerException){
-            showErrorDialog("Error occurred while adding a new performance",
+            showErrorDialog("Error occurred while editing performance",
                     "All fields need to be filled!");
             return;
         } catch(NumberFormatException numberFormatException){
-            showErrorDialog("Error occurred while adding a new performance",
+            showErrorDialog("Error occurred while editing performance",
                     "Price need to be in format: integer.integer or integer.");
             return;
         }
 
         LocalDate date = this.datePicker.getValue();
         String hour_str = this.hourSpinner.getValue();
-        int hour1 = Integer.parseInt(hour_str.split(":")[0]);
-        int minute1 = Integer.parseInt(hour_str.split(":")[1]);
-        LocalTime time = LocalTime.of(hour1, minute1, 0);
 
-        if(time != null && date != null && title != null && name_room  != null && supervisor  != null ){
+        if(hour_str != null && date != null && title != null && name_room  != null && supervisor  != null ){
+            int hour1 = Integer.parseInt(hour_str.split(":")[0]);
+            int minute1 = Integer.parseInt(hour_str.split(":")[1]);
+            LocalTime time = LocalTime.of(hour1, minute1, 0);
             Optional<Movie> movie = movieService.getMovieById(Long.parseLong(title.split("\\s")[0]));
             Optional<Room> room = roomService.getRoomById(Long.parseLong(name_room.split("\\s")[0]));
             Optional<User> user = userService.getUserById(Long.parseLong(supervisor.split("\\s")[0]));
 
             LocalDateTime localDateTime1 = LocalDateTime.of(date, time);
 
-            if(movie.isPresent() && room.isPresent() && user.isPresent()){
-                this.performanceService.addPerformance(
-                        new Performance(movie.get(),
-                                        room.get(),
-                                        localDateTime1,
-                                        BigDecimal.valueOf(price),
-                                        user.get()));
+            if(movie.isPresent() && room.isPresent() && user.isPresent() && this.performance.isPresent()){
+                this.performance.get().setUser(user.get());
+                this.performance.get().setMovie(movie.get());
+                this.performance.get().setRoom(room.get());
+                this.performance.get().setPrice(BigDecimal.valueOf(price));
+                this.performance.get().setDate(localDateTime1);
+
+                this.performanceService.addPerformance(this.performance.get());
 
                 Alert dialog = new Alert(Alert.AlertType.INFORMATION);
                 dialog.initModality(Modality.APPLICATION_MODAL);
                 dialog.initOwner(stage);
                 dialog.setTitle("Information");
-                dialog.setHeaderText("New performance added successfully");
+                dialog.setHeaderText("Performance edited successfully");
                 dialog.show();
                 dialog.setOnCloseRequest(event -> {
-                    applicationEventPublisher.publishEvent(new TableChangePerformanceEvent(this));
+                    applicationEventPublisher.publishEvent(new TablePerformanceChangeEvent(this));
                     stage.close();
                 });
 
             }
             else{
-                showErrorDialog("Error occurred while adding a new performance",
+                showErrorDialog("Error occurred while editing performance",
                         "All fields need to be filled!");
             }
         }
         else{
-            showErrorDialog("Error occurred while adding a new performance",
-                    "All fields need to be filled!");
+            showErrorDialog("Error occurred while editing performance",
+                    "All fields need to be filled! (look at hour field)");
         }
 
     }
