@@ -10,16 +10,20 @@ public class Seat {
     @Column(name="id")
     private long id;
 
-    @Column(name="name", nullable = false)
-    private String name;
+    @Column
+    private long rowNumber;
+
+    @Column
+    private long colNumber;
 
     @ManyToOne
     @JoinColumn(name="room_id", nullable = false)
     private Room room;
 
-    public Seat(String name, Room room) {
-        this.name = name;
+    public Seat(Room room, Long rowNumber, Long colNumber) {
         this.room = room;
+        this.rowNumber = rowNumber;
+        this.colNumber = colNumber;
     }
 
 
@@ -36,11 +40,16 @@ public class Seat {
     }
 
     public String getName() {
-        return name;
+        char rowTag = (char)('A' + rowNumber - 1);
+        return "%c%d".formatted(rowTag, colNumber);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public long getRowNumber() {
+        return rowNumber;
+    }
+
+    public long getColNumber() {
+        return colNumber;
     }
 
     public Room getRoom() {
@@ -55,7 +64,7 @@ public class Seat {
     public String toString() {
         return "Seat{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + getName() + '\'' +
                 ", room=" + room +
                 '}';
     }
