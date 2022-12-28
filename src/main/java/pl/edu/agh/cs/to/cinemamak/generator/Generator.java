@@ -107,10 +107,9 @@ public class Generator {
 
                     var r = new Room(name);
                     var seats = new HashSet<Seat>();
-                    for (int i = 0; i < rows; i++) {
-                        var rowTag = (char) ('A' + i);
-                        for (int j = 1; j <= cols; j++) {
-                            var s = new Seat("%c%d".formatted(rowTag, j), r);
+                    for (long i = 1; i <= rows; i++) {
+                        for (long j = 1; j <= cols; j++) {
+                            var s = new Seat(r, i, j);
                             seats.add(s);
                         }
                     }
