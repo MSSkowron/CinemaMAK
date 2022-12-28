@@ -23,4 +23,8 @@ public class PerformanceService {
     public Optional<List<Performance>> getPerformances(){
         return Optional.of(this.performanceRepository.findAll());
     }
+
+    public void deletePerformanceById(long id){
+        this.performanceRepository.deleteById(id);
+    }
 }

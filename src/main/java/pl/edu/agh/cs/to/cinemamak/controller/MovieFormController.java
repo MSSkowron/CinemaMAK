@@ -200,4 +200,5 @@ public class MovieFormController {
     public void setStage(Stage s) {
         this.stage = s;
     }
+
 }
