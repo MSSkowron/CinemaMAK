@@ -7,10 +7,7 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import pl.edu.agh.cs.to.cinemamak.controller.AdminController;
-import pl.edu.agh.cs.to.cinemamak.controller.HomeController;
-import pl.edu.agh.cs.to.cinemamak.controller.LoginController;
-import pl.edu.agh.cs.to.cinemamak.controller.RegisterController;
+import pl.edu.agh.cs.to.cinemamak.controller.*;
 
 public class CinemaMakGUI extends Application {
     private ConfigurableApplicationContext applicationContext;
@@ -48,5 +45,6 @@ public class CinemaMakGUI extends Application {
         fxWeaver.loadController(RegisterController.class).setStage(stage);
         fxWeaver.loadController(HomeController.class).setStage(stage);
         fxWeaver.loadController(AdminController.class).setStage(stage);
+        fxWeaver.loadController(MovieController.class).setStage(stage);
     }
 }
