@@ -5,11 +5,12 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="358.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceFormViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="381.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceFormViewController">
    <children>
       <Label alignment="CENTER" prefHeight="95.0" prefWidth="558.0" text="Add performance">
          <font>
@@ -86,8 +87,25 @@
             </ChoiceBox>
          </children>
          <VBox.margin>
-            <Insets bottom="30.0" />
+            <Insets />
          </VBox.margin>
+      </HBox>
+      <HBox prefHeight="38.0" prefWidth="558.0">
+         <children>
+            <Label text="Price:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="180.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="priceTextField" prefWidth="200.0">
+               <HBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
       </HBox>
       <HBox prefHeight="29.0" prefWidth="558.0">
          <children>
@@ -109,7 +127,7 @@
             </Button>
          </children>
          <VBox.margin>
-            <Insets />
+            <Insets top="10.0" />
          </VBox.margin>
       </HBox>
    </children>

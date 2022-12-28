@@ -118,7 +118,6 @@ public class Movie {
                 ", title='" + title + '\'' +
                 ", director='" + director + '\'' +
                 ", description='" + description + '\'' +
-                ", imageURL='" + imageURL + '\'' +
                 ", duration=" + duration +
                 ", genre=" + genre +
                 ", date=" + date +

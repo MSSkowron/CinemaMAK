@@ -114,4 +114,14 @@ public class User {
         hashCode = 31 * hashCode + this.password.hashCode();
         return hashCode;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

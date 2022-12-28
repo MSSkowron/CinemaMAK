@@ -27,4 +27,8 @@ public class RoomService {
         return Optional.of(this.roomRepository.findAll());
     }
 
+    public Optional<Room> getRoomById(long id){
+        return this.roomRepository.getRoomById(id);
+    }
+
 }

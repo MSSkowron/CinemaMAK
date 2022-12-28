@@ -53,8 +53,7 @@ public class Genre {
     public String toString() {
         return "Genre{" +
                 "id=" + id +
-                ", genreName='" + genreName + '\'' +
-                ", movies=" + movies +
+                ", genreName='" + genreName +
                 '}';
     }
 }

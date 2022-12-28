@@ -1,7 +1,6 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +9,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,24 +17,20 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
-import org.springframework.data.convert.PropertyValueConverter;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
-import pl.edu.agh.cs.to.cinemamak.event.NewPerformanceAddedEvent;
-import pl.edu.agh.cs.to.cinemamak.model.Movie;
+import pl.edu.agh.cs.to.cinemamak.event.TableChangePerformanceEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
-import pl.edu.agh.cs.to.cinemamak.model.Room;
-import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Component
 @FxmlView("performance-view.fxml")
-public class PerformanceController implements ApplicationListener<NewPerformanceAddedEvent> {
+public class PerformanceController implements ApplicationListener<TableChangePerformanceEvent> {
 
     @FXML
     private TableView<Performance> table;
@@ -54,6 +48,9 @@ public class PerformanceController implements ApplicationListener<NewPerformance
     public Button addButton;
     @FXML
     public Button deleteButton;
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     private final SessionService sessionService;
     private final PerformanceService performanceService;
@@ -145,11 +142,11 @@ public class PerformanceController implements ApplicationListener<NewPerformance
     public void setDeleteButton(){
         Performance performance = this.table.getSelectionModel().getSelectedItem();
         this.performanceService.deletePerformanceById(performance.getId());
-        this.table.getItems().remove(performance);
+        applicationEventPublisher.publishEvent(new TableChangePerformanceEvent(this));
     }
 
     @Override
-    public void onApplicationEvent(NewPerformanceAddedEvent event) {
+    public void onApplicationEvent(TableChangePerformanceEvent event) {
         setPerformances();
         this.table.refresh();
     }
