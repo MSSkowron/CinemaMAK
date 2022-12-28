@@ -27,6 +27,7 @@ import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 
 @Component
 @FxmlView("performance-view.fxml")
@@ -71,8 +72,21 @@ public class PerformanceController implements ApplicationListener<TableChangePer
 
     public void initialize(){
 
-        this.columnDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+//        this.columnDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         this.columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        this.columnDate.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
+                if(param.getValue().getDate() != null) {
+                    return new SimpleStringProperty(param.getValue().getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                }
+                else{
+                    return new SimpleStringProperty("null");
+                }
+            }
+        });
+
         this.columnTitle.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {

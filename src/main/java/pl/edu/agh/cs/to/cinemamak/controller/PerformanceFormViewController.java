@@ -20,7 +20,11 @@ import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -35,6 +39,8 @@ public class PerformanceFormViewController {
     private ChoiceBox<String> roomChoiceBox;
     @FXML
     private ChoiceBox<String> supervisorChoiceBox;
+    @FXML
+    private ChoiceBox<String> hourChoiceBox;
     @FXML
     private Button addButton;
     @FXML
@@ -75,6 +81,13 @@ public class PerformanceFormViewController {
         this.movieService.getMovies().ifPresent(list -> list.forEach(movie ->
                 this.movieChoiceBox.getItems().add(movie.getId()+" "+movie.getTitle())));
 
+        List<String> hours = new ArrayList<>();
+        for(int i = 8; i<24; i++){
+            hours.add(i+":00");
+            hours.add(i+":30");
+        }
+
+        this.hourChoiceBox.getItems().addAll(hours);
 
     }
 
@@ -108,16 +121,23 @@ public class PerformanceFormViewController {
         }
 
         LocalDate date = this.datePicker.getValue();
+        String hour_str = this.hourChoiceBox.getValue();
+        int hour1 = Integer.parseInt(hour_str.split(":")[0]);
+        int minute1 = Integer.parseInt(hour_str.split(":")[1]);
+        LocalTime time = LocalTime.of(hour1, minute1, 0);
 
-        if(date != null && title != null && name_room  != null && supervisor  != null ){
+        if(time != null && date != null && title != null && name_room  != null && supervisor  != null ){
             Optional<Movie> movie = movieService.getMovieById(Long.parseLong(title.split("\\s")[0]));
             Optional<Room> room = roomService.getRoomById(Long.parseLong(name_room.split("\\s")[0]));
             Optional<User> user = userService.getUserById(Long.parseLong(supervisor.split("\\s")[0]));
+
+            LocalDateTime localDateTime1 = LocalDateTime.of(date, time);
+
             if(movie.isPresent() && room.isPresent() && user.isPresent()){
                 this.performanceService.addPerformance(
                         new Performance(movie.get(),
                                         room.get(),
-                                        Date.valueOf(date),
+                                        localDateTime1,
                                         BigDecimal.valueOf(price),
                                         user.get()));
                 applicationEventPublisher.publishEvent(new TableChangePerformanceEvent(this));

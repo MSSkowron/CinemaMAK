@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="381.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceFormViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceFormViewController">
    <children>
       <Label alignment="CENTER" prefHeight="95.0" prefWidth="558.0" text="Add performance">
          <font>
@@ -51,6 +51,23 @@
                   <Insets left="10.0" top="6.0" />
                </HBox.margin>
             </DatePicker>
+         </children>
+      </HBox>
+      <HBox prefHeight="36.0" prefWidth="558.0">
+         <children>
+            <Label text="Hour:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="180.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox fx:id="hourChoiceBox" prefWidth="200.0">
+               <HBox.margin>
+                  <Insets left="10.0" top="6.0" />
+               </HBox.margin>
+            </ChoiceBox>
          </children>
       </HBox>
       <HBox prefHeight="36.0" prefWidth="558.0">
@@ -127,7 +144,7 @@
             </Button>
          </children>
          <VBox.margin>
-            <Insets top="10.0" />
+            <Insets top="20.0" />
          </VBox.margin>
       </HBox>
    </children>

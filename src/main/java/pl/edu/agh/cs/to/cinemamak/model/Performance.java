@@ -3,6 +3,7 @@ package pl.edu.agh.cs.to.cinemamak.model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="performances")
@@ -21,7 +22,7 @@ public class Performance {
     private Room room;
 
     @Column(name="date", nullable = false)
-    private Date date;
+    private LocalDateTime date;
 
     @Column(name="price", nullable = false)
     private BigDecimal price;
@@ -30,7 +31,7 @@ public class Performance {
     @JoinColumn(name = "supervisor_id", referencedColumnName = "id")
     private User user;
 
-    public Performance(Movie movie, Room room, Date date, BigDecimal price, User user) {
+    public Performance(Movie movie, Room room, LocalDateTime date, BigDecimal price, User user) {
         this.movie = movie;
         this.room = room;
         this.date = date;
@@ -66,11 +67,11 @@ public class Performance {
         this.room = room;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

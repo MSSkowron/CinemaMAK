@@ -11,6 +11,9 @@ import pl.edu.agh.cs.to.cinemamak.repository.*;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @Component
@@ -194,7 +197,7 @@ public class Generator {
 
     public void generatePerformance(){
         Performance performance = new Performance();
-        performance.setDate(new Date(2022, 12,12));
+        performance.setDate(LocalDateTime.of(LocalDate.of(2022, 12,12), LocalTime.of(0,0,0)));
 
         List<Movie> movie = movieRepository.findAll();
 
