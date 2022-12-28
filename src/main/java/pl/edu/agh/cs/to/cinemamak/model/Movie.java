@@ -110,4 +110,17 @@ public class Movie {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", director='" + director + '\'' +
+                ", description='" + description + '\'' +
+                ", duration=" + duration +
+                ", genre=" + genre +
+                ", date=" + date +
+                '}';
+    }
 }

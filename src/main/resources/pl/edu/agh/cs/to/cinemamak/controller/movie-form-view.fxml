@@ -14,12 +14,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="487.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.MovieFormController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.MovieFormController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="48.0" prefWidth="603.0" text="Add New Movie">
          <font>
             <Font size="30.0" />
          </font>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </Label>
       <VBox prefHeight="395.0" prefWidth="487.0">
          <children>
@@ -61,9 +64,11 @@
                      </children>
                   </VBox>
                   <ChoiceBox fx:id="choiceBoxGenre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
                   <DatePicker fx:id="datePicker" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label text="Image URL" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
                   <TextField fx:id="textFieldImageURL" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
                </children>
                <VBox.margin>
                   <Insets right="15.0" />
@@ -79,6 +84,9 @@
                </font>
             </Button>
          </children>
+         <VBox.margin>
+            <Insets bottom="15.0" />
+         </VBox.margin>
       </HBox>
    </children>
 </VBox>

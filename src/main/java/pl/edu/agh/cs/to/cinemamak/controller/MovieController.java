@@ -15,15 +15,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.event.NewMovieAddedEvent;
+import org.springframework.context.ApplicationListener;
+import pl.edu.agh.cs.to.cinemamak.event.TableMovieChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 
 @Component
 @FxmlView("movie-view.fxml")
-public class MovieController implements ApplicationListener<NewMovieAddedEvent> {
+public class MovieController implements ApplicationListener<TableMovieChangeEvent> {
     @FXML
     private TextField textFieldSearchMovie;
     @FXML
@@ -44,6 +44,7 @@ public class MovieController implements ApplicationListener<NewMovieAddedEvent> 
     }
 
     public void initialize() {
+
         tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         tableColumnDirector.setCellValueFactory(new PropertyValueFactory<>("director"));
@@ -68,7 +69,6 @@ public class MovieController implements ApplicationListener<NewMovieAddedEvent> 
     public void onMousePressed(MouseEvent event) {
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
             Stage detailsStage = new Stage();
-
             fxWeaver.loadController(MovieDetailsController.class).setStage(detailsStage);
             fxWeaver.loadController(MovieDetailsController.class).setMovie(tableView.getSelectionModel().getSelectedItem());
 
@@ -78,6 +78,7 @@ public class MovieController implements ApplicationListener<NewMovieAddedEvent> 
             detailsStage.setScene(detailsScene);
             detailsStage.initModality(Modality.WINDOW_MODAL);
             detailsStage.initOwner(stage);
+
             detailsStage.show();
         }
     }
@@ -120,8 +121,9 @@ public class MovieController implements ApplicationListener<NewMovieAddedEvent> 
     }
 
     @Override
-    public void onApplicationEvent(NewMovieAddedEvent event) {
+    public void onApplicationEvent(TableMovieChangeEvent event) {
         setMovies();
         tableView.refresh();
     }
+
 }

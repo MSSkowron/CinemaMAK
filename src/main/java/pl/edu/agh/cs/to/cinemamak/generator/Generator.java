@@ -1,12 +1,19 @@
 package pl.edu.agh.cs.to.cinemamak.generator;
 
 import org.springframework.boot.json.JsonParserFactory;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.model.*;
 import pl.edu.agh.cs.to.cinemamak.repository.*;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @Component
@@ -18,13 +25,25 @@ public class Generator {
     private final RoomRepository roomRepository;
     private final SeatRepository seatRepository;
 
-    public Generator(RoleRepository roleRepository, UserRepository userRepository, GenreRepository genreRepository, PasswordEncoder passwordEncoder, RoomRepository roomRepository, SeatRepository seatRepository) {
+    private final PerformanceRepository performanceRepository;
+    private final MovieRepository movieRepository;
+
+    public Generator(RoleRepository roleRepository,
+                     UserRepository userRepository,
+                     GenreRepository genreRepository,
+                     PasswordEncoder passwordEncoder,
+                     RoomRepository roomRepository,
+                     SeatRepository seatRepository,
+                     PerformanceRepository performanceRepository,
+                     MovieRepository movieRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.genreRepository = genreRepository;
         this.passwordEncoder = passwordEncoder;
         this.roomRepository = roomRepository;
         this.seatRepository = seatRepository;
+        this.performanceRepository = performanceRepository;
+        this.movieRepository = movieRepository;
     }
 
     @PostConstruct
@@ -51,9 +70,21 @@ public class Generator {
             }
         }
 
-        if (roomRepository.count() == 0) {
+        if(roomRepository.count() == 0) {
             generateRooms();
         }
+
+        if(this.movieRepository.count() == 0){
+            Movie movie = generateMovie();
+            if(movie != null){
+                this.movieRepository.save(movie);
+            }
+        }
+
+        if(performanceRepository.count() == 0) {
+            generatePerformance();
+        }
+
     }
 
     private void generateRooms() {
@@ -76,10 +107,9 @@ public class Generator {
 
                     var r = new Room(name);
                     var seats = new HashSet<Seat>();
-                    for (int i = 0; i < rows; i++) {
-                        var rowTag = (char) ('A' + i);
-                        for (int j = 1; j <= cols; j++) {
-                            var s = new Seat("%c%d".formatted(rowTag, j), r);
+                    for (long i = 1; i <= rows; i++) {
+                        for (long j = 1; j <= cols; j++) {
+                            var s = new Seat(r, i, j);
                             seats.add(s);
                         }
                     }
@@ -134,6 +164,22 @@ public class Generator {
         return null;
     }
 
+    public Movie generateMovie(){
+        Movie movie = new Movie();
+        movie.setDate(new Date(2022, 12, 12));
+        movie.setDescription("description1");
+        movie.setTitle("title1");
+        movie.setDirector("director1");
+        movie.setDuration(12);
+
+        Optional<Genre> gen = genreRepository.findGenreByGenreName("Music");
+        gen.ifPresent(movie::setGenre);
+
+        movie.setImageURL("https://static.wikia.nocookie.net/harrypotter/images/8/8d/PromoHP7_Harry_Potter.jpg/revision/latest?cb=20210613153821&path-prefix=pl");
+
+        return movie;
+    }
+
     public User generateEmployee() {
         User user = new User("employee","employee", "employee@gmail.com", "employee");
 
@@ -146,5 +192,22 @@ public class Generator {
         }
 
         return null;
+    }
+
+    public void generatePerformance(){
+        Performance performance = new Performance();
+        performance.setDate(LocalDateTime.of(LocalDate.of(2022, 12,12), LocalTime.of(0,0,0)));
+
+        List<Movie> movie = movieRepository.findAll();
+
+        performance.setMovie(movie.get(0));
+        performance.setPrice(BigDecimal.valueOf(111));
+
+        List<Room> rooms = roomRepository.findAll();
+        performance.setRoom(rooms.get(0));
+
+        userRepository.findByEmailAddress("admin@gmail.com").ifPresent(performance::setUser);
+
+        this.performanceRepository.save(performance);
     }
 }

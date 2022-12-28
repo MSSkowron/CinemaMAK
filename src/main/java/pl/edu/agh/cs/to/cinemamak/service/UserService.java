@@ -66,4 +66,8 @@ public class UserService {
     public Optional<List<User>> getUsers(){
         return Optional.of(userRepository.findAll());
     }
+
+    public Optional<User> getUserById(long id){
+        return this.userRepository.getUserById(id);
+    }
 }

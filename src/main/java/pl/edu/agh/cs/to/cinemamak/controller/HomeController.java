@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -30,6 +31,12 @@ public class HomeController {
     public Button movieViewButton;
     @FXML
     private Button adminViewButton;
+
+    @FXML
+    private Button performanceButton;
+    @FXML
+    private Button ticketsViewButton;
+
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -71,9 +78,22 @@ public class HomeController {
     }
 
     @FXML
+    private void performanceView(javafx.scene.input.MouseEvent mouseEvent){
+        Parent root;
+        root = fxWeaver.loadView(PerformanceController.class);
+        bp.setCenter(root);
+    }
+
+    @FXML
     private void movieView(javafx.scene.input.MouseEvent mouseEvent) {
         Parent root;
         root = fxWeaver.loadView(MovieController.class);
+        bp.setCenter(root);
+    }
+
+    @FXML
+    private void ticketsView(MouseEvent ignored) {
+        var root = fxWeaver.loadView(TicketsController.class);
         bp.setCenter(root);
     }
 

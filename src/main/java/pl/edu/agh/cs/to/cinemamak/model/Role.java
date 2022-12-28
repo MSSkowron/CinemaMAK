@@ -71,4 +71,20 @@ public class Role {
 
         return r.getRoleName().equals(this.getRoleName());
     }
+
+    @Override
+    public int hashCode() {
+        int result = Long.hashCode(this.id);
+        result = 31 * result + this.roleName.hashCode();
+        result = 31 * result + this.users.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", roleName='" + roleName +
+                '}';
+    }
 }
