@@ -24,6 +24,10 @@ public class PerformanceService {
         return Optional.of(this.performanceRepository.findAll());
     }
 
+    public Optional<List<Performance>> getPerformancesByMovieId(long id){
+        return Optional.of(this.performanceRepository.findAll().stream().filter(performance -> performance.getMovie().getId() == id).toList());
+    }
+
     public void deletePerformanceById(long id){
         this.performanceRepository.deleteById(id);
     }
