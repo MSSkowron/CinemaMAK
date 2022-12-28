@@ -176,7 +176,7 @@ public class Generator {
         Optional<Genre> gen = genreRepository.findGenreByGenreName("Music");
         gen.ifPresent(movie::setGenre);
 
-        movie.setImageURL("asdf");
+        movie.setImageURL("https://static.wikia.nocookie.net/harrypotter/images/8/8d/PromoHP7_Harry_Potter.jpg/revision/latest?cb=20210613153821&path-prefix=pl");
 
         return movie;
     }

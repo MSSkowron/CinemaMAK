@@ -40,7 +40,7 @@ public class PerformanceFormViewController {
     @FXML
     private ChoiceBox<String> supervisorChoiceBox;
     @FXML
-    private ChoiceBox<String> hourChoiceBox;
+    private Spinner<String> hourSpinner;
     @FXML
     private Button addButton;
     @FXML
@@ -87,7 +87,22 @@ public class PerformanceFormViewController {
             hours.add(i+":30");
         }
 
-        this.hourChoiceBox.getItems().addAll(hours);
+        SpinnerValueFactory<String> valueFactory = new SpinnerValueFactory<String>() {
+            int ptr = 0;
+            @Override
+            public void decrement(int steps) {
+                if(ptr - steps != -1) ptr -= steps;
+                setValue(hours.get(ptr));
+            }
+
+            @Override
+            public void increment(int steps) {
+                if(ptr+ steps != hours.size()) ptr += steps;
+                setValue(hours.get(ptr));
+            }
+        };
+
+        this.hourSpinner.setValueFactory(valueFactory);
 
     }
 
@@ -101,27 +116,17 @@ public class PerformanceFormViewController {
             price = Double.parseDouble(
                     this.priceTextField.getCharacters().toString());
         } catch (NullPointerException nullPointerException){
-            Alert dialog = new Alert(Alert.AlertType.ERROR);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Error");
-            dialog.setHeaderText("Error occurred while adding a new performance");
-            dialog.setContentText("All fields need to be filled!");
-            dialog.show();
+            showErrorDialog("Error occurred while adding a new performance",
+                    "All fields need to be filled!");
             return;
         } catch(NumberFormatException numberFormatException){
-            Alert dialog = new Alert(Alert.AlertType.ERROR);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Error");
-            dialog.setHeaderText("Error occurred while adding a new performance");
-            dialog.setContentText("Price need to be in format: integer.integer or integer.");
-            dialog.show();
+            showErrorDialog("Error occurred while adding a new performance",
+                    "Price need to be in format: integer.integer or integer.");
             return;
         }
 
         LocalDate date = this.datePicker.getValue();
-        String hour_str = this.hourChoiceBox.getValue();
+        String hour_str = this.hourSpinner.getValue();
         int hour1 = Integer.parseInt(hour_str.split(":")[0]);
         int minute1 = Integer.parseInt(hour_str.split(":")[1]);
         LocalTime time = LocalTime.of(hour1, minute1, 0);
@@ -144,25 +149,25 @@ public class PerformanceFormViewController {
                 stage.close();
             }
             else{
-                Alert dialog = new Alert(Alert.AlertType.ERROR);
-                dialog.initModality(Modality.APPLICATION_MODAL);
-                dialog.initOwner(stage);
-                dialog.setTitle("Error");
-                dialog.setHeaderText("Error occurred while adding a new performance");
-                dialog.setContentText("All fields need to be filled!");
-                dialog.show();
+                showErrorDialog("Error occurred while adding a new performance",
+                        "All fields need to be filled!");
             }
         }
         else{
-            Alert dialog = new Alert(Alert.AlertType.ERROR);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Error");
-            dialog.setHeaderText("Error occurred while adding a new performance");
-            dialog.setContentText("All fields need to be filled!");
-            dialog.show();
+            showErrorDialog("Error occurred while adding a new performance",
+                    "All fields need to be filled!");
         }
 
+    }
+
+    public void showErrorDialog(String header, String info){
+        Alert dialog = new Alert(Alert.AlertType.ERROR);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(stage);
+        dialog.setTitle("Error");
+        dialog.setHeaderText(header);
+        dialog.setContentText(info);
+        dialog.show();
     }
 
     public void onActionCancel(){

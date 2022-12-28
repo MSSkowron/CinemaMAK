@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -63,11 +64,11 @@
                   <Insets left="180.0" />
                </HBox.margin>
             </Label>
-            <ChoiceBox fx:id="hourChoiceBox" prefWidth="200.0">
+            <Spinner fx:id="hourSpinner" prefWidth="200.0">
                <HBox.margin>
-                  <Insets left="10.0" top="6.0" />
+                  <Insets left="10.0" top="5.0" />
                </HBox.margin>
-            </ChoiceBox>
+            </Spinner>
          </children>
       </HBox>
       <HBox prefHeight="36.0" prefWidth="558.0">

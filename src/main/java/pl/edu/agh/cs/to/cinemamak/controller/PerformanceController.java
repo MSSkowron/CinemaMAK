@@ -57,8 +57,6 @@ public class PerformanceController implements ApplicationListener<TableChangePer
     private final PerformanceService performanceService;
     private final FxWeaver fxWeaver;
     private Stage stage;
-//    ObservableList<Performance> performanceObservableList;
-//    List<Performance> performanceList;
 
     public PerformanceController(PerformanceService performanceService,SessionService sessionService, FxWeaver fxWeaver){
         this.sessionService = sessionService;
@@ -72,7 +70,6 @@ public class PerformanceController implements ApplicationListener<TableChangePer
 
     public void initialize(){
 
-//        this.columnDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         this.columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         this.columnDate.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {

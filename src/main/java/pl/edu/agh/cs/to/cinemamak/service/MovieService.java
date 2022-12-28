@@ -37,19 +37,6 @@ public class MovieService {
 
     public Optional<Movie> getMovieById(long id){
         return movieRepository.getMovieById(id);
-//        Optional<List<Movie>> movies = this.getMovies();
-//        if(movies.isEmpty()){
-//            return Optional.empty();
-//        }
-//        else{
-//            List<Movie> movieList = movies.get();
-//            for(Movie m: movieList){
-//                if(m.getId() == id){
-//                    return Optional.of(m);
-//                }
-//            }
-//        }
-//        return Optional.empty();
     }
 
 }
