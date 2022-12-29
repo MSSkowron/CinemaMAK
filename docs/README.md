@@ -149,6 +149,19 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
   Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Submit* film zostaje dodany do bazy danych. 
 
+- **Seanse**
+
+  ![Widok początkowy](../images/seanse.png)
+
+  Widok dostępny jest dla użytkowników z rolą admina/menadżera.
+  W tabeli wyświetlane są seanse obecnie zarejestrowane w bazie.
+  Po wskazaniu seansu i wciśnięciu przycisku *Delete* zostaje on usunięty.
+  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowego seansu
+
+  ![Widok początkowy](../images/seanse_formularz.png)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Add* seans zostaje zatwierdzony.
+
 
 - **Sprzedawanie i zwrot biletu**
 
