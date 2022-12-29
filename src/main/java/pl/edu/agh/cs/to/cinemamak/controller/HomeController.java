@@ -63,6 +63,8 @@ public class HomeController {
         }, sessionService.getCurrentUserProperty()));
 
         roleUIHelper.bindVisibleOnlyToRoles(adminViewButton, RoleName.Admin);
+        roleUIHelper.bindVisibleOnlyToRoles(performanceButton, RoleName.Admin, RoleName.Manager);
+        roleUIHelper.bindVisibleOnlyToRoles(movieViewButton, RoleName.Admin, RoleName.Manager);
     }
 
     @FXML
