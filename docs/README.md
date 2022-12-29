@@ -131,6 +131,32 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Przycisk *Register* zatwierdza formularz.\
   Przycisk *Log in* umożliwia przejścia do okna logowania.
 
+- **Sprzedawanie i zwrot biletu**
+  ![Widok początkowy](../images/sprzedawanie_biletu_1.png)
+  
+  Widok dostępny jest dla wszystkich użytkowników, niezależnie od roli.
+  Widok na początku wyświetla listę seansów, z których użytkownik wybiera jeden.
+  Wówczas wyświetli się tabela z nazwami poszczególych foteli w sali, w której odbędzie się seans.
+
+  ![Wybór miejsca 1](../images/sprzedawanie_biletu_2.png)
+
+  Użytkownik wybiera odpowiedni fotel klikając w jego nazwę.
+
+  ![Wybór miejsca 2](../images/sprzedawanie_biletu_3.png)
+
+  Z pomocą przycisku "Sell ticket" użytkownik może sprzedać bilet na wybrany fotel w danym seansie.
+
+  ![Sprzedaż biletu](../images/sprzedawanie_biletu_4.png)
+
+  Nazwa fotela jest obramowana na czerwono, co oznacza, że ten fotel jest zarezerwowany i nie da się sprzedać biletu na ten fotel i seans.
+  W przypadku zwrotu biletu, użytkownik może wybrać zarezerwowany fotel w celu realizacji zwrotu
+
+  ![Zwrot biletu 1](../images/zwrot_biletu_1.png)
+
+  Za pomocą przycisku "Cancel reservation" rezerwacja na fotel jest anulowana
+
+  ![Zwrot biletu 2](../images/zwrot_biletu_2.png)
+
 <a name="instalacja"></a>
 ## Instalacja
 ```
