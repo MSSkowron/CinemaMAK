@@ -131,7 +131,27 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Przycisk *Register* zatwierdza formularz.\
   Przycisk *Log in* umożliwia przejścia do okna logowania.
 
+- **Filmy**
+
+  ![Widok początkowy](../images/filmy.png)
+
+  Widok dostępny jest dla użytkowników z rolą admina/menadżera.
+  W tabeli wyświetlane są filmy obecnie znajdującę się w bazie.
+  W górnej części widoku znajduje się pole tekstowe, w którym możemy wyszukać film po tytule lub reżyserze.
+  Po dwukrotnym wciśnięciu danego rekordu wyświetla się widok szczegółowych danych o filmie.
+  Po kliknięciu w przycisk *NEW* otwiera się formularz dodawania nowego filmu.
+
+  ![Widok początkowy](../images/filmy_szczegoly.png)
+  
+  Za pomocą przycisku *Delete* możemy usunąć film.
+
+  ![Widok początkowy](../images/filmy_formularz.png)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Submit* film zostaje dodany do bazy danych. 
+
+
 - **Sprzedawanie i zwrot biletu**
+
   ![Widok początkowy](../images/sprzedawanie_biletu_1.png)
   
   Widok dostępny jest dla wszystkich użytkowników, niezależnie od roli.
