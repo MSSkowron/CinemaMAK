@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pl.edu.agh.cs.to.cinemamak.controller.TicketsController"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+        <TableView fx:id="performancesList" prefHeight="200">
+            <columns>
+                <TableColumn fx:id="titleColumn" text="Title"/>
+                <TableColumn fx:id="roomColumn" text="Room"/>
+                <TableColumn fx:id="dateColumn" text="Date"/>
+                <TableColumn fx:id="priceColumn" text="Price"/>
+            </columns>
+        </TableView>
+        <GridPane alignment="CENTER" fx:id="seatsTable" />
+        <HBox alignment="CENTER">
+            <Button fx:id="sellButton" text="Sell ticket" onAction="#sellTicket"/>
+            <Button fx:id="cancelReservationButton" text="Cancel reservation" onAction="#cancelReservation"/>
+        </HBox>
+    </VBox>
+</ScrollPane>

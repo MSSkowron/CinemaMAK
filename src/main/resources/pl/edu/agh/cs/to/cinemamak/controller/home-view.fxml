@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" prefHeight="433.0" prefWidth="616.0" spacing="20.0" xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.HomeController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-    <Label fx:id="helloLabel" alignment="CENTER" prefHeight="21.0" prefWidth="369.0">
-        <font>
-            <Font name="Book Antiqua Bold" size="24.0"/>
-        </font>
-        <VBox.margin>
-            <Insets top="20.0"/>
-        </VBox.margin>
-    </Label>
-    <Button text="Log out" alignment="CENTER" onAction="#onLogOutClick"/>
-</VBox>
+<BorderPane fx:id="bp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.HomeController">
+   <left>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0D1B24;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="helloLabel" alignment="CENTER" prefHeight="43.0" prefWidth="101.0" style="-fx-background-color: transparent;" text="Label" textFill="RED" underline="true" wrapText="true">
+               <font>
+                  <Font name="Consolas" size="15.0" />
+               </font></Label>
+            <Button mnemonicParsing="false" onMouseClicked="#logOut" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 2px 0px 2px 0px;" text="Log Out" textFill="WHITE" />
+            <Button mnemonicParsing="false" onMouseClicked="#home" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Home" textFill="WHITE" />
+            <Button fx:id="adminViewButton" layoutX="10.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#adminView" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Admin Panel" textFill="WHITE" />
+            <Button fx:id="performanceButton" mnemonicParsing="false" onMouseClicked="#performanceView" prefHeight="50.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Performance Panel" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+            <Button fx:id="movieViewButton" layoutX="10.0" layoutY="118.0" mnemonicParsing="false" onMouseClicked="#movieView" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Movies Panel" textFill="WHITE" />
+            <Button fx:id="ticketsViewButton" layoutX="10.0" layoutY="118.0" mnemonicParsing="false" onMouseClicked="#ticketsView" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Tickets" textFill="WHITE" />
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <AnchorPane fx:id="ap" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="WHITE" layoutX="239.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HOME" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

@@ -6,7 +6,6 @@ import java.util.Set;
 @Entity
 @Table(name="rooms")
 public class Room {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
@@ -48,5 +47,13 @@ public class Room {
 
     public void setSeats(Set<Seat> seats) {
         this.seats = seats;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", name='" + name +
+                '}';
     }
 }

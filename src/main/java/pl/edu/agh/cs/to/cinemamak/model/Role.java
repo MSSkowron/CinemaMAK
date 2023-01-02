@@ -11,6 +11,20 @@ public class Role {
     @Column(name="id")
     private long id;
 
+    @Column(name="name",nullable = false, unique = true)
+    private String roleName;
+
+    @OneToMany(mappedBy = "role")
+    private Set<User> users;
+
+    public Role(RoleName roleName) {
+        this.roleName = roleName.toString();
+    }
+
+    public Role() {
+
+    }
+
     public long getId() {
         return id;
     }
@@ -19,12 +33,22 @@ public class Role {
         this.id = id;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public RoleName getRoleName() {
+        switch(roleName){
+            case "Admin" -> {
+                return RoleName.Admin;
+            }
+            case "Manager" -> {
+                return RoleName.Manager;
+            }
+            default -> {
+                return RoleName.Employee;
+            }
+        }
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setRoleName(RoleName roleName) {
+        this.roleName = String.valueOf(roleName);
     }
 
     public Set<User> getUsers() {
@@ -35,17 +59,32 @@ public class Role {
         this.users = users;
     }
 
-    @Column(name="name",nullable = false, unique = true)
-    private String roleName;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
 
-    @OneToMany(mappedBy = "role")
-    private Set<User> users;
+        if (!(obj instanceof Role r)) {
+            return false;
+        }
 
-    public Role(String roleName) {
-        this.roleName = roleName;
+        return r.getRoleName().equals(this.getRoleName());
     }
 
-    public Role() {
+    @Override
+    public int hashCode() {
+        int result = Long.hashCode(this.id);
+        result = 31 * result + this.roleName.hashCode();
+        result = 31 * result + this.users.hashCode();
+        return result;
+    }
 
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", roleName='" + roleName +
+                '}';
     }
 }

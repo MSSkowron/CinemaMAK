@@ -24,4 +24,36 @@ public class Genre {
     public Genre() {
 
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getGenreName() {
+        return genreName;
+    }
+
+    public void setGenreName(String genreName) {
+        this.genreName = genreName;
+    }
+
+    public Set<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(Set<Movie> movies) {
+        this.movies = movies;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "id=" + id +
+                ", genreName='" + genreName +
+                '}';
+    }
 }

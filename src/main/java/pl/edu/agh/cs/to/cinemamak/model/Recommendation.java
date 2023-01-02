@@ -56,4 +56,14 @@ public class Recommendation {
     public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
     }
+
+    @Override
+    public String toString() {
+        return "Recommendation{" +
+                "id=" + id +
+                ", movie=" + movie +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
+                '}';
+    }
 }

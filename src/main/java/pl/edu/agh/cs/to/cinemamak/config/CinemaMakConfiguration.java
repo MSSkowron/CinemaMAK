@@ -1,11 +1,11 @@
 package pl.edu.agh.cs.to.cinemamak.config;
 
-import javafx.stage.Stage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.edu.agh.cs.to.cinemamak.helpers.RoleUIHelper;
+import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 @Configuration
 public class CinemaMakConfiguration {
@@ -15,8 +15,7 @@ public class CinemaMakConfiguration {
     }
 
     @Bean
-    @Lazy()
-    public Stage primaryStage(Stage stage) {
-        return stage;
+    public RoleUIHelper roleUIHelper(SessionService sessionService) {
+        return new RoleUIHelper(sessionService);
     }
 }

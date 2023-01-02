@@ -17,22 +17,10 @@ import pl.edu.agh.cs.to.cinemamak.service.UserService;
 @Component
 @FxmlView("login-view.fxml")
 public class LoginController {
-
     @FXML
     private TextField textFieldEmail;
-
     @FXML
     private TextField textFieldPassword;
-
-    @FXML
-    private Button buttonExit;
-
-    @FXML
-    private Button buttonLogin;
-
-    @FXML
-    private Button buttonRegister;
-
     private final UserService userService;
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
@@ -49,17 +37,16 @@ public class LoginController {
     }
 
     @FXML
-    private void onButtonExit(){
+    private void onButtonExit() {
         Platform.exit();
     }
 
     @FXML
-    private void onButtonLogin(){
-
-        String username = this.textFieldEmail.getCharacters().toString();
+    private void onButtonLogin() {
+        String email = this.textFieldEmail.getCharacters().toString();
         String password = this.textFieldPassword.getCharacters().toString();
 
-        if (userService.authenticate(username, password)){
+        if (userService.authenticate(email, password)) {
             Alert dialog = new Alert(Alert.AlertType.INFORMATION);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(stage);
@@ -68,8 +55,8 @@ public class LoginController {
             dialog.setContentText("Enjoy!");
             dialog.show();
             dialog.setOnCloseRequest(event -> {
-                sessionService.setCurrentUser(userService.getUserByUsername(username).get());
-                Scene scene = new Scene(fxWeaver.loadView(HomeController.class), 616, 433);
+                sessionService.setCurrentUser(userService.getUserByEmail(email).get());
+                Scene scene = new Scene(fxWeaver.loadView(HomeController.class));
                 stage.setScene(scene);
             });
         } else {
@@ -85,7 +72,7 @@ public class LoginController {
 
     @FXML
     private void onButtonRegister(){
-        Scene scene = new Scene(fxWeaver.loadView(RegisterController.class), 616, 433);
-        stage.setScene(scene);
+        Scene registerScene = new Scene(fxWeaver.loadView(RegisterController.class), 616, 433);
+        stage.setScene(registerScene);
     }
 }

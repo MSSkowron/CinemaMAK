@@ -1,48 +1,30 @@
 # CinemaMAK
+## Spis treści
+* [Skład](#skład)
+* [Technologie](#technologie)
+* [Opis projektu](#opis-projektu)
+* [Model obiektowy](#model-obiektowy)
+* [Schemat bazy danych](#schemat-bazy-danych)
+* [Widoki](#widoki)
+* [Instalacja](#instalacja)
+* [Uruchomienie](#uruchomienie)
 
-<details>
-  <summary>Spis treści</summary>
-  <ol>
-    <li>
-      <a href="#skład">Skład</a>
-    </li>
-    <li>
-      <a href="#technologie">Technologie</a>
-    </li>
-    <li>
-      <a href="#opis-projektu">Opis projektu</a>
-    </li>
-    <li>
-      <a href="#model-obiektowy">Model obiektowy</a>
-    </li>
-    <li>
-      <a href="#schemat-bazy-danych">Schemat bazy danych</a>
-    </li>
-    <li>
-      <a href="#widoki">Widoki</a>
-    </li>
-    <li>
-      <a href="#instalacja">Instalacja</a>
-    </li>
-    <li>
-      <a href="#uruchomienie">Uruchomienie</a>
-    </li>
-  </ol>
-</details>
-
+<a name="skład"></a>
 ## Skład
 - Skowron Mateusz
 - Chrobot Adrian
 - Wilk Karol
 
+<a name="technologie"></a>
 ## Technologie
 - Java
 - Gradle
 - Spring Framework
 - JavaFX
-- JPA
 - PostgreSQL
+- Docker
 
+<a name="opis-projektu"></a>
 ## Opis projektu
 Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego.
 
@@ -56,6 +38,7 @@ Użytkownik chcąc założyć konto musi podać niezbędne do tego dane.
 Proces uwierzytelniania wymaga podania nazwy użytkownika, którą jest adres email oraz hasła.
 Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej trzymane są w bazie danych w odpowiedniej tabeli.
 
+<a name="model-obiektowy"></a>
 ## Model obiektowy
 ![Model_obiektowy](../images/model_obiektowy.png)
 
@@ -73,6 +56,7 @@ Następna warstwa aplikacji składa się z obiektów `Controller`, które realiz
 
 Każdemu kontrolerowi przypada odpowiedni widok - są to widoki `FXML` z biblioteki JavaFX, pozwalające na imlpementację reaktywnego GUI poprzez powiązania `Binding` JavaFX.
 
+<a name="schemat-bazy-danych"></a>
 ## Schemat bazy danych
 Ze względu na potrzebę zapewnienia wszystkich potrzebnych informacji, które zostaną wykorzystane do statystyk
 oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w bazie znalazły się następujące tabele:
@@ -119,9 +103,12 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Klucz obcy *performance_id* wskazuje rekord z tabeli performances, definiuje to, na był/jaki seans jest dany bilet.
   Klucz obcy *seat_id* wskazuje rekord z tabeli seats, definiuje to, które miejsce zostało zarezerwowane.
 
+<a name="widoki"></a>
 ## Widoki
 - **Logowanie**
+
   ![Logowanie](../images/logowanie.png)
+
   Widok umożliwia logowanie się do systemu. \
   Po podaniu niepoprawnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba logowania. \
@@ -131,8 +118,11 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Przycisk *Register* umożliwia przejścia do okna rejestracji użytkownika.
 
 
+
 - **Rejestracja**
+
   ![Rejestracja](../images/rejestracja.png)
+
   Widok umożliwia założenie konta w systemie. \
   Po podaniu niepoprawnych lub niekompletnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba rejestracji. \
@@ -141,13 +131,79 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Przycisk *Register* zatwierdza formularz.\
   Przycisk *Log in* umożliwia przejścia do okna logowania.
 
+- **Filmy**
+
+  ![Widok początkowy](../images/filmy.png)
+
+  Widok dostępny jest dla użytkowników z rolą admina/menadżera.
+  W tabeli wyświetlane są filmy obecnie znajdującę się w bazie.
+  W górnej części widoku znajduje się pole tekstowe, w którym możemy wyszukać film po tytule lub reżyserze.
+  Po dwukrotnym wciśnięciu danego rekordu wyświetla się widok szczegółowych danych o filmie.
+  Po kliknięciu w przycisk *NEW* otwiera się formularz dodawania nowego filmu.
+
+  ![Widok początkowy](../images/filmy_szczegoly.png)
+  
+  Za pomocą przycisku *Delete* możemy usunąć film.
+
+  ![Widok początkowy](../images/filmy_formularz.png)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Submit* film zostaje dodany do bazy danych. 
+
+- **Seanse**
+
+  ![Widok początkowy](../images/seanse.png)
+
+  Widok dostępny jest dla użytkowników z rolą admina/menadżera.
+  W tabeli wyświetlane są seanse obecnie zarejestrowane w bazie.
+  Po wskazaniu seansu i wciśnięciu przycisku *Delete* zostaje on usunięty.
+  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowego seansu
+
+  ![Widok początkowy](../images/seanse_formularz.png)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Add* seans zostaje zatwierdzony.
+
+
+- **Sprzedawanie i zwrot biletu**
+
+  ![Widok początkowy](../images/sprzedawanie_biletu_1.png)
+  
+  Widok dostępny jest dla wszystkich użytkowników, niezależnie od roli.
+  Widok na początku wyświetla listę seansów, z których użytkownik wybiera jeden.
+  Wówczas wyświetli się tabela z nazwami poszczególych foteli w sali, w której odbędzie się seans.
+
+  ![Wybór miejsca 1](../images/sprzedawanie_biletu_2.png)
+
+  Użytkownik wybiera odpowiedni fotel klikając w jego nazwę.
+
+  ![Wybór miejsca 2](../images/sprzedawanie_biletu_3.png)
+
+  Z pomocą przycisku "Sell ticket" użytkownik może sprzedać bilet na wybrany fotel w danym seansie.
+
+  ![Sprzedaż biletu](../images/sprzedawanie_biletu_4.png)
+
+  Nazwa fotela jest obramowana na czerwono, co oznacza, że ten fotel jest zarezerwowany i nie da się sprzedać biletu na ten fotel i seans.
+  W przypadku zwrotu biletu, użytkownik może wybrać zarezerwowany fotel w celu realizacji zwrotu
+
+  ![Zwrot biletu 1](../images/zwrot_biletu_1.png)
+
+  Za pomocą przycisku "Cancel reservation" rezerwacja na fotel jest anulowana
+
+  ![Zwrot biletu 2](../images/zwrot_biletu_2.png)
+
+<a name="instalacja"></a>
 ## Instalacja
 ```
 git clone https://bitbucket.lab.ii.agh.edu.pl/scm/to2022/jk-pn-1300-cinemamak.git
 ```
 
+<a name="uruchomienie"></a>
 ## Uruchomienie
-W katalogu głównym projektu wykonujemy polecenie
+Pierwszym krokiem jest uruchomienie bazy danych, która będzie działać w kontenerze.  
+W katalogu głównym projektu wykonujemy polecenie:
+```
+docker compose -f .\src\main\resources\docker-compose.yml up -d
+```
+Następnie uruchamiamy aplikację:
 ```
 ./gradlew bootRun
 ```

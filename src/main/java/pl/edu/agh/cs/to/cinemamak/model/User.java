@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name="users")
@@ -8,23 +9,24 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
-    private long id;
+    private Long id;
 
     @Column(name="email_address", nullable = false, unique = true)
     private String emailAddress;
 
-    @Column(name="first_name", nullable = false,unique = false)
+    @Column(name="first_name", nullable = false)
     private String firstName;
 
-    @Column(name="last_name", nullable = false, unique = false)
+    @Column(name="last_name", nullable = false)
     private String lastName;
 
     @ManyToOne
     @JoinColumn(name="role_id", nullable = false)
     private Role role;
 
-    @Column(name="password",nullable = false, unique = true)
+    @Column(name="password",nullable = false)
     private String password;
+
 
     public User(String firstName, String lastName, String emailAddress, String password) {
         this.firstName = firstName;
@@ -37,11 +39,11 @@ public class User {
 
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long userID) {
+    public void setId(Long userID) {
         this.id = userID;
     }
 
@@ -86,4 +88,40 @@ public class User {
         this.role = role;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+
+        if(!(obj instanceof User u)) {
+            return false;
+        }
+
+        return u.getFirstName().equals(this.getFirstName()) &&
+                u.getLastName().equals(this.getLastName()) &&
+                u.getPassword().equals(this.getPassword()) &&
+                u.getEmailAddress().equals(this.getEmailAddress())&&
+                u.getRole().equals(this.getRole());
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = this.id.hashCode();
+        hashCode = 31 * hashCode + this.emailAddress.hashCode();
+        hashCode = 31 * hashCode + this.firstName.hashCode();
+        hashCode = 31 * hashCode + this.lastName.hashCode();
+        hashCode = 31 * hashCode + this.password.hashCode();
+        return hashCode;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }
