@@ -33,17 +33,17 @@ public class PerformanceFormController {
     @FXML
     private DatePicker datePicker;
     @FXML
+    private Spinner<String> hourSpinner;
+    @FXML
     private ChoiceBox<String> roomChoiceBox;
     @FXML
     private ChoiceBox<String> supervisorChoiceBox;
     @FXML
-    private Spinner<String> hourSpinner;
+    private TextField priceTextField;
     @FXML
     private Button addButton;
     @FXML
     private Button cancelButton;
-    @FXML
-    private TextField priceTextField;
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
