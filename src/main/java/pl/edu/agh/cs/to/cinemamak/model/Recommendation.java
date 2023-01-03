@@ -22,8 +22,14 @@ public class Recommendation {
     @Column(name="date_to", nullable = false)
     private LocalDateTime dateTo;
 
-    public Recommendation() {
+    public Recommendation(){
 
+    }
+
+    public Recommendation(Movie movie, LocalDateTime dateFrom, LocalDateTime dateTo) {
+        this.movie = movie;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
     }
 
     public long getId() {

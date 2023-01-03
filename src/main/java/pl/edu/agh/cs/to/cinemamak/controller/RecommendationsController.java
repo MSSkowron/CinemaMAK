@@ -72,39 +72,30 @@ public class RecommendationsController implements ApplicationListener<TableRecom
 
 
     public void initialize(){
-        this.columnDateBegin.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Recommendation, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Recommendation, String> param) {
-                if(param.getValue().getDateFrom() != null) {
-                    return new SimpleStringProperty(param.getValue().getDateFrom().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        this.columnDateBegin.setCellValueFactory(param -> {
+            if(param.getValue().getDateFrom() != null) {
+                return new SimpleStringProperty(param.getValue().getDateFrom().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            }
+            else{
+                return new SimpleStringProperty("null");
             }
         });
 
-        this.columnDateEnd.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Recommendation, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Recommendation, String> param) {
-                if(param.getValue().getDateTo() != null) {
-                    return new SimpleStringProperty(param.getValue().getDateTo().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        this.columnDateEnd.setCellValueFactory(param -> {
+            if(param.getValue().getDateTo() != null) {
+                return new SimpleStringProperty(param.getValue().getDateTo().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            }
+            else{
+                return new SimpleStringProperty("null");
             }
         });
 
-        this.columnTitle.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Recommendation, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Recommendation, String> param) {
-                if(param.getValue().getMovie() != null) {
-                    return new SimpleStringProperty(param.getValue().getMovie().getTitle());
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        this.columnTitle.setCellValueFactory(param -> {
+            if(param.getValue().getMovie() != null) {
+                return new SimpleStringProperty(param.getValue().getMovie().getTitle());
+            }
+            else{
+                return new SimpleStringProperty("null");
             }
         });
 
@@ -143,15 +134,15 @@ public class RecommendationsController implements ApplicationListener<TableRecom
     }
 
     public void setAddButton(){
-//        Stage form = new Stage();
-//        fxWeaver.loadController(PerformanceFormController.class).setStage(form);
-//        Scene scene = new Scene(fxWeaver.loadView(PerformanceFormController.class));
-//        form.setScene(scene);
-//        form.setTitle("Add performance");
-//        form.initModality(Modality.WINDOW_MODAL);
-//        form.setAlwaysOnTop(true);
-//        form.initOwner(stage);
-//        form.show();
+        Stage form = new Stage();
+        fxWeaver.loadController(RecommendationsFormController.class).setStage(form);
+        Scene scene = new Scene(fxWeaver.loadView(RecommendationsFormController.class));
+        form.setScene(scene);
+        form.setTitle("Add recommendation");
+        form.initModality(Modality.WINDOW_MODAL);
+        form.setAlwaysOnTop(true);
+        form.initOwner(stage);
+        form.show();
     }
 
     public void setDeleteButton(){
