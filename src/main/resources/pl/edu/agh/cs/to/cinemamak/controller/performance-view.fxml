@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceController">
    <children>
-      <TableView fx:id="table" onMousePressed="#onMousePressed">
+      <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMousePressed="#onMousePressed">
         <columns>
           <TableColumn fx:id="columnTitle" prefWidth="112.0" text="Title" />
           <TableColumn fx:id="columnDate" prefWidth="112.0" text="Date" />
@@ -51,6 +51,6 @@
       </HBox>
    </children>
    <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
    </padding>
 </VBox>
