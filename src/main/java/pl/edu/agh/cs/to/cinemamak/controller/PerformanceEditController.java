@@ -120,7 +120,7 @@ public class PerformanceEditController {
     public void setFields(){
         if(this.performance.isPresent()) {
             Performance perf = this.performance.get();
-            System.out.println(perf);
+
             this.supervisorChoiceBox.setValue("value2");
             String hourStr;
             if (perf.getDate().getMinute() == 0) {

@@ -104,18 +104,18 @@ public class RecommendationsController implements ApplicationListener<TableRecom
 
     public void onMousePressed(MouseEvent event) {
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-//            Stage newStage = new Stage();
-//
-//            fxWeaver.loadController(PerformanceEditController.class).setPerformance(this.table.getSelectionModel().getSelectedItem()).setStage(newStage);
-//
-//            Scene newScene = new Scene(fxWeaver.loadView(PerformanceEditController.class));
-//
-//            newStage.setTitle("Edit performance");
-//            newStage.setScene(newScene);
-//            newStage.initModality(Modality.WINDOW_MODAL);
-//            newStage.initOwner(stage);
-//
-//            newStage.show();
+            Stage newStage = new Stage();
+
+            fxWeaver.loadController(RecommendationsEditController.class).setRecommendation(this.table.getSelectionModel().getSelectedItem()).setStage(newStage);
+
+            Scene newScene = new Scene(fxWeaver.loadView(RecommendationsEditController.class));
+
+            newStage.setTitle("Edit recommendation");
+            newStage.setScene(newScene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(stage);
+
+            newStage.show();
         }
     }
 

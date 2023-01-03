@@ -9,15 +9,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.RecommendationsFormController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.RecommendationsEditController">
 <children>
-    <Label alignment="CENTER" prefHeight="95.0" prefWidth="558.0" text="Add recommendation">
+    <Label alignment="CENTER" prefHeight="95.0" prefWidth="558.0" text="Edit recommendation">
         <font>
             <Font size="48.0" />
         </font>
-         <VBox.margin>
+        <VBox.margin>
             <Insets top="30.0" />
-         </VBox.margin></Label>
+        </VBox.margin></Label>
     <HBox prefHeight="44.0" prefWidth="558.0">
         <children>
             <Label text="Movie:">
@@ -76,7 +76,7 @@
 
     <HBox prefHeight="29.0" prefWidth="558.0">
         <children>
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#onActionAdd" prefWidth="100.0" text="Add">
+            <Button fx:id="applyButton" mnemonicParsing="false" onAction="#onActionApply" prefWidth="100.0" text="Apply">
                 <HBox.margin>
                     <Insets left="130.0" />
                 </HBox.margin>
