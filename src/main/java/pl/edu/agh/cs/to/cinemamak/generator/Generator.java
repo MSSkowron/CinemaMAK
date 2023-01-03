@@ -24,6 +24,7 @@ public class Generator {
     private final PasswordEncoder passwordEncoder;
     private final RoomRepository roomRepository;
     private final SeatRepository seatRepository;
+    private final RecommendationRepository recommendationRepository;
 
     private final PerformanceRepository performanceRepository;
     private final MovieRepository movieRepository;
@@ -35,7 +36,8 @@ public class Generator {
                      RoomRepository roomRepository,
                      SeatRepository seatRepository,
                      PerformanceRepository performanceRepository,
-                     MovieRepository movieRepository) {
+                     MovieRepository movieRepository,
+                     RecommendationRepository recommendationRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.genreRepository = genreRepository;
@@ -44,6 +46,7 @@ public class Generator {
         this.seatRepository = seatRepository;
         this.performanceRepository = performanceRepository;
         this.movieRepository = movieRepository;
+        this.recommendationRepository = recommendationRepository;
     }
 
     @PostConstruct
@@ -83,6 +86,10 @@ public class Generator {
 
         if(performanceRepository.count() == 0) {
             generatePerformance();
+        }
+
+        if(recommendationRepository.count() == 0){
+            generateRecommendation();
         }
 
     }
@@ -199,7 +206,7 @@ public class Generator {
         performance.setDate(LocalDateTime.of(LocalDate.of(2022, 12,12), LocalTime.of(0,0,0)));
 
         List<Movie> movie = movieRepository.findAll();
-
+        if(movie.isEmpty()) return;
         performance.setMovie(movie.get(0));
         performance.setPrice(BigDecimal.valueOf(111));
 
@@ -209,5 +216,17 @@ public class Generator {
         userRepository.findByEmailAddress("admin@gmail.com").ifPresent(performance::setUser);
 
         this.performanceRepository.save(performance);
+    }
+
+    public void generateRecommendation(){
+        Recommendation recommendation = new Recommendation();
+        recommendation.setDateFrom(LocalDateTime.of(LocalDate.of(2022, 12,12), LocalTime.of(8,0,0)));
+        recommendation.setDateTo(LocalDateTime.of(LocalDate.of(2022, 12,30), LocalTime.of(20,0,0)));
+
+        List<Movie> movie = movieRepository.findAll();
+        if(movie.isEmpty()) return;
+        recommendation.setMovie(movie.get(0));
+
+        this.recommendationRepository.save(recommendation);
     }
 }

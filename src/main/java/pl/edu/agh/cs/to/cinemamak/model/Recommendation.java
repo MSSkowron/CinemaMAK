@@ -2,6 +2,7 @@ package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="recommendations")
@@ -16,10 +17,10 @@ public class Recommendation {
     private Movie movie;
 
     @Column(name="date_from", nullable = false)
-    private Date dateFrom;
+    private LocalDateTime dateFrom;
 
     @Column(name="date_to", nullable = false)
-    private Date dateTo;
+    private LocalDateTime dateTo;
 
     public Recommendation() {
 
@@ -41,19 +42,19 @@ public class Recommendation {
         this.movie = movie;
     }
 
-    public Date getDateFrom() {
+    public LocalDateTime getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(Date dateFrom) {
+    public void setDateFrom(LocalDateTime dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public Date getDateTo() {
+    public LocalDateTime getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(Date dateTo) {
+    public void setDateTo(LocalDateTime dateTo) {
         this.dateTo = dateTo;
     }
 
