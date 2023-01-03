@@ -26,12 +26,7 @@ public class EmailService {
             return;
         }
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(user.getEmailAddress());
-        message.setSubject(subject);
-        message.setText("Sent by: " + sender.get().getEmailAddress() + "\n" + body);
-
-        mailSender.send(message);
+        mailSender.send(createMessage(sender.get(), user, subject, body));
     }
 
     public void sendToUsersWithRole(RoleName roleName, String subject, String body) {
@@ -40,14 +35,9 @@ public class EmailService {
             return;
         }
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setSubject(subject);
-        message.setText("Sent from user: " + sender.get().getEmailAddress() + "\n" + body);
-
         userService.getUsers().ifPresent(listU -> listU.forEach(user -> {
             if (user.getRole().getRoleName().equals(roleName)) {
-                message.setTo(user.getEmailAddress());
-                mailSender.send(message);
+                mailSender.send(createMessage(sender.get(), user, subject, body));
             }
         }));
     }
@@ -58,13 +48,15 @@ public class EmailService {
             return;
         }
 
+        userService.getUsers().ifPresent(listU -> listU.forEach(user -> mailSender.send(createMessage(sender.get(), user, subject, body))));
+    }
+
+    private SimpleMailMessage createMessage(User sender, User receiver, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject(subject);
-        message.setText("Sent from user: " + sender.get().getEmailAddress() + "\n" + body);
+        message.setText("Sent by: " + sender.getEmailAddress() + "\n" + body);
+        message.setTo(receiver.getEmailAddress());
 
-        userService.getUsers().ifPresent(listU -> listU.forEach(user -> {
-            message.setTo(user.getEmailAddress());
-            mailSender.send(message);
-        }));
+        return message;
     }
 }
