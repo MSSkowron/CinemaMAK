@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="692.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.RegisterController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#onBorderPaneDragged" onMousePressed="#onBorderPanePressed" prefHeight="405.0" prefWidth="692.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.RegisterController">
    <left>
       <Pane prefHeight="465.0" prefWidth="324.0" style="-fx-background-color: linear-gradient(to top right, #ff7f50, #6a5acd);" BorderPane.alignment="CENTER">
          <children>
@@ -72,6 +72,14 @@
                   </Label>
                   <TextField fx:id="textFieldLastName" layoutX="142.0" layoutY="132.0" prefHeight="30.0" prefWidth="170.0" />
                   <TextField fx:id="textFieldEmail" layoutX="142.0" layoutY="180.0" prefHeight="30.0" prefWidth="170.0" />
+                  <ImageView fitHeight="33.0" fitWidth="28.0" layoutX="325.0" layoutY="12.0" onMouseClicked="#onButtonExit" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../icons/icons8_close_512px.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
             </Pane>
          </children>

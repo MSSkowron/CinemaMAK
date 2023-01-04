@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -16,6 +18,10 @@ import pl.edu.agh.cs.to.cinemamak.service.UserService;
 @Component
 @FxmlView("login-view.fxml")
 public class LoginController {
+    @FXML
+    private BorderPane borderPane;
+    private double x = 0;
+    private double y = 0;
     @FXML
     private TextField textFieldEmail;
     @FXML
@@ -68,5 +74,23 @@ public class LoginController {
     private void onButtonRegister(){
         Scene registerScene = new Scene(fxWeaver.loadView(RegisterController.class));
         stage.setScene(registerScene);
+    }
+
+    @FXML
+    private void onButtonExit() {
+        Platform.exit();
+    }
+
+    @FXML
+    public void onBorderPaneDragged(MouseEvent event) {
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setY(event.getScreenY() - y);
+        stage.setX(event.getScreenX() - x);
+    }
+
+    @FXML
+    public void onBorderPanePressed(MouseEvent event) {
+        x = event.getSceneX();
+        y = event.getSceneY();
     }
 }
