@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,11 +33,6 @@ public class LoginController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-
-    @FXML
-    private void onButtonExit() {
-        Platform.exit();
     }
 
     @FXML
@@ -72,7 +66,7 @@ public class LoginController {
 
     @FXML
     private void onButtonRegister(){
-        Scene registerScene = new Scene(fxWeaver.loadView(RegisterController.class), 616, 433);
+        Scene registerScene = new Scene(fxWeaver.loadView(RegisterController.class));
         stage.setScene(registerScene);
     }
 }

@@ -1,88 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="433.0" prefWidth="616.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.LoginController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-   <children>
-      <Label alignment="CENTER" prefHeight="21.0" prefWidth="369.0" text="CinemaMAK">
-         <font>
-            <Font name="Book Antiqua Bold" size="59.0" />
-         </font>
-         <VBox.margin>
-            <Insets top="20.0" />
-         </VBox.margin>
-      </Label>
-      <VBox prefHeight="200.0" prefWidth="100.0">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="692.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.LoginController">
+   <left>
+      <Pane prefHeight="465.0" prefWidth="324.0" style="-fx-background-color: linear-gradient(to top right, #ff7f50, #6a5acd);" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="hbox1" prefHeight="28.0" prefWidth="408.0">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="87.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../icons/icons8_filmmaker_pro_400px_1.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="46.0" layoutY="87.0" text="CinemaMAK" textAlignment="CENTER" textFill="#545454">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+         </children></Pane>
+   </left>
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="118.0" text="Email">
+                  <TextField fx:id="textFieldEmail" layoutX="68.0" layoutY="137.0" prefHeight="35.0" prefWidth="245.0" promptText="Email" />
+                  <PasswordField fx:id="textFieldPassword" layoutX="68.0" layoutY="191.0" prefHeight="35.0" prefWidth="245.0" promptText="Password" />
+                  <Button layoutX="193.0" layoutY="243.0" mnemonicParsing="false" onAction="#onButtonLogin" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #6a5acd;" text="Sign In" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button layoutX="69.0" layoutY="341.0" mnemonicParsing="false" onAction="#onButtonRegister" prefHeight="41.0" prefWidth="248.0" style="-fx-background-color: #6a5acd; -fx-background-radius: 5;" text="Don't have an account? Sign up" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Label layoutX="68.0" layoutY="82.0" text="Sign In">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold" size="25.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="110.0" right="20.0" />
-                     </HBox.margin></Label>
-                  <TextField fx:id="textFieldEmail" prefHeight="27.0" prefWidth="200.0" />
+                  </Label>
                </children>
-            </HBox>
-            <HBox prefHeight="28.0" prefWidth="408.0" />
-            <HBox prefHeight="25.0" prefWidth="408.0">
-               <children>
-                  <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="119.0" text="Password">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="110.0" right="20.0" />
-                     </HBox.margin></Label>
-                  <PasswordField fx:id="textFieldPassword" prefWidth="200.0" />
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="buttonExit" mnemonicParsing="false" onAction="#onButtonExit" prefWidth="140.0" text="Exit">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="130.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="24.0" />
-                     </font></Button>
-                  <Button fx:id="buttonLogin" mnemonicParsing="false" onAction="#onButtonLogin" prefWidth="140.0" text="Log in">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="24.0" />
-                     </font></Button>
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="190.0" text="Want to add new account?">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="110.0" right="10.0" top="15.0" />
-                     </HBox.margin></Label>
-                  <Button fx:id="buttonRegister" mnemonicParsing="false" onAction="#onButtonRegister" text="Register">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="15.0" />
-                     </font></Button>
-               </children>
-            </HBox>
+            </Pane>
          </children>
-      </VBox>
-   </children>
-</VBox>
+      </StackPane>
+   </center>
+</BorderPane>
