@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
@@ -76,9 +78,10 @@ public class MovieFormController {
         String genreName = choiceBoxGenre.getValue();
         String imageURL = this.textFieldImageURL.getCharacters().toString();
         LocalDate date =  datePicker.getValue();
+        LocalDateTime dateTime = LocalDateTime.of(date, LocalTime.of(0,0));
 
         if (validate(title, director, description, genreName, imageURL, durationStr, date)) {
-            movieService.addMovie(new Movie(title, director, description, Integer.parseInt(durationStr), movieService.getGenreByName(genreName).get(), Date.valueOf(date), imageURL));
+            movieService.addMovie(new Movie(title, director, description, Integer.parseInt(durationStr), movieService.getGenreByName(genreName).get(), dateTime, imageURL));
 
             Alert dialog = new Alert(Alert.AlertType.INFORMATION);
             dialog.initModality(Modality.APPLICATION_MODAL);

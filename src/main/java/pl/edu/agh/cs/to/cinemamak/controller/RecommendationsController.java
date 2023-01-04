@@ -105,7 +105,7 @@ public class RecommendationsController implements ApplicationListener<TableRecom
     public void onMousePressed(MouseEvent event) {
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
             Stage newStage = new Stage();
-
+            if(this.table.getSelectionModel().getSelectedItem() == null) return;
             fxWeaver.loadController(RecommendationsEditController.class).setRecommendation(this.table.getSelectionModel().getSelectedItem()).setStage(newStage);
 
             Scene newScene = new Scene(fxWeaver.loadView(RecommendationsEditController.class));

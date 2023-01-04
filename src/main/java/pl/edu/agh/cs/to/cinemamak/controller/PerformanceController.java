@@ -128,7 +128,7 @@ public class PerformanceController implements ApplicationListener<TablePerforman
     public void onMousePressed(MouseEvent event) {
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
             Stage newStage = new Stage();
-
+            if(this.table.getSelectionModel().getSelectedItem() == null) return;
             fxWeaver.loadController(PerformanceEditController.class).setPerformance(this.table.getSelectionModel().getSelectedItem()).setStage(newStage);
 
             Scene newScene = new Scene(fxWeaver.loadView(PerformanceEditController.class));

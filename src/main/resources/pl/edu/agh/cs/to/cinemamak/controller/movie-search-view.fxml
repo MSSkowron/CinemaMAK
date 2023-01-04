@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.MovieSearchController">
+<children>
+    <Label alignment="CENTER" prefHeight="103.0" prefWidth="695.0" text="Search movie">
+        <font>
+            <Font size="48.0" />
+        </font>
+        <VBox.margin>
+            <Insets left="20.0" top="10.0" />
+        </VBox.margin></Label>
+      <VBox prefHeight="316.0" prefWidth="733.0">
+         <children>
+            <HBox prefHeight="27.0" prefWidth="683.0">
+               <children>
+                  <TextField fx:id="titleTextField" promptText="Title">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <TextField fx:id="directorTextField" promptText="Director">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <TextField fx:id="yearTextField" promptText="Year">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <ChoiceBox fx:id="genreChoiceBox" prefWidth="150.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </ChoiceBox>
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onActionSearch" text="Search">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <TableView fx:id="table" prefHeight="267.0" prefWidth="688.0">
+              <columns>
+                <TableColumn fx:id="titleColumn" prefWidth="175.0" text="Title" />
+                <TableColumn fx:id="directorColumn" prefWidth="172.0" text="Director" />
+                  <TableColumn fx:id="genreColumn" prefWidth="172.0" text="Genre" />
+                  <TableColumn fx:id="dateColumn" prefWidth="172.0" text="Year" />
+              </columns>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="21.0" right="24.0" top="10.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+      <HBox prefHeight="57.0" prefWidth="733.0">
+         <children>
+            <Button fx:id="applyButton" mnemonicParsing="false" onAction="#OnActionApply" prefWidth="100.0" text="Apply">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="150.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#OnActionReset" prefWidth="100.0" text="Reset">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#OnActionCancel" prefWidth="100.0" text="Cancel">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+</children>
+</VBox>
