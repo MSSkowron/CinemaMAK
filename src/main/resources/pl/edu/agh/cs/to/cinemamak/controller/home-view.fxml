@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseDragged="#onBorderPaneDragged" onMousePressed="#onBorderPanePressed" prefHeight="540.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.HomeController">
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseDragged="#onBorderPaneDragged" onMousePressed="#onBorderPanePressed" prefHeight="540.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.HomeController">
    <left>
       <VBox alignment="TOP_CENTER" maxWidth="-Infinity" prefWidth="120.0" style="-fx-background-color: #6a5acd;" BorderPane.alignment="CENTER">
          <children>
