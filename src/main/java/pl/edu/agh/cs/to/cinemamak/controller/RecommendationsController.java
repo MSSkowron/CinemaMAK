@@ -9,9 +9,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,20 +22,31 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.event.TableRecommendationsChangeEvent;
+import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
+import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
 import pl.edu.agh.cs.to.cinemamak.service.RecommendationService;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 @FxmlView("recommendations-view.fxml")
 public class RecommendationsController implements ApplicationListener<TableRecommendationsChangeEvent> {
 
 
+    public TextField titleTextField;
+    public TextField directorTextField;
+    public TextField yearTextField;
+    public ChoiceBox<String> genreChoiceBox;
+    public Button searchButton;
+    public Button resetButton;
     @FXML
     private TableView<Recommendation> table;
     @FXML
@@ -57,12 +66,14 @@ public class RecommendationsController implements ApplicationListener<TableRecom
 
     private final SessionService sessionService;
     private final RecommendationService recommendationService;
+    private final MovieService movieService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
-    public RecommendationsController(RecommendationService recommendationService,SessionService sessionService, FxWeaver fxWeaver){
+    public RecommendationsController(MovieService movieService, RecommendationService recommendationService, SessionService sessionService, FxWeaver fxWeaver){
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
+        this.movieService = movieService;
         this.recommendationService = recommendationService;
     }
 
@@ -98,8 +109,8 @@ public class RecommendationsController implements ApplicationListener<TableRecom
                 return new SimpleStringProperty("null");
             }
         });
-
-        setRecommendations();
+        movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
+        setRecommendations(r -> true);
     }
 
     public void onMousePressed(MouseEvent event) {
@@ -125,11 +136,10 @@ public class RecommendationsController implements ApplicationListener<TableRecom
         return recommendationObservableList;
     }
 
-    public void setRecommendations(){
-        FilteredList<Recommendation> filteredList = new FilteredList<>(getRecommendations(), p -> true);
+    public void setRecommendations(Predicate<Recommendation> recommendationPredicate){
+        FilteredList<Recommendation> filteredList = new FilteredList<>(getRecommendations(), recommendationPredicate);
         SortedList<Recommendation> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(this.table.comparatorProperty());
-
         this.table.setItems(sortedList);
     }
 
@@ -153,7 +163,75 @@ public class RecommendationsController implements ApplicationListener<TableRecom
 
     @Override
     public void onApplicationEvent(TableRecommendationsChangeEvent event) {
-        setRecommendations();
+        setRecommendations(r -> true);
         this.table.refresh();
+    }
+
+    public void onActionSearch(ActionEvent actionEvent) {
+
+        String title = titleTextField.getText();
+        String director = directorTextField.getText();
+        String year = yearTextField.getText();
+        String genre = genreChoiceBox.getValue();
+
+        setRecommendations(new Predicate<Recommendation>() {
+            @Override
+            public boolean test(Recommendation recommendation) {
+                Movie movie = recommendation.getMovie();
+                if(!title.equals("")){
+
+                    Pattern pattern = Pattern.compile(title, Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(movie.getTitle());
+                    if(!matcher.find()){
+                        return false;
+                    }
+                }
+                if(!director.equals("")){
+
+                    Pattern pattern = Pattern.compile(director, Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(movie.getDirector());
+                    if(!matcher.find()){
+                        return false;
+                    }
+                }
+                if(!year.equals("")) {
+
+                    try {
+                        if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
+                            return false;
+                        }
+                    } catch(NumberFormatException exception){
+                        showErrorDialog("Error occurred while filtering list of movies.",
+                                "Year is not valid! Enter a number or left it empty.");
+                    }
+                }
+                if(genre != null && !genre.equals("")){
+
+                    if(!movie.getGenre().getGenreName().equals(genre)){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+
+    }
+
+    public void OnActionReset(ActionEvent actionEvent) {
+        setRecommendations(m -> true);
+        this.genreChoiceBox.setValue("");
+        this.directorTextField.setText("");
+        this.titleTextField.setText("");
+        this.yearTextField.setText("");
+    }
+
+    public void showErrorDialog(String header, String info){
+        Alert dialog = new Alert(Alert.AlertType.ERROR);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(stage);
+        dialog.setTitle("Error");
+        dialog.setHeaderText(header);
+        dialog.setContentText(info);
+        dialog.show();
     }
 }
