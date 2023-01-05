@@ -8,8 +8,10 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -118,6 +120,13 @@ public class MovieSearchController {
         sortedList.comparatorProperty().bind(table.comparatorProperty());
         table.setItems(sortedList);
     }
+
+    public void onMousePressed(MouseEvent event) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            this.OnActionApply(new ActionEvent());
+        }
+    }
+
 
     public void OnActionApply(ActionEvent actionEvent) {
         Movie mv = this.table.getSelectionModel().getSelectedItem();
