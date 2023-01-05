@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceEditController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceEditController">
    <children>
       <Label alignment="CENTER" prefHeight="95.0" prefWidth="558.0" text="Edit performance">
          <font>
@@ -27,11 +27,16 @@
                   <Insets left="170.0" />
                </HBox.margin>
             </Label>
-            <ChoiceBox fx:id="movieChoiceBox" prefWidth="200.0">
+            <TextField fx:id="textFieldMovie" editable="false" prefWidth="200.0" promptText="Search titile">
                <HBox.margin>
-                  <Insets left="10.0" top="6.0" />
+                  <Insets left="10.0" top="5.0" />
                </HBox.margin>
-            </ChoiceBox>
+            </TextField>
+            <Button fx:id="buttonSearch" mnemonicParsing="false" onAction="#onActionSearch" text="Search">
+               <HBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </HBox.margin>
+            </Button>
          </children>
          <VBox.margin>
             <Insets top="10.0" />
