@@ -8,10 +8,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.helpers.ResizeHelper;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
@@ -58,6 +60,7 @@ public class LoginController {
                 sessionService.setCurrentUser(userService.getUserByEmail(email).get());
                 Scene scene = new Scene(fxWeaver.loadView(HomeController.class));
                 stage.setScene(scene);
+                ResizeHelper.addResizeListener(stage, scene.getWidth(), scene.getHeight(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight() );
             });
         } else {
             Alert dialog = new Alert(Alert.AlertType.ERROR);
