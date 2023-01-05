@@ -56,25 +56,18 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
         this.stage = stage;
     }
 
-//    public void initialize(){
-//        this.movieService.getMovies().ifPresent(list -> list.forEach(movie ->
-//                this.movieChoiceBox.getItems().add(movie.getId()+" "+movie.getTitle())));
-//    }
-
     public void onActionAdd(){
         if(this.selectedMovie.isEmpty()){
             showErrorDialog("Error occurred while editing a recommendation",
                     "Movie must be chosen.");
             return;
         }
-//        String title = this.movieChoiceBox.getValue();
         String title = this.selectedMovie.get().getTitle();
         Long movieId = this.selectedMovie.get().getId();
         LocalDate dateFrom = this.dateFromPicker.getValue();
         LocalDate dateTo = this.dateToPicker.getValue();
 
         if(dateTo != null && dateFrom != null && title != null){
-//            Optional<Movie> movie = movieService.getMovieById(Long.parseLong(title.split("\\s")[0]));
             Optional<Movie> movie = movieService.getMovieById(movieId);
             if(dateTo.isBefore(dateFrom)){
                 showErrorDialog("Error occurred while adding a new recommendation",

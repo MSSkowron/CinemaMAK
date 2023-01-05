@@ -99,9 +99,6 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
         this.roomService.getRooms().ifPresent(list -> list.forEach(room ->
                 this.roomChoiceBox.getItems().add(room.getId()+" "+room.getName())));
 
-//        this.movieService.getMovies().ifPresent(list -> list.forEach(movie ->
-//                this.movieChoiceBox.getItems().add(movie.getId()+" "+movie.getTitle())));
-
         List<String> hours = new ArrayList<>();
         for(int i = 8; i<24; i++){
             hours.add(i+":00");
@@ -140,7 +137,6 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
             this.hourSpinner.setPromptText(hourStr);
             this.priceTextField.setText(perf.getPrice().toString());
             this.datePicker.setValue(perf.getDate().toLocalDate());
-//            this.movieChoiceBox.setValue(perf.getMovie().getId() + " " + perf.getMovie().getTitle());
             this.roomChoiceBox.setValue(perf.getRoom().getId() + " " + perf.getRoom().getName());
             this.supervisorChoiceBox.setValue(perf.getUser().getId() + " " + perf.getUser().getFirstName() + " " + perf.getUser().getLastName());
             this.textFieldMovie.setText(perf.getMovie().getTitle());
@@ -156,7 +152,6 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
         }
         String title = this.selectedMovie.get().getTitle();
         Long movieId = this.selectedMovie.get().getId();
-//        String title = this.movieChoiceBox.getValue();
         String name_room = this.roomChoiceBox.getValue();
         String supervisor = this.supervisorChoiceBox.getValue();
         Double price = null;

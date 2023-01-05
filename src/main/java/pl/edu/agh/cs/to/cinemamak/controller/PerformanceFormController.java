@@ -82,9 +82,6 @@ public class PerformanceFormController  implements ApplicationListener<MovieSele
         this.roomService.getRooms().ifPresent(list -> list.forEach(room ->
                 this.roomChoiceBox.getItems().add(room.getId()+" "+room.getName())));
 
-//        this.movieService.getMovies().ifPresent(list -> list.forEach(movie ->
-//                this.movieChoiceBox.getItems().add(movie.getId()+" "+movie.getTitle())));
-
         List<String> hours = new ArrayList<>();
         for(int i = 8; i<24; i++){
             hours.add(i+":00");
@@ -111,7 +108,6 @@ public class PerformanceFormController  implements ApplicationListener<MovieSele
     }
 
     public void onActionAdd(){
-//        String title = this.movieChoiceBox.getValue();
         if(this.selectedMovie.isEmpty()){
             showErrorDialog("Error occurred while editing a recommendation",
                     "Movie must be chosen.");
@@ -145,7 +141,6 @@ public class PerformanceFormController  implements ApplicationListener<MovieSele
             int minute1 = Integer.parseInt(hour_str.split(":")[1]);
             LocalTime time = LocalTime.of(hour1, minute1, 0);
 
-//            Optional<Movie> movie = movieService.getMovieById(Long.parseLong(title.split("\\s")[0]));
             Optional<Movie> movie = movieService.getMovieById(movieId);
             Optional<Room> room = roomService.getRoomById(Long.parseLong(name_room.split("\\s")[0]));
             Optional<User> user = userService.getUserById(Long.parseLong(supervisor.split("\\s")[0]));

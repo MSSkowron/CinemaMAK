@@ -88,12 +88,10 @@ public class RecommendationsEditController implements ApplicationListener<MovieS
         }
         String title = this.selectedMovie.get().getTitle();
         Long movieId = this.selectedMovie.get().getId();
-//        String title = this.movieChoiceBox.getValue();
         LocalDate dateFrom = this.dateFromPicker.getValue();
         LocalDate dateTo = this.dateToPicker.getValue();
 
         if(dateTo != null && dateFrom != null && title != null){
-//            Optional<Movie> movie = movieService.getMovieById(Long.parseLong(title.split("\\s")[0]));
             Optional<Movie> movie = movieService.getMovieById(movieId);
 
             if(dateTo.isBefore(dateFrom)){

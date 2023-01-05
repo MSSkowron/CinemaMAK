@@ -6,11 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -23,17 +22,28 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
+import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
+import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 @FxmlView("performance-view.fxml")
 public class PerformanceController implements ApplicationListener<TablePerformanceChangeEvent> {
 
+    public TextField titleTextField;
+    public TextField directorTextField;
+    public TextField yearTextField;
+    public ChoiceBox<String> genreChoiceBox;
+    public Button searchButton;
+    public Button resetButton;
     @FXML
     private TableView<Performance> table;
     @FXML
@@ -56,13 +66,15 @@ public class PerformanceController implements ApplicationListener<TablePerforman
 
     private final SessionService sessionService;
     private final PerformanceService performanceService;
+    private final MovieService movieService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
-    public PerformanceController(PerformanceService performanceService,SessionService sessionService, FxWeaver fxWeaver){
+    public PerformanceController(MovieService movieService,PerformanceService performanceService, SessionService sessionService, FxWeaver fxWeaver){
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
         this.performanceService = performanceService;
+        this.movieService = movieService;
     }
 
     public void setStage(Stage stage) {
@@ -120,8 +132,8 @@ public class PerformanceController implements ApplicationListener<TablePerforman
                 }
             }
         });
-
-        setPerformances();
+        movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
+        setPerformances(p -> true);
 
     }
 
@@ -148,8 +160,8 @@ public class PerformanceController implements ApplicationListener<TablePerforman
         return performanceObservableList;
     }
 
-    public void setPerformances(){
-        FilteredList<Performance> filteredList = new FilteredList<>(getPerformances(), p -> true);
+    public void setPerformances(Predicate<Performance> performancePredicate){
+        FilteredList<Performance> filteredList = new FilteredList<>(getPerformances(), performancePredicate);
         SortedList<Performance> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(this.table.comparatorProperty());
 
@@ -176,7 +188,76 @@ public class PerformanceController implements ApplicationListener<TablePerforman
 
     @Override
     public void onApplicationEvent(TablePerformanceChangeEvent event) {
-        setPerformances();
+        setPerformances(p -> true);
         this.table.refresh();
     }
+
+    public void onActionSearch(ActionEvent actionEvent) {
+
+        String title = titleTextField.getText();
+        String director = directorTextField.getText();
+        String year = yearTextField.getText();
+        String genre = genreChoiceBox.getValue();
+
+        setPerformances(new Predicate<Performance>() {
+            @Override
+            public boolean test(Performance performance) {
+                Movie movie = performance.getMovie();
+                if(!title.equals("")){
+
+                    Pattern pattern = Pattern.compile(title, Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(movie.getTitle());
+                    if(!matcher.find()){
+                        return false;
+                    }
+                }
+                if(!director.equals("")){
+
+                    Pattern pattern = Pattern.compile(director, Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(movie.getDirector());
+                    if(!matcher.find()){
+                        return false;
+                    }
+                }
+                if(!year.equals("")) {
+
+                    try {
+                        if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
+                            return false;
+                        }
+                    } catch(NumberFormatException exception){
+                        showErrorDialog("Error occurred while filtering list of movies.",
+                                "Year is not valid! Enter a number or left it empty.");
+                    }
+                }
+                if(genre != null && !genre.equals("")){
+
+                    if(!movie.getGenre().getGenreName().equals(genre)){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+
+    }
+
+    public void showErrorDialog(String header, String info){
+        Alert dialog = new Alert(Alert.AlertType.ERROR);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(stage);
+        dialog.setTitle("Error");
+        dialog.setHeaderText(header);
+        dialog.setContentText(info);
+        dialog.show();
+    }
+
+    public void OnActionReset(ActionEvent actionEvent) {
+        setPerformances(p -> true);
+        this.genreChoiceBox.setValue("");
+        this.directorTextField.setText("");
+        this.titleTextField.setText("");
+        this.yearTextField.setText("");
+    }
+
 }

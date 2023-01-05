@@ -2,37 +2,80 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceController">
    <children>
-      <Label alignment="CENTER" prefHeight="78.0" prefWidth="628.0" text="Performance" textAlignment="CENTER">
+      <Label alignment="CENTER" prefHeight="78.0" prefWidth="730.0" text="Performance" textAlignment="CENTER">
          <font>
             <Font name="Cambria" size="34.0" />
          </font>
       </Label>
-      <TableView fx:id="table" onMousePressed="#onMousePressed" prefHeight="333.0" prefWidth="560.0">
-        <columns>
-          <TableColumn fx:id="columnTitle" prefWidth="112.0" text="Title" />
-          <TableColumn fx:id="columnDate" prefWidth="112.0" text="Date" />
-            <TableColumn fx:id="columnRoom" prefWidth="112.0" text="Room" />
-            <TableColumn fx:id="columnSupervisor" prefWidth="112.0" text="Supervisor" />
-            <TableColumn fx:id="columnPrice" prefWidth="112.0" text="Price" />
-        </columns>
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
-      </TableView>
+      <VBox prefHeight="341.0" prefWidth="605.0">
+         <children>
+            <HBox prefHeight="27.0" prefWidth="683.0">
+               <children>
+                  <TextField fx:id="titleTextField" promptText="Title">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <TextField fx:id="directorTextField" promptText="Director">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <TextField fx:id="yearTextField" promptText="Year">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <ChoiceBox fx:id="genreChoiceBox" prefWidth="150.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </ChoiceBox>
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onActionSearch" text="Search">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </HBox>
+            <TableView fx:id="table" onMousePressed="#onMousePressed" prefHeight="333.0" prefWidth="560.0">
+              <columns>
+                <TableColumn fx:id="columnTitle" prefWidth="112.0" text="Title" />
+                <TableColumn fx:id="columnDate" prefWidth="112.0" text="Date" />
+                  <TableColumn fx:id="columnRoom" prefWidth="112.0" text="Room" />
+                  <TableColumn fx:id="columnSupervisor" prefWidth="112.0" text="Supervisor" />
+                  <TableColumn fx:id="columnPrice" prefWidth="112.0" text="Price" />
+              </columns>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
       <HBox prefHeight="67.0" prefWidth="605.0">
          <children>
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#setAddButton" prefWidth="100.0" text="Add">
                <HBox.margin>
-                  <Insets bottom="15.0" left="150.0" top="15.0" />
+                  <Insets bottom="15.0" left="120.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#OnActionReset" prefWidth="100.0" text="Reset">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="100.0" top="15.0" />
                </HBox.margin>
             </Button>
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#setDeleteButton" prefWidth="100.0" text="Delete">

@@ -199,7 +199,7 @@ public class MovieSearchController {
                                 "Year is not valid! Enter a number or left it empty.");
                     }
                 }
-                if(!genre.equals("")){
+                if(genre != null && !genre.equals("")){
 
                     if(!movie.getGenre().getGenreName().equals(genre)){
                         return false;
