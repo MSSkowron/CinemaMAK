@@ -62,6 +62,11 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
 //    }
 
     public void onActionAdd(){
+        if(this.selectedMovie.isEmpty()){
+            showErrorDialog("Error occurred while editing a recommendation",
+                    "Movie must be chosen.");
+            return;
+        }
 //        String title = this.movieChoiceBox.getValue();
         String title = this.selectedMovie.get().getTitle();
         Long movieId = this.selectedMovie.get().getId();
