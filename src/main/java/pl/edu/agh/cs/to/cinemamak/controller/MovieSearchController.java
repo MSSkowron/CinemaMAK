@@ -70,26 +70,20 @@ public class MovieSearchController extends ExtractedTableController<Movie> {
         super.initialize();
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         directorColumn.setCellValueFactory(new PropertyValueFactory<>("director"));
-        genreColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Movie, String> param) {
-                if(param.getValue().getGenre() != null){
-                    return new SimpleStringProperty(param.getValue().getGenre().getGenreName());
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        genreColumn.setCellValueFactory(param -> {
+            if(param.getValue().getGenre() != null){
+                return new SimpleStringProperty(param.getValue().getGenre().getGenreName());
+            }
+            else{
+                return new SimpleStringProperty("null");
             }
         });
-        dateColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Movie, String> param) {
-                if(param.getValue().getDate() != null){
-                    return new SimpleStringProperty(String.valueOf(param.getValue().getDate().toLocalDate().getYear()));
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        dateColumn.setCellValueFactory(param -> {
+            if(param.getValue().getDate() != null){
+                return new SimpleStringProperty(String.valueOf(param.getValue().getDate().toLocalDate().getYear()));
+            }
+            else{
+                return new SimpleStringProperty("null");
             }
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
@@ -112,6 +106,13 @@ public class MovieSearchController extends ExtractedTableController<Movie> {
             return;
         }
 
+        this.applyMovie(mv);
+
+        applicationEventPublisher.publishEvent(new MovieSelectedEvent(this));
+        this.stage.close();
+    }
+
+    private void applyMovie(Movie mv){
         if(selectedMovie.isEmpty()) return;
         Movie selectedMovie = this.selectedMovie.get();
         selectedMovie.setGenre(mv.getGenre());
@@ -122,8 +123,6 @@ public class MovieSearchController extends ExtractedTableController<Movie> {
         selectedMovie.setDate(mv.getDate());
         selectedMovie.setImageURL(mv.getImageURL());
         selectedMovie.setId(mv.getId());
-        applicationEventPublisher.publishEvent(new MovieSelectedEvent(this));
-        this.stage.close();
     }
 
     public void OnActionReset(ActionEvent actionEvent) {

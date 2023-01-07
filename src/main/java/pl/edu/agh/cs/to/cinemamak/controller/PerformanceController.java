@@ -78,51 +78,39 @@ public class PerformanceController extends ExtractedTableController<Performance>
 
         this.columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        this.columnDate.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
-                if(param.getValue().getDate() != null) {
-                    return new SimpleStringProperty(param.getValue().getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        this.columnDate.setCellValueFactory(param -> {
+            if(param.getValue().getDate() != null) {
+                return new SimpleStringProperty(param.getValue().getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+            }
+            else{
+                return new SimpleStringProperty("null");
             }
         });
 
-        this.columnTitle.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
-                if(param.getValue().getMovie() != null) {
-                    return new SimpleStringProperty(param.getValue().getMovie().getTitle());
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        this.columnTitle.setCellValueFactory(param -> {
+            if(param.getValue().getMovie() != null) {
+                return new SimpleStringProperty(param.getValue().getMovie().getTitle());
+            }
+            else{
+                return new SimpleStringProperty("null");
             }
         });
 
-        this.columnRoom.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
-                if(param.getValue().getRoom() != null){
-                    return new SimpleStringProperty(param.getValue().getRoom().getName());
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        this.columnRoom.setCellValueFactory(param -> {
+            if(param.getValue().getRoom() != null){
+                return new SimpleStringProperty(param.getValue().getRoom().getName());
+            }
+            else{
+                return new SimpleStringProperty("null");
             }
         });
 
-        this.columnSupervisor.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
-                if(param.getValue().getUser() != null){
-                    return new SimpleStringProperty(param.getValue().getUser().getFirstName() + " " + param.getValue().getUser().getLastName());
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        this.columnSupervisor.setCellValueFactory(param -> {
+            if(param.getValue().getUser() != null){
+                return new SimpleStringProperty(param.getValue().getUser().getFirstName() + " " + param.getValue().getUser().getLastName());
+            }
+            else{
+                return new SimpleStringProperty("null");
             }
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));

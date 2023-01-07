@@ -63,10 +63,6 @@ public class ExtractedTableController<EntityType extends ITableEntityWithMovie> 
         this.entityService.deleteEntityById(entity.getId());
     }
 
-    protected void searchAccordinglyToMovies(){
-        setEntities(getMoviePredicate());
-    }
-
     protected void resetTable(){
         setEntities(e -> true);
         this.table.refresh();
