@@ -42,9 +42,9 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </ChoiceBox>
-                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onActionSearch" text="Search">
+                  <Button fx:id="resetButton" mnemonicParsing="false" onAction="#OnActionReset" text="Reset">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="5.0" left="10.0" top="5.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -68,13 +68,8 @@
         <children>
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#setAddButton" prefWidth="100.0" text="Add">
                 <HBox.margin>
-                    <Insets bottom="15.0" left="120.0" top="15.0" />
+                    <Insets bottom="15.0" left="210.0" top="15.0" />
                 </HBox.margin>
-            </Button>
-            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#OnActionReset" prefWidth="100.0" text="Reset">
-               <HBox.margin>
-                  <Insets bottom="15.0" left="100.0" top="15.0" />
-               </HBox.margin>
             </Button>
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#setDeleteButton" prefWidth="100.0" text="Delete">
                 <HBox.margin>

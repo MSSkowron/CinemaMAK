@@ -41,7 +41,6 @@ import java.util.regex.Pattern;
 @FxmlView("performance-view.fxml")
 public class PerformanceController extends ExtractedTableController<Performance>  implements ApplicationListener<TablePerformanceChangeEvent> {
 
-    public Button searchButton;
     public Button resetButton;
     @FXML
     private TableColumn<Performance, String> columnTitle;
@@ -173,9 +172,6 @@ public class PerformanceController extends ExtractedTableController<Performance>
         cleanFields();
     }
 
-    public void onActionSearch(ActionEvent actionEvent) {
-        searchAccordinglyToMovies();
-    }
 
     public void OnActionReset(ActionEvent actionEvent) {
         resetTable();

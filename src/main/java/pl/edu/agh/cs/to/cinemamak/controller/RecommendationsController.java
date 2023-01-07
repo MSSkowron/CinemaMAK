@@ -41,7 +41,6 @@ import java.util.regex.Pattern;
 @FxmlView("recommendations-view.fxml")
 public class RecommendationsController extends ExtractedTableController<Recommendation> implements ApplicationListener<TableRecommendationsChangeEvent> {
 
-    public Button searchButton;
     public Button resetButton;
     @FXML
     private TableColumn<Recommendation, String> columnTitle;
@@ -142,10 +141,6 @@ public class RecommendationsController extends ExtractedTableController<Recommen
     public void onApplicationEvent(TableRecommendationsChangeEvent event) {
         resetTable();
         cleanFields();
-    }
-
-    public void onActionSearch(ActionEvent actionEvent) {
-        searchAccordinglyToMovies();
     }
 
     public void OnActionReset(ActionEvent actionEvent) {

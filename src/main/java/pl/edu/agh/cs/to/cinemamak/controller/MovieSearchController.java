@@ -36,8 +36,6 @@ import java.util.regex.Pattern;
 @FxmlView("movie-search-view.fxml")
 public class MovieSearchController extends ExtractedTableController<Movie> {
     @FXML
-    public Button searchButton;
-    @FXML
     public TableColumn<Movie, String> titleColumn;
     @FXML
     public TableColumn<Movie, String> directorColumn;
@@ -135,10 +133,6 @@ public class MovieSearchController extends ExtractedTableController<Movie> {
 
     public void OnActionCancel(ActionEvent actionEvent) {
         this.stage.close();
-    }
-
-    public void onActionSearch(ActionEvent actionEvent) {
-        searchAccordinglyToMovies();
     }
 
 }
