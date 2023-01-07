@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.event.MovieSelectedEvent;
 import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
@@ -32,6 +33,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.UnaryOperator;
 
 @Component
 @FxmlView("performance-edit-view.fxml")
@@ -61,6 +63,7 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
     private final UserService userService;
     private final PerformanceService performanceService;
     private final FxWeaver fxWeaver;
+    private final DialogManager dialogManager;
     private Stage stage;
 
     private Optional<Performance> performance = Optional.empty();
@@ -70,12 +73,14 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
                                      RoomService roomService,
                                      UserService userService,
                                      PerformanceService performanceService,
-                                     FxWeaver fxWeaver){
+                                     FxWeaver fxWeaver,
+                                     DialogManager dialogManager){
         this.userService = userService;
         this.roomService = roomService;
         this.movieService = movieService;
         this.performanceService = performanceService;
         this.fxWeaver = fxWeaver;
+        this.dialogManager = dialogManager;
     }
 
     public PerformanceEditController setStage(Stage stage) {
@@ -120,6 +125,16 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
             }
         };
 
+        UnaryOperator<TextFormatter.Change> priceFilter = change -> {
+            String input = change.getText();
+            if (input.matches("[0-9]*[.]?[0-9]*")) {
+                return change;
+            }
+            return null;
+        };
+
+        this.priceTextField.setTextFormatter(new TextFormatter<String>(priceFilter));
+
         this.hourSpinner.setValueFactory(valueFactory);
     }
 
@@ -146,7 +161,7 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
 
     public void onActionApply(){
         if(this.selectedMovie.isEmpty()){
-            showErrorDialog("Error occurred while editing a recommendation",
+            this.dialogManager.showError(stage,"Error occurred while editing a recommendation",
                     "Movie must be chosen.");
             return;
         }
@@ -160,11 +175,11 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
             price = Double.parseDouble(
                     this.priceTextField.getCharacters().toString());
         } catch (NullPointerException nullPointerException){
-            showErrorDialog("Error occurred while editing performance",
+            this.dialogManager.showError(stage,"Error occurred while editing performance",
                     "All fields need to be filled!");
             return;
         } catch(NumberFormatException numberFormatException){
-            showErrorDialog("Error occurred while editing performance",
+            this.dialogManager.showError(stage,"Error occurred while editing performance",
                     "Price need to be in format: integer.integer or integer.");
             return;
         }
@@ -192,38 +207,21 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
 
                 this.performanceService.addPerformance(this.performance.get());
 
-                Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-                dialog.initModality(Modality.APPLICATION_MODAL);
-                dialog.initOwner(stage);
-                dialog.setTitle("Information");
-                dialog.setHeaderText("Performance edited successfully");
-                dialog.show();
-                dialog.setOnCloseRequest(event -> {
+                this.dialogManager.showInformation(stage, "Performance edited successfully", "",event -> {
                     applicationEventPublisher.publishEvent(new TablePerformanceChangeEvent(this));
                     stage.close();
                 });
-
             }
             else{
-                showErrorDialog("Error occurred while editing performance",
+                this.dialogManager.showError(stage,"Error occurred while editing performance",
                         "All fields need to be filled!");
             }
         }
         else{
-            showErrorDialog("Error occurred while editing performance",
+            this.dialogManager.showError(stage,"Error occurred while editing performance",
                     "All fields need to be filled! (look at hour field)");
         }
 
-    }
-
-    public void showErrorDialog(String header, String info){
-        Alert dialog = new Alert(Alert.AlertType.ERROR);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Error");
-        dialog.setHeaderText(header);
-        dialog.setContentText(info);
-        dialog.show();
     }
 
     public void onActionCancel(){
