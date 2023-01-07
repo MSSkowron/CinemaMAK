@@ -86,16 +86,11 @@ public class MovieFormController {
             LocalDateTime dateTime = LocalDateTime.of(date, LocalTime.of(0,0));
             movieService.addMovie(new Movie(title, director, description, Integer.parseInt(durationStr), movieService.getGenreByName(genreName).get(), dateTime, imageURL));
 
-            Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Information");
-            dialog.setHeaderText("New movie added successfully");
-            dialog.show();
-            dialog.setOnCloseRequest(event -> {
+            this.dialogManager.showInformation(stage, "New movie added successfully", "", event -> {
                 applicationEventPublisher.publishEvent(new TableMovieChangeEvent(this));
                 stage.close();
             });
+
         }
     }
 
