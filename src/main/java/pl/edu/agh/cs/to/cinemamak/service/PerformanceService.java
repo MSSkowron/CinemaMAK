@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.repository.PerformanceRepository;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,10 @@ public class PerformanceService {
 
     public Optional<List<Performance>> getPerformancesByMovieId(long id){
         return Optional.of(this.performanceRepository.findAll().stream().filter(performance -> performance.getMovie().getId() == id).toList());
+    }
+
+    public Collection<Performance> getPerformancesAfterToday() {
+        return performanceRepository.getPerformancesByDateAfter(LocalDateTime.now());
     }
 
     public void deletePerformanceById(long id){
