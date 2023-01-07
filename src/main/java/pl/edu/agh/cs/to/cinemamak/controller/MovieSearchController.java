@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.event.MovieSelectedEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
+import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 
 import java.util.Optional;
@@ -33,19 +34,9 @@ import java.util.regex.Pattern;
 
 @Component
 @FxmlView("movie-search-view.fxml")
-public class MovieSearchController {
-    @FXML
-    public TextField titleTextField;
-    @FXML
-    public TextField directorTextField;
-    @FXML
-    public TextField yearTextField;
-    @FXML
-    public ChoiceBox<String> genreChoiceBox;
+public class MovieSearchController extends ExtractedTableController<Movie> {
     @FXML
     public Button searchButton;
-    @FXML
-    public TableView<Movie> table;
     @FXML
     public TableColumn<Movie, String> titleColumn;
     @FXML
@@ -63,25 +54,22 @@ public class MovieSearchController {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-
     private final MovieService movieService;
     private final FxWeaver fxWeaver;
     private final DialogManager dialogManager;
-    private Stage stage;
     private Optional<Movie> selectedMovie = Optional.empty();
 
     public MovieSearchController(MovieService movieService, FxWeaver fxWeaver, DialogManager dialogManager){
         this.movieService = movieService;
         this.fxWeaver = fxWeaver;
         this.dialogManager = dialogManager;
+        this.setService(movieService);
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
     public void setSelectedMovie(Movie mv){ this.selectedMovie = Optional.of(mv); }
 
     public void initialize(){
+        super.initialize();
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         directorColumn.setCellValueFactory(new PropertyValueFactory<>("director"));
         genreColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie, String>, ObservableValue<String>>() {
@@ -108,32 +96,7 @@ public class MovieSearchController {
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
 
-        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
-            String input = change.getText();
-            if (input.matches("[0-9]*")) {
-                return change;
-            }
-            return null;
-        };
-
-        this.yearTextField.setTextFormatter(new TextFormatter<String>(integerFilter));
-
-        setMovies(m -> true);
-    }
-
-    private ObservableList<Movie> getMovies() {
-        ObservableList<Movie> movies = FXCollections.observableArrayList();
-
-        movieService.getMovies().ifPresent(movies::addAll);
-
-        return movies;
-    }
-
-    private void setMovies(Predicate<Movie> moviePredicate) {
-        FilteredList<Movie> filteredList = new FilteredList<>(getMovies(), moviePredicate);
-        SortedList<Movie> sortedList = new SortedList<>(filteredList);
-        sortedList.comparatorProperty().bind(table.comparatorProperty());
-        table.setItems(sortedList);
+        setEntities(m -> true);
     }
 
     public void onMousePressed(MouseEvent event) {
@@ -166,11 +129,8 @@ public class MovieSearchController {
     }
 
     public void OnActionReset(ActionEvent actionEvent) {
-        setMovies(m -> true);
-        this.genreChoiceBox.setValue("");
-        this.directorTextField.setText("");
-        this.titleTextField.setText("");
-        this.yearTextField.setText("");
+        resetTable();
+        cleanFields();
     }
 
     public void OnActionCancel(ActionEvent actionEvent) {
@@ -178,47 +138,7 @@ public class MovieSearchController {
     }
 
     public void onActionSearch(ActionEvent actionEvent) {
-
-        String title = titleTextField.getText();
-        String director = directorTextField.getText();
-        String year = yearTextField.getText();
-        String genre = genreChoiceBox.getValue();
-
-        setMovies(new Predicate<Movie>() {
-            @Override
-            public boolean test(Movie movie) {
-                if(!title.equals("")){
-
-                    Pattern pattern = Pattern.compile(title, Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = pattern.matcher(movie.getTitle());
-                    if(!matcher.find()){
-                        return false;
-                    }
-                }
-                if(!director.equals("")){
-
-                    Pattern pattern = Pattern.compile(director, Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = pattern.matcher(movie.getDirector());
-                    if(!matcher.find()){
-                        return false;
-                    }
-                }
-                if(!year.equals("")) {
-
-                    if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
-                        return false;
-                    }
-                }
-                if(genre != null && !genre.equals("")){
-
-                    if(!movie.getGenre().getGenreName().equals(genre)){
-                        return false;
-                    }
-                }
-                return true;
-            }
-        });
-
+        searchAccordinglyToMovies();
     }
 
 }

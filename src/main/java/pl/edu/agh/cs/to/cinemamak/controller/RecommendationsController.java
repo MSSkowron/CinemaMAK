@@ -50,6 +50,8 @@ public class RecommendationsController extends ExtractedTableController<Recommen
     @FXML
     private TableColumn<Recommendation, String> columnDateEnd;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
     @FXML
     public Button addButton;
     @FXML
@@ -133,6 +135,7 @@ public class RecommendationsController extends ExtractedTableController<Recommen
 
     public void setDeleteButton(){
         deleteEntity();
+        applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));
     }
 
     @Override

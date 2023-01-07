@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="movies")
-public class Movie {
+public class Movie implements ITableEntityWithMovie{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
@@ -55,6 +55,14 @@ public class Movie {
     public void setId(long id) {
         this.id = id;
     }
+
+    @Override
+    public Movie getMovie() {
+        return this;
+    }
+
+    @Override
+    public void setMovie(Movie movie) {}
 
     public String getTitle() {
         return title;

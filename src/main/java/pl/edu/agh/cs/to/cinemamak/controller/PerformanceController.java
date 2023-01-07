@@ -22,6 +22,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
+import pl.edu.agh.cs.to.cinemamak.event.TableRecommendationsChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
@@ -58,6 +59,8 @@ public class PerformanceController extends ExtractedTableController<Performance>
     public Button deleteButton;
 
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
     private final SessionService sessionService;
     private final MovieService movieService;
     private final FxWeaver fxWeaver;
@@ -161,6 +164,7 @@ public class PerformanceController extends ExtractedTableController<Performance>
 
     public void setDeleteButton(){
         deleteEntity();
+        applicationEventPublisher.publishEvent(new TablePerformanceChangeEvent(this));
     }
 
     @Override

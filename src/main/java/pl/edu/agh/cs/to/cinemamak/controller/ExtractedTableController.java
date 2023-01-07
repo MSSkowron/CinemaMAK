@@ -25,8 +25,6 @@ public class ExtractedTableController<EntityType extends ITableEntityWithMovie> 
     @FXML
     protected TableView<EntityType> table;
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
     protected ITableEntityService<EntityType> entityService;
 
     protected Stage stage;
@@ -61,7 +59,6 @@ public class ExtractedTableController<EntityType extends ITableEntityWithMovie> 
     protected void deleteEntity(){
         EntityType entity = this.table.getSelectionModel().getSelectedItem();
         this.entityService.deleteEntityById(entity.getId());
-        applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));
     }
 
     protected void searchAccordinglyToMovies(){
