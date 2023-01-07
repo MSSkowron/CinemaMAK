@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.event.MovieSelectedEvent;
 import pl.edu.agh.cs.to.cinemamak.event.TableRecommendationsChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
@@ -41,15 +42,18 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
     private final MovieService movieService;
     private final RecommendationService recommendationService;
     private final FxWeaver fxWeaver;
+    private final DialogManager dialogManager;
     private Stage stage;
     private Optional<Recommendation> recommendation = Optional.empty();
     private Optional<Movie> selectedMovie = Optional.empty();
     public RecommendationsFormController(MovieService movieService,
                                      RecommendationService recommendationService,
-                                         FxWeaver fxWeaver){
+                                         FxWeaver fxWeaver,
+                                         DialogManager dialogManager){
         this.movieService = movieService;
         this.recommendationService = recommendationService;
         this.fxWeaver = fxWeaver;
+        this.dialogManager = dialogManager;
     }
 
     public void setStage(Stage stage) {
@@ -58,7 +62,7 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
 
     public void onActionAdd(){
         if(this.selectedMovie.isEmpty()){
-            showErrorDialog("Error occurred while editing a recommendation",
+            this.dialogManager.showError(stage,"Error occurred while editing a recommendation",
                     "Movie must be chosen.");
             return;
         }
@@ -70,7 +74,7 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
         if(dateTo != null && dateFrom != null && title != null){
             Optional<Movie> movie = movieService.getMovieById(movieId);
             if(dateTo.isBefore(dateFrom)){
-                showErrorDialog("Error occurred while adding a new recommendation",
+                this.dialogManager.showError(stage,"Error occurred while adding a new recommendation",
                         "Begin date must be before end date.");
                 return;
             }
@@ -82,37 +86,22 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
 
             if(movie.isPresent()){
                 this.recommendationService.addRecommendation(new Recommendation(movie.get(), localDateTimeFrom, localDateTimeTo));
-                Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-                dialog.initModality(Modality.APPLICATION_MODAL);
-                dialog.initOwner(stage);
-                dialog.setTitle("Information");
-                dialog.setHeaderText("New recommendation added successfully");
-                dialog.show();
-                dialog.setOnCloseRequest(event -> {
+
+                this.dialogManager.showInformation(stage, "New recommendation added successfully", "",event -> {
                     applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));
                     stage.close();
                 });
             }
             else{
-                showErrorDialog("Error occurred while adding a new recommendation",
+                this.dialogManager.showError(stage,"Error occurred while adding a new recommendation",
                         "All fields need to be filled!");
             }
         }
         else{
-            showErrorDialog("Error occurred while adding a new recommendation",
+            this.dialogManager.showError(stage,"Error occurred while adding a new recommendation",
                     "All fields need to be filled!");
         }
 
-    }
-
-    public void showErrorDialog(String header, String info){
-        Alert dialog = new Alert(Alert.AlertType.ERROR);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Error");
-        dialog.setHeaderText(header);
-        dialog.setContentText(info);
-        dialog.show();
     }
 
     public void onActionCancel(ActionEvent actionEvent) {
