@@ -1,35 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="bp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.HomeController">
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseDragged="#onBorderPaneDragged" onMousePressed="#onBorderPanePressed" prefHeight="540.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.HomeController">
    <left>
-      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0D1B24;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" prefWidth="120.0" style="-fx-background-color: #6a5acd;" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="helloLabel" alignment="CENTER" prefHeight="43.0" prefWidth="101.0" style="-fx-background-color: transparent;" text="Label" textFill="RED" underline="true" wrapText="true">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#home" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 2px 0px 2px 0px;" text="Home" textAlignment="CENTER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                <font>
-                  <Font name="Consolas" size="15.0" />
-               </font></Label>
-            <Button mnemonicParsing="false" onMouseClicked="#logOut" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 2px 0px 2px 0px;" text="Log Out" textFill="WHITE" />
-            <Button mnemonicParsing="false" onMouseClicked="#home" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Home" textFill="WHITE" />
-            <Button fx:id="adminViewButton" layoutX="10.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#adminView" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Admin Panel" textFill="WHITE" />
-            <Button fx:id="performanceButton" mnemonicParsing="false" onMouseClicked="#performanceView" prefHeight="50.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Performance Panel" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
-            <Button fx:id="movieViewButton" layoutX="10.0" layoutY="118.0" mnemonicParsing="false" onMouseClicked="#movieView" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Movies Panel" textFill="WHITE" />
-            <Button fx:id="ticketsViewButton" layoutX="10.0" layoutY="118.0" mnemonicParsing="false" onMouseClicked="#ticketsView" prefHeight="40.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Tickets" textFill="WHITE" />
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="performanceButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#performanceView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Performances" textAlignment="CENTER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="movieViewButton" layoutX="10.0" layoutY="118.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#movieView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Movies" textAlignment="CENTER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="ticketsViewButton" layoutX="10.0" layoutY="118.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#ticketsView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Tickets" textAlignment="CENTER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="adminViewButton" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="53.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#adminView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Admin Panel" textAlignment="CENTER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </VBox>
    </left>
    <center>
       <AnchorPane fx:id="ap" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <Text fill="WHITE" layoutX="239.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HOME" />
-         </children>
-      </AnchorPane>
+            <Label layoutX="344.0" layoutY="185.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="78.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 0px 2px 0px 0px;" text="Sign Out" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
    </center>
+   <top>
+      <GridPane style="-fx-background-color: #6a5acd;" BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" maxWidth="395.0" minWidth="10.0" prefWidth="121.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="681.9999923706055" minWidth="10.0" prefWidth="556.0000305175781" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="681.9999923706055" minWidth="10.0" prefWidth="123.99996948242188" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#logOut" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../icons/logout.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <Label style="-fx-text-fill: white;" text="Sign Out" textFill="WHITE">
+                     <font>
+                        <Font name="Consolas Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="221.0" spacing="10.0" style="-fx-border-color: white; -fx-border-width: 0px 0px 0px 2px;" GridPane.columnIndex="1">
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../icons/user.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="helloLabel" style="-fx-text-fill: white;" text="Label" textFill="WHITE">
+                     <font>
+                        <Font name="Consolas Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="2">
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onButtonMinimize" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../icons/minimize%20(1).png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onButtonMaximize" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../icons/maximize%20(1).png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" onMouseClicked="#onButtonExit" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../icons/close%20(1).png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </HBox>
+         </children>
+      </GridPane>
+   </top>
 </BorderPane>
