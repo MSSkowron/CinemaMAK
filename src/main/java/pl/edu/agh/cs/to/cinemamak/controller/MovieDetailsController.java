@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import javafx.beans.property.ObjectProperty;
@@ -46,11 +47,13 @@ public class MovieDetailsController {
     private Stage stage;
     private final MovieService movieService;
     private final PerformanceService performanceService;
+    private final DialogManager dialogManager;
     private final ObjectProperty<Optional<Movie>> movie = new SimpleObjectProperty<>(Optional.empty());
 
-    public MovieDetailsController(PerformanceService performanceService, MovieService movieService) {
+    public MovieDetailsController(DialogManager dialogManager, PerformanceService performanceService, MovieService movieService) {
         this.movieService = movieService;
         this.performanceService = performanceService;
+        this.dialogManager = dialogManager;
     }
 
     public void initialize() {
@@ -142,6 +145,7 @@ public class MovieDetailsController {
         Optional<List<Performance>> listPerf = performanceService.
                 getPerformancesByMovieId(movie.get().getId());
         if(listPerf.isPresent() && !listPerf.get().isEmpty()){
+
             Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(stage);
@@ -166,15 +170,10 @@ public class MovieDetailsController {
 
         movieService.deleteMovie(movie.get());
 
-        Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Deletion success");
-        dialog.setHeaderText("Movie deleted successfully!");
-        dialog.show();
-        dialog.setOnCloseRequest(e -> {
+        this.dialogManager.setDialogInformation(stage, "Movie deleted successfully!", e -> {
             applicationEventPublisher.publishEvent(new TableMovieChangeEvent(this));
             stage.close();
         });
+
     }
 }

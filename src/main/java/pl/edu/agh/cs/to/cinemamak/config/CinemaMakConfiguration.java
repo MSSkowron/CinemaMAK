@@ -18,4 +18,8 @@ public class CinemaMakConfiguration {
     public RoleUIHelper roleUIHelper(SessionService sessionService) {
         return new RoleUIHelper(sessionService);
     }
+
+    @Bean
+    public DialogManager dialogManger(){ return new DialogManager(); }
+
 }
