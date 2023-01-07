@@ -6,15 +6,16 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="recommendations")
-public class Recommendation {
+public class Recommendation implements ITableEntityWithMovie {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
-    private long id;
+    protected long id;
 
     @OneToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    private Movie movie;
+    protected Movie movie;
 
     @Column(name="date_from", nullable = false)
     private LocalDateTime dateFrom;
@@ -23,13 +24,12 @@ public class Recommendation {
     private LocalDateTime dateTo;
 
     public Recommendation(){
-
     }
 
     public Recommendation(Movie movie, LocalDateTime dateFrom, LocalDateTime dateTo) {
-        this.movie = movie;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
+        this.movie = movie;
     }
 
     public long getId() {

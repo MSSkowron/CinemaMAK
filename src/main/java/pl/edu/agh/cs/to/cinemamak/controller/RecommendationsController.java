@@ -41,11 +41,6 @@ import java.util.regex.Pattern;
 @FxmlView("recommendations-view.fxml")
 public class RecommendationsController extends ExtractedTableController <Recommendation> implements ApplicationListener<TableRecommendationsChangeEvent> {
 
-
-    public TextField titleTextField;
-    public TextField directorTextField;
-    public TextField yearTextField;
-    public ChoiceBox<String> genreChoiceBox;
     public Button searchButton;
     public Button resetButton;
     @FXML
@@ -60,11 +55,7 @@ public class RecommendationsController extends ExtractedTableController <Recomme
     @FXML
     public Button deleteButton;
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
-
     private final SessionService sessionService;
-    private final RecommendationService recommendationService;
     private final MovieService movieService;
     private final FxWeaver fxWeaver;
 
@@ -73,7 +64,6 @@ public class RecommendationsController extends ExtractedTableController <Recomme
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
         this.movieService = movieService;
-        this.recommendationService = recommendationService;
     }
 
 
@@ -106,16 +96,6 @@ public class RecommendationsController extends ExtractedTableController <Recomme
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
 
-        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
-            String input = change.getText();
-            if (input.matches("[0-9]*")) {
-                return change;
-            }
-            return null;
-        };
-
-        this.yearTextField.setTextFormatter(new TextFormatter<String>(integerFilter));
-
         setEntities(r -> true);
     }
 
@@ -136,19 +116,6 @@ public class RecommendationsController extends ExtractedTableController <Recomme
         }
     }
 
-//    public ObservableList<Recommendation> getRecommendations(){
-//        ObservableList<Recommendation> recommendationObservableList = FXCollections.observableArrayList();
-//        this.recommendationService.getRecommendations().ifPresent(recommendationObservableList::addAll);
-//        return recommendationObservableList;
-//    }
-//
-//    public void setRecommendations(Predicate<Recommendation> recommendationPredicate){
-//        FilteredList<Recommendation> filteredList = new FilteredList<>(getRecommendations(), recommendationPredicate);
-//        SortedList<Recommendation> sortedList = new SortedList<>(filteredList);
-//        sortedList.comparatorProperty().bind(this.table.comparatorProperty());
-//        this.table.setItems(sortedList);
-//    }
-
     public void setAddButton(){
         Stage form = new Stage();
         fxWeaver.loadController(RecommendationsFormController.class).setStage(form);
@@ -162,72 +129,22 @@ public class RecommendationsController extends ExtractedTableController <Recomme
     }
 
     public void setDeleteButton(){
-        Recommendation recommendation = this.table.getSelectionModel().getSelectedItem();
-        this.recommendationService.deleteEntityById(recommendation.getId());
-        applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));
+        deleteEntity();
     }
 
     @Override
     public void onApplicationEvent(TableRecommendationsChangeEvent event) {
-        setEntities(r -> true);
-        this.table.refresh();
-        this.genreChoiceBox.setValue("");
-        this.directorTextField.setText("");
-        this.titleTextField.setText("");
-        this.yearTextField.setText("");
+        resetTable();
+        cleanFields();
     }
 
     public void onActionSearch(ActionEvent actionEvent) {
-
-        String title = titleTextField.getText();
-        String director = directorTextField.getText();
-        String year = yearTextField.getText();
-        String genre = genreChoiceBox.getValue();
-
-        setEntities(new Predicate<Recommendation>() {
-            @Override
-            public boolean test(Recommendation recommendation) {
-                Movie movie = recommendation.getMovie();
-                if(!title.equals("")){
-
-                    Pattern pattern = Pattern.compile(title, Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = pattern.matcher(movie.getTitle());
-                    if(!matcher.find()){
-                        return false;
-                    }
-                }
-                if(!director.equals("")){
-
-                    Pattern pattern = Pattern.compile(director, Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = pattern.matcher(movie.getDirector());
-                    if(!matcher.find()){
-                        return false;
-                    }
-                }
-                if(!year.equals("")) {
-
-                    if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
-                        return false;
-                    }
-                }
-                if(genre != null && !genre.equals("")){
-
-                    if(!movie.getGenre().getGenreName().equals(genre)){
-                        return false;
-                    }
-                }
-                return true;
-            }
-        });
-
+        searchAccordinglyToMovies();
     }
 
     public void OnActionReset(ActionEvent actionEvent) {
-        setEntities(m -> true);
-        this.genreChoiceBox.setValue("");
-        this.directorTextField.setText("");
-        this.titleTextField.setText("");
-        this.yearTextField.setText("");
+        resetTable();
+        cleanFields();
     }
 
 

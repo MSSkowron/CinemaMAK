@@ -1,17 +1,14 @@
 package pl.edu.agh.cs.to.cinemamak.service;
 
 import org.springframework.stereotype.Service;
-import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
-import pl.edu.agh.cs.to.cinemamak.repository.PerformanceRepository;
 import pl.edu.agh.cs.to.cinemamak.repository.RecommendationRepository;
 
-import javax.security.sasl.RealmChoiceCallback;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RecommendationService implements IEntityService<Recommendation>{
+public class RecommendationService implements ITableEntityService<Recommendation> {
     RecommendationRepository recommendationRepository;
 
     public RecommendationService(RecommendationRepository recommendationRepository){
