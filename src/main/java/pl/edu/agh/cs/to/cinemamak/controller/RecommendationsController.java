@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 
 @Component
 @FxmlView("recommendations-view.fxml")
-public class RecommendationsController extends ExtractedTableController <Recommendation> implements ApplicationListener<TableRecommendationsChangeEvent> {
+public class RecommendationsController extends ExtractedTableController<Recommendation> implements ApplicationListener<TableRecommendationsChangeEvent> {
 
     public Button searchButton;
     public Button resetButton;
@@ -60,7 +60,8 @@ public class RecommendationsController extends ExtractedTableController <Recomme
     private final FxWeaver fxWeaver;
 
     public RecommendationsController(MovieService movieService, RecommendationService recommendationService, SessionService sessionService, FxWeaver fxWeaver){
-        super(recommendationService);
+        super();
+        super.setService(recommendationService);
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
         this.movieService = movieService;
@@ -68,6 +69,8 @@ public class RecommendationsController extends ExtractedTableController <Recomme
 
 
     public void initialize(){
+        super.initialize();
+
         this.columnDateBegin.setCellValueFactory(param -> {
             if(param.getValue().getDateFrom() != null) {
                 return new SimpleStringProperty(param.getValue().getDateFrom().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));

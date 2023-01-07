@@ -4,11 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import org.springframework.stereotype.Component;
 
 import java.util.function.UnaryOperator;
 
+@Component
 public class MovieSearchBarController {
-    
+
     @FXML
     protected TextField titleTextField;
     @FXML

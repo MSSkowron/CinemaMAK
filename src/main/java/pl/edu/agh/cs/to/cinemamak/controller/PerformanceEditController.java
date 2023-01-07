@@ -205,7 +205,7 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
                 this.performance.get().setPrice(BigDecimal.valueOf(price));
                 this.performance.get().setDate(localDateTime1);
 
-                this.performanceService.addPerformance(this.performance.get());
+                this.performanceService.addEntity(this.performance.get());
 
                 this.dialogManager.showInformation(stage, "Performance edited successfully", "",event -> {
                     applicationEventPublisher.publishEvent(new TablePerformanceChangeEvent(this));

@@ -187,7 +187,7 @@ public class MovieDetailsController {
     }
 
     private Optional<List<Performance>>  lookForAssociatedPerformances(Movie movie){
-        return performanceService.getPerformancesByMovieId(movie.getId());
+        return performanceService.getEntitiesByMovieId(movie.getId());
     }
 
     private Optional<List<Recommendation>>  lookForAssociatedRecommendations(Movie movie){
@@ -196,7 +196,7 @@ public class MovieDetailsController {
 
     private void deleteAllAssociatedPerformances(List<Performance> listPerformances){
         for(Performance p: listPerformances) {
-            performanceService.deletePerformanceById(p.getId());
+            performanceService.deleteEntityById(p.getId());
         }
     }
 

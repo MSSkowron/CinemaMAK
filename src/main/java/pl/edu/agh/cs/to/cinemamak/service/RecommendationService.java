@@ -15,22 +15,6 @@ public class RecommendationService implements ITableEntityService<Recommendation
         this.recommendationRepository = recommendationRepository;
     }
 
-//    public void addRecommendation(Recommendation recommendation){
-//        this.recommendationRepository.save(recommendation);
-//    }
-//
-//    public Optional<List<Recommendation>> getRecommendations(){
-//        return Optional.of(this.recommendationRepository.findAll());
-//    }
-//
-//    public Optional<List<Recommendation>> getRecommendationsByMovieId(long id){
-//        return Optional.of(this.recommendationRepository.findAll().stream().filter(recommendation -> recommendation.getMovie().getId() == id).toList());
-//    }
-//
-//    public void deleteRecommendationById(long id){
-//        this.recommendationRepository.deleteById(id);
-//    }
-
     @Override
     public void addEntity(Recommendation entity) {
         this.recommendationRepository.save(entity);

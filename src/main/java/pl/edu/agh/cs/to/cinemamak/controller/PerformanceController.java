@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
+import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
@@ -37,16 +38,10 @@ import java.util.regex.Pattern;
 
 @Component
 @FxmlView("performance-view.fxml")
-public class PerformanceController implements ApplicationListener<TablePerformanceChangeEvent> {
+public class PerformanceController extends ExtractedTableController<Performance>  implements ApplicationListener<TablePerformanceChangeEvent> {
 
-    public TextField titleTextField;
-    public TextField directorTextField;
-    public TextField yearTextField;
-    public ChoiceBox<String> genreChoiceBox;
     public Button searchButton;
     public Button resetButton;
-    @FXML
-    private TableView<Performance> table;
     @FXML
     private TableColumn<Performance, String> columnTitle;
     @FXML
@@ -62,27 +57,22 @@ public class PerformanceController implements ApplicationListener<TablePerforman
     @FXML
     public Button deleteButton;
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
 
     private final SessionService sessionService;
-    private final PerformanceService performanceService;
     private final MovieService movieService;
     private final FxWeaver fxWeaver;
-    private Stage stage;
 
     public PerformanceController(MovieService movieService,PerformanceService performanceService, SessionService sessionService, FxWeaver fxWeaver){
+        super();
+        super.setService(performanceService);
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
-        this.performanceService = performanceService;
         this.movieService = movieService;
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     public void initialize(){
+
+        super.initialize();
 
         this.columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
@@ -135,17 +125,7 @@ public class PerformanceController implements ApplicationListener<TablePerforman
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
 
-        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
-            String input = change.getText();
-            if (input.matches("[0-9]*")) {
-                return change;
-            }
-            return null;
-        };
-
-        this.yearTextField.setTextFormatter(new TextFormatter<String>(integerFilter));
-
-        setPerformances(p -> true);
+        setEntities(p -> true);
 
     }
 
@@ -166,19 +146,6 @@ public class PerformanceController implements ApplicationListener<TablePerforman
         }
     }
 
-    public ObservableList<Performance> getPerformances(){
-        ObservableList<Performance> performanceObservableList = FXCollections.observableArrayList();
-        this.performanceService.getPerformances().ifPresent(performanceObservableList::addAll);
-        return performanceObservableList;
-    }
-
-    public void setPerformances(Predicate<Performance> performancePredicate){
-        FilteredList<Performance> filteredList = new FilteredList<>(getPerformances(), performancePredicate);
-        SortedList<Performance> sortedList = new SortedList<>(filteredList);
-        sortedList.comparatorProperty().bind(this.table.comparatorProperty());
-
-        this.table.setItems(sortedList);
-    }
 
     public void setAddButton(){
         Stage form = new Stage();
@@ -193,71 +160,22 @@ public class PerformanceController implements ApplicationListener<TablePerforman
     }
 
     public void setDeleteButton(){
-        Performance performance = this.table.getSelectionModel().getSelectedItem();
-        this.performanceService.deletePerformanceById(performance.getId());
-        applicationEventPublisher.publishEvent(new TablePerformanceChangeEvent(this));
+        deleteEntity();
     }
 
     @Override
     public void onApplicationEvent(TablePerformanceChangeEvent event) {
-        setPerformances(p -> true);
-        this.table.refresh();
-        this.genreChoiceBox.setValue("");
-        this.directorTextField.setText("");
-        this.titleTextField.setText("");
-        this.yearTextField.setText("");
+        resetTable();
+        cleanFields();
     }
 
     public void onActionSearch(ActionEvent actionEvent) {
-
-        String title = titleTextField.getText();
-        String director = directorTextField.getText();
-        String year = yearTextField.getText();
-        String genre = genreChoiceBox.getValue();
-
-        setPerformances(new Predicate<Performance>() {
-            @Override
-            public boolean test(Performance performance) {
-                Movie movie = performance.getMovie();
-                if(!title.equals("")){
-
-                    Pattern pattern = Pattern.compile(title, Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = pattern.matcher(movie.getTitle());
-                    if(!matcher.find()){
-                        return false;
-                    }
-                }
-                if(!director.equals("")){
-
-                    Pattern pattern = Pattern.compile(director, Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = pattern.matcher(movie.getDirector());
-                    if(!matcher.find()){
-                        return false;
-                    }
-                }
-                if(!year.equals("")) {
-                    if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
-                        return false;
-                    }
-                }
-                if(genre != null && !genre.equals("")){
-
-                    if(!movie.getGenre().getGenreName().equals(genre)){
-                        return false;
-                    }
-                }
-                return true;
-            }
-        });
-
+        searchAccordinglyToMovies();
     }
 
     public void OnActionReset(ActionEvent actionEvent) {
-        setPerformances(p -> true);
-        this.genreChoiceBox.setValue("");
-        this.directorTextField.setText("");
-        this.titleTextField.setText("");
-        this.yearTextField.setText("");
+        resetTable();
+        cleanFields();
     }
 
 }

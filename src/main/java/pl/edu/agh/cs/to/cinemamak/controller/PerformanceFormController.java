@@ -163,7 +163,7 @@ public class PerformanceFormController  implements ApplicationListener<MovieSele
             LocalDateTime localDateTime1 = LocalDateTime.of(date, time);
 
             if(movie.isPresent() && room.isPresent() && user.isPresent()){
-                this.performanceService.addPerformance(
+                this.performanceService.addEntity(
                         new Performance(movie.get(),
                                         room.get(),
                                         localDateTime1,

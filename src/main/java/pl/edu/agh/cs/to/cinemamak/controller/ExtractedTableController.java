@@ -27,13 +27,20 @@ public class ExtractedTableController<EntityType extends ITableEntityWithMovie> 
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-    protected final ITableEntityService<EntityType> entityService;
+    protected ITableEntityService<EntityType> entityService;
 
     protected Stage stage;
 
-    protected ExtractedTableController(ITableEntityService<EntityType> entityService) {
+    protected ExtractedTableController() {
+    }
+    protected void setService(ITableEntityService<EntityType> entityService){
         this.entityService = entityService;
     }
+
+    protected void initialize(){
+        super.initialize();
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }

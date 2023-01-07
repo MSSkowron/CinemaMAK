@@ -92,7 +92,7 @@ public class TicketsController {
 
     private ObservableList<Performance> getPerformances() {
         ObservableList<Performance> res = FXCollections.observableArrayList();
-        performanceService.getPerformances().ifPresent(res::addAll);
+        performanceService.getEntities().ifPresent(res::addAll);
         return res;
     }
 
