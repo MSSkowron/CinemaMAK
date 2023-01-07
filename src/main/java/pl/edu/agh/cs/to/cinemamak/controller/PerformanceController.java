@@ -31,6 +31,7 @@ import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -133,6 +134,17 @@ public class PerformanceController implements ApplicationListener<TablePerforman
             }
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
+
+        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
+            String input = change.getText();
+            if (input.matches("[0-9]*")) {
+                return change;
+            }
+            return null;
+        };
+
+        this.yearTextField.setTextFormatter(new TextFormatter<String>(integerFilter));
+
         setPerformances(p -> true);
 
     }
@@ -220,14 +232,8 @@ public class PerformanceController implements ApplicationListener<TablePerforman
                     }
                 }
                 if(!year.equals("")) {
-
-                    try {
-                        if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
-                            return false;
-                        }
-                    } catch(NumberFormatException exception){
-                        showErrorDialog("Error occurred while filtering list of movies.",
-                                "Year is not valid! Enter a number or left it empty.");
+                    if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
+                        return false;
                     }
                 }
                 if(genre != null && !genre.equals("")){
@@ -240,16 +246,6 @@ public class PerformanceController implements ApplicationListener<TablePerforman
             }
         });
 
-    }
-
-    public void showErrorDialog(String header, String info){
-        Alert dialog = new Alert(Alert.AlertType.ERROR);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Error");
-        dialog.setHeaderText(header);
-        dialog.setContentText(info);
-        dialog.show();
     }
 
     public void OnActionReset(ActionEvent actionEvent) {

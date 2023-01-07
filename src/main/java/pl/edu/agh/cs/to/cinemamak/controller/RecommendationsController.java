@@ -33,6 +33,7 @@ import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -110,6 +111,17 @@ public class RecommendationsController implements ApplicationListener<TableRecom
             }
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
+
+        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
+            String input = change.getText();
+            if (input.matches("[0-9]*")) {
+                return change;
+            }
+            return null;
+        };
+
+        this.yearTextField.setTextFormatter(new TextFormatter<String>(integerFilter));
+
         setRecommendations(r -> true);
     }
 
@@ -196,13 +208,8 @@ public class RecommendationsController implements ApplicationListener<TableRecom
                 }
                 if(!year.equals("")) {
 
-                    try {
-                        if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
-                            return false;
-                        }
-                    } catch(NumberFormatException exception){
-                        showErrorDialog("Error occurred while filtering list of movies.",
-                                "Year is not valid! Enter a number or left it empty.");
+                    if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
+                        return false;
                     }
                 }
                 if(genre != null && !genre.equals("")){
