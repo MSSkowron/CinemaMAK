@@ -20,6 +20,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.event.MovieSelectedEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
@@ -64,12 +65,14 @@ public class MovieSearchController {
 
     private final MovieService movieService;
     private final FxWeaver fxWeaver;
+    private final DialogManager dialogManager;
     private Stage stage;
     private Optional<Movie> selectedMovie = Optional.empty();
 
-    public MovieSearchController(MovieService movieService, FxWeaver fxWeaver){
+    public MovieSearchController(MovieService movieService, FxWeaver fxWeaver, DialogManager dialogManager){
         this.movieService = movieService;
         this.fxWeaver = fxWeaver;
+        this.dialogManager = dialogManager;
     }
 
     public void setStage(Stage stage) {
@@ -131,7 +134,7 @@ public class MovieSearchController {
     public void OnActionApply(ActionEvent actionEvent) {
         Movie mv = this.table.getSelectionModel().getSelectedItem();
         if(mv == null){
-            showErrorDialog("Error occurred while applying a movie!",
+            this.dialogManager.showError(stage,"Error occurred while applying a movie!",
                     "Please select one movie from the table.");
             return;
         }
@@ -195,7 +198,7 @@ public class MovieSearchController {
                             return false;
                         }
                     } catch(NumberFormatException exception){
-                        showErrorDialog("Error occurred while filtering list of movies.",
+                        dialogManager.showError(stage,"Error occurred while filtering list of movies.",
                                 "Year is not valid! Enter a number or left it empty.");
                     }
                 }
@@ -211,13 +214,4 @@ public class MovieSearchController {
 
     }
 
-    public void showErrorDialog(String header, String info){
-        Alert dialog = new Alert(Alert.AlertType.ERROR);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Error");
-        dialog.setHeaderText(header);
-        dialog.setContentText(info);
-        dialog.show();
-    }
 }
