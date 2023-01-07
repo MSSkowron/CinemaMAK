@@ -20,12 +20,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-public class ExtractedTableController<EntityType extends ITableEntityWithMovie> extends MovieSearchBarController {
+public class ExtractedTableController<EntityType extends ITableEntityWithMovie> extends MovieSearchBarController<EntityType> {
 
     @FXML
     protected TableView<EntityType> table;
 
     protected ITableEntityService<EntityType> entityService;
+
 
     protected Stage stage;
 
@@ -51,6 +52,7 @@ public class ExtractedTableController<EntityType extends ITableEntityWithMovie> 
 
     protected void setEntities(Predicate<EntityType> predicate){
         FilteredList<EntityType> filteredList = new FilteredList<>(getEntities(), predicate);
+        setFilterListeners(filteredList);
         SortedList<EntityType> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(this.table.comparatorProperty());
         this.table.setItems(sortedList);
@@ -62,47 +64,7 @@ public class ExtractedTableController<EntityType extends ITableEntityWithMovie> 
     }
 
     protected void searchAccordinglyToMovies(){
-
-        String title = titleTextField.getText();
-        String director = directorTextField.getText();
-        String year = yearTextField.getText();
-        String genre = genreChoiceBox.getValue();
-
-        setEntities(new Predicate<EntityType>() {
-            @Override
-            public boolean test(EntityType entity) {
-                Movie movie = entity.getMovie();
-                if(!title.equals("")){
-
-                    Pattern pattern = Pattern.compile(title, Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = pattern.matcher(movie.getTitle());
-                    if(!matcher.find()){
-                        return false;
-                    }
-                }
-                if(!director.equals("")){
-
-                    Pattern pattern = Pattern.compile(director, Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = pattern.matcher(movie.getDirector());
-                    if(!matcher.find()){
-                        return false;
-                    }
-                }
-                if(!year.equals("")) {
-
-                    if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
-                        return false;
-                    }
-                }
-                if(genre != null && !genre.equals("")){
-
-                    if(!movie.getGenre().getGenreName().equals(genre)){
-                        return false;
-                    }
-                }
-                return true;
-            }
-        });
+        setEntities(getMoviePredicate());
     }
 
     protected void resetTable(){
