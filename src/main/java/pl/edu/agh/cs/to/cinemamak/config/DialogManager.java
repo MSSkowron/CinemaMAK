@@ -11,6 +11,7 @@ public class DialogManager {
 
     Alert dialogInformation = null;
     Alert dialogConfirmation = null;
+    Alert dialogError = null;
     public DialogManager(){}
 
     private void createAlertInformation(){
@@ -23,6 +24,12 @@ public class DialogManager {
         this.dialogConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
         this.dialogConfirmation.initModality(Modality.APPLICATION_MODAL);
         this.dialogConfirmation.setTitle("Confirmation");
+    }
+
+    private void createAlertError(){
+        this.dialogError = new Alert(Alert.AlertType.ERROR);
+        this.dialogError .initModality(Modality.APPLICATION_MODAL);
+        this.dialogError .setTitle("Error");
     }
 
     public void showInformation(Window owner, String headerText, String contentText,
@@ -48,5 +55,14 @@ public class DialogManager {
         Optional<ButtonType> result = this.dialogConfirmation.showAndWait();
 
         return result.filter(buttonType -> buttonType == ButtonType.OK).isPresent();
+    }
+
+    public void showError(Window owner, String headerText, String contentText){
+        this.createAlertError();
+
+        this.dialogError.initOwner(owner);
+        this.dialogError.setHeaderText(headerText);
+        this.dialogError.setContentText(contentText);
+        this.dialogError.show();
     }
 }
