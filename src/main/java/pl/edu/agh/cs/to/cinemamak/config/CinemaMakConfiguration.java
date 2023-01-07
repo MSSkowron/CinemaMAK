@@ -20,6 +20,6 @@ public class CinemaMakConfiguration {
     }
 
     @Bean
-    public DialogManager dialogManger(){ return new DialogManager(); }
+    public DialogManager dialogManager(){ return new DialogManager(); }
 
 }

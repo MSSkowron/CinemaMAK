@@ -85,7 +85,7 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
 
 
             if(movie.isPresent()){
-                this.recommendationService.addRecommendation(new Recommendation(movie.get(), localDateTimeFrom, localDateTimeTo));
+                this.recommendationService.addEntity(new Recommendation(movie.get(), localDateTimeFrom, localDateTimeTo));
 
                 this.dialogManager.showInformation(stage, "New recommendation added successfully", "",event -> {
                     applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));

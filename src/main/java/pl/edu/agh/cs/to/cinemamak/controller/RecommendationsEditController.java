@@ -114,7 +114,7 @@ public class RecommendationsEditController implements ApplicationListener<MovieS
                 this.recommendation.get().setMovie(movie.get());
                 this.recommendation.get().setDateFrom(localDateTimeFrom);
                 this.recommendation.get().setDateTo(localDateTimeTo);
-                this.recommendationService.addRecommendation(this.recommendation.get());
+                this.recommendationService.addEntity(this.recommendation.get());
 
                 this.dialogManager.showInformation(stage, "Recommendation edited successfully","", event -> {
                     applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));

@@ -202,6 +202,10 @@ public class PerformanceController implements ApplicationListener<TablePerforman
     public void onApplicationEvent(TablePerformanceChangeEvent event) {
         setPerformances(p -> true);
         this.table.refresh();
+        this.genreChoiceBox.setValue("");
+        this.directorTextField.setText("");
+        this.titleTextField.setText("");
+        this.yearTextField.setText("");
     }
 
     public void onActionSearch(ActionEvent actionEvent) {

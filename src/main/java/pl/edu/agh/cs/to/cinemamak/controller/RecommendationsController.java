@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 
 @Component
 @FxmlView("recommendations-view.fxml")
-public class RecommendationsController implements ApplicationListener<TableRecommendationsChangeEvent> {
+public class RecommendationsController extends ExtractedTableController <Recommendation> implements ApplicationListener<TableRecommendationsChangeEvent> {
 
 
     public TextField titleTextField;
@@ -48,8 +48,6 @@ public class RecommendationsController implements ApplicationListener<TableRecom
     public ChoiceBox<String> genreChoiceBox;
     public Button searchButton;
     public Button resetButton;
-    @FXML
-    private TableView<Recommendation> table;
     @FXML
     private TableColumn<Recommendation, String> columnTitle;
     @FXML
@@ -69,17 +67,13 @@ public class RecommendationsController implements ApplicationListener<TableRecom
     private final RecommendationService recommendationService;
     private final MovieService movieService;
     private final FxWeaver fxWeaver;
-    private Stage stage;
 
     public RecommendationsController(MovieService movieService, RecommendationService recommendationService, SessionService sessionService, FxWeaver fxWeaver){
+        super(recommendationService);
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
         this.movieService = movieService;
         this.recommendationService = recommendationService;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
 
@@ -122,7 +116,7 @@ public class RecommendationsController implements ApplicationListener<TableRecom
 
         this.yearTextField.setTextFormatter(new TextFormatter<String>(integerFilter));
 
-        setRecommendations(r -> true);
+        setEntities(r -> true);
     }
 
     public void onMousePressed(MouseEvent event) {
@@ -142,18 +136,18 @@ public class RecommendationsController implements ApplicationListener<TableRecom
         }
     }
 
-    public ObservableList<Recommendation> getRecommendations(){
-        ObservableList<Recommendation> recommendationObservableList = FXCollections.observableArrayList();
-        this.recommendationService.getRecommendations().ifPresent(recommendationObservableList::addAll);
-        return recommendationObservableList;
-    }
-
-    public void setRecommendations(Predicate<Recommendation> recommendationPredicate){
-        FilteredList<Recommendation> filteredList = new FilteredList<>(getRecommendations(), recommendationPredicate);
-        SortedList<Recommendation> sortedList = new SortedList<>(filteredList);
-        sortedList.comparatorProperty().bind(this.table.comparatorProperty());
-        this.table.setItems(sortedList);
-    }
+//    public ObservableList<Recommendation> getRecommendations(){
+//        ObservableList<Recommendation> recommendationObservableList = FXCollections.observableArrayList();
+//        this.recommendationService.getRecommendations().ifPresent(recommendationObservableList::addAll);
+//        return recommendationObservableList;
+//    }
+//
+//    public void setRecommendations(Predicate<Recommendation> recommendationPredicate){
+//        FilteredList<Recommendation> filteredList = new FilteredList<>(getRecommendations(), recommendationPredicate);
+//        SortedList<Recommendation> sortedList = new SortedList<>(filteredList);
+//        sortedList.comparatorProperty().bind(this.table.comparatorProperty());
+//        this.table.setItems(sortedList);
+//    }
 
     public void setAddButton(){
         Stage form = new Stage();
@@ -169,14 +163,18 @@ public class RecommendationsController implements ApplicationListener<TableRecom
 
     public void setDeleteButton(){
         Recommendation recommendation = this.table.getSelectionModel().getSelectedItem();
-        this.recommendationService.deleteRecommendationById(recommendation.getId());
+        this.recommendationService.deleteEntityById(recommendation.getId());
         applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));
     }
 
     @Override
     public void onApplicationEvent(TableRecommendationsChangeEvent event) {
-        setRecommendations(r -> true);
+        setEntities(r -> true);
         this.table.refresh();
+        this.genreChoiceBox.setValue("");
+        this.directorTextField.setText("");
+        this.titleTextField.setText("");
+        this.yearTextField.setText("");
     }
 
     public void onActionSearch(ActionEvent actionEvent) {
@@ -186,7 +184,7 @@ public class RecommendationsController implements ApplicationListener<TableRecom
         String year = yearTextField.getText();
         String genre = genreChoiceBox.getValue();
 
-        setRecommendations(new Predicate<Recommendation>() {
+        setEntities(new Predicate<Recommendation>() {
             @Override
             public boolean test(Recommendation recommendation) {
                 Movie movie = recommendation.getMovie();
@@ -225,11 +223,12 @@ public class RecommendationsController implements ApplicationListener<TableRecom
     }
 
     public void OnActionReset(ActionEvent actionEvent) {
-        setRecommendations(m -> true);
+        setEntities(m -> true);
         this.genreChoiceBox.setValue("");
         this.directorTextField.setText("");
         this.titleTextField.setText("");
         this.yearTextField.setText("");
     }
+
 
 }
