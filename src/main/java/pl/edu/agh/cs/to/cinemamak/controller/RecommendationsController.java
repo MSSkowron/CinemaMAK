@@ -232,13 +232,4 @@ public class RecommendationsController implements ApplicationListener<TableRecom
         this.yearTextField.setText("");
     }
 
-    public void showErrorDialog(String header, String info){
-        Alert dialog = new Alert(Alert.AlertType.ERROR);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Error");
-        dialog.setHeaderText(header);
-        dialog.setContentText(info);
-        dialog.show();
-    }
 }
