@@ -6,25 +6,27 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import javafx.util.StringConverter;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.model.Performance;
-import pl.edu.agh.cs.to.cinemamak.model.Room;
-import pl.edu.agh.cs.to.cinemamak.model.Seat;
-import pl.edu.agh.cs.to.cinemamak.model.Ticket;
+import pl.edu.agh.cs.to.cinemamak.model.*;
+import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
 import pl.edu.agh.cs.to.cinemamak.service.RoomService;
 import pl.edu.agh.cs.to.cinemamak.service.TicketService;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @Component
 @FxmlView("tickets-view.fxml")
@@ -53,16 +55,25 @@ public class TicketsController {
     @FXML
     private Button cancelReservationButton;
 
+    @FXML
+    private ChoiceBox<Genre> genreFilterChoiceBox;
+
+    @FXML
+    private Button clearGenreSelectionButton;
+
     private final PerformanceService performanceService;
     private final RoomService roomService;
     private final TicketService ticketService;
+    private final MovieService movieService;
 
     private final ObjectProperty<Optional<Seat>> selectedSeat = new SimpleObjectProperty<>(Optional.empty());
+    private final ObjectProperty<Optional<Genre>> selectedGenre = new SimpleObjectProperty<>(Optional.empty());
 
-    public TicketsController(PerformanceService performanceService, RoomService roomService, TicketService ticketService) {
+    public TicketsController(PerformanceService performanceService, RoomService roomService, TicketService ticketService, MovieService movieService) {
         this.performanceService = performanceService;
         this.roomService = roomService;
         this.ticketService = ticketService;
+        this.movieService = movieService;
     }
 
     public void initialize() {
@@ -77,7 +88,11 @@ public class TicketsController {
 
         performancesList.setItems(getPerformances());
 
-        performancesList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> setSeatValues(newValue.getRoom()));
+        performancesList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                setSeatValues(newValue.getRoom());
+            }
+        });
 
         sellButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedSeat.getValue().isEmpty()
                 || ticketService.isSeatTaken(getSelectedPerformance(), selectedSeat.getValue().get()),
@@ -88,12 +103,48 @@ public class TicketsController {
                         || !ticketService.isSeatTaken(getSelectedPerformance(), selectedSeat.getValue().get()),
                 selectedSeat,
                 performancesList.getSelectionModel().selectedItemProperty()));
+
+        genreFilterChoiceBox.setItems(getGenres());
+        genreFilterChoiceBox.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Genre object) {
+                if (object == null) {
+                    return "";
+                }
+                return object.getGenreName();
+            }
+
+            @Override
+            public Genre fromString(String string) {
+                return movieService.getGenreByName(string).orElse(null);
+            }
+        });
+        genreFilterChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                selectedGenre.setValue(Optional.of(newValue));
+            } else {
+                selectedGenre.setValue(Optional.empty());
+            }
+        });
+
+        clearGenreSelectionButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedGenre.getValue().isEmpty(), selectedGenre));
+    }
+
+    private ObservableList<Genre> getGenres() {
+        ObservableList<Genre> res = FXCollections.observableArrayList();
+        movieService.getGenres().ifPresent(res::addAll);
+        return res;
     }
 
     private ObservableList<Performance> getPerformances() {
-        ObservableList<Performance> res = FXCollections.observableArrayList();
-        performanceService.getPerformances().ifPresent(res::addAll);
-        return res;
+        ObservableList<Performance> res = FXCollections.observableArrayList(performanceService.getPerformancesAfterToday());
+        var filtered = res.filtered(p -> true);
+
+        var predicateBinding = Bindings.createObjectBinding(() -> (Predicate<Performance>) performance ->
+                selectedGenre.getValue().isEmpty() ||
+                performance.getMovie().getGenre().getId() == selectedGenre.getValue().get().getId(), selectedGenre);
+        filtered.predicateProperty().bind(predicateBinding);
+        return filtered;
     }
 
     private Performance getSelectedPerformance() {
@@ -141,5 +192,9 @@ public class TicketsController {
             t.ifPresent(ticketService::removeTicket);
             setSeatValues(getSelectedPerformance().getRoom());
         }
+    }
+    @FXML
+    private void clearGenreSelection() {
+        genreFilterChoiceBox.getSelectionModel().clearSelection();
     }
 }
