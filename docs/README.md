@@ -110,12 +110,12 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   ![Logowanie](../images/logowanie.png)
 
   Widok umożliwia logowanie się do systemu. \
+  Należy podać poprawny adres email w pierwszym polu formularza oraz hasło w drugim. \
   Po podaniu niepoprawnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba logowania. \
   Po poprawnym zalogowaniu zostajemy przeniesieni do głównego okna aplikacji. \
-  Przycisk *Exit* kończy działanie aplikacji, wychodzi z systemu.
-  Przycisk *Log in* zatwierdza formularz. \
-  Przycisk *Register* umożliwia przejścia do okna rejestracji użytkownika.
+  Przycisk *Sign In* zatwierdza formularz. \
+  Przycisk *Don't have an account? Sign up* umożliwia przejścia do okna rejestracji użytkownika.
 
 
 
@@ -127,19 +127,28 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Po podaniu niepoprawnych lub niekompletnych danych pojawa się wyskakującę okno blokujące działanie aplikacji w tle,
   informującę o błędzie. Po jego zamknięciu możliwa jest kolejna próba rejestracji. \
   Po poprawnym utworzeniu konta zostajemy przeniesieni do okna logowania. \
-  Przycisk *Exit* kończy działanie aplikacji, wychodzi z systemu. \
-  Przycisk *Register* zatwierdza formularz.\
-  Przycisk *Log in* umożliwia przejścia do okna logowania.
+  Przycisk *Sign Up* zatwierdza formularz.\
+  Przycisk *Already have an account? Sign in* umożliwia przejścia do okna logowania.
+
+
+- **Widok główny aplikacji**
+
+  ![Widok początkowy](../images/widok_glowny_aplikacji.png)
+
+  W górnym lewym rogu za pomocą przycisku *Sign out* możemy się wylogować. \
+  Obok przycisku służącego do wylogowywania widoczny jest aktualnie zalogowany użytkownik. \
+  Po lewej stronie widoku znajduje się panel boczny, za pomocą którego możemy przełączać widoki.
+  
 
 - **Filmy**
 
   ![Widok początkowy](../images/filmy.png)
 
-  Widok dostępny jest dla użytkowników z rolą admina/menadżera.
-  W tabeli wyświetlane są filmy obecnie znajdującę się w bazie.
-  W górnej części widoku znajduje się pole tekstowe, w którym możemy wyszukać film po tytule lub reżyserze.
-  Po dwukrotnym wciśnięciu danego rekordu wyświetla się widok szczegółowych danych o filmie.
-  Po kliknięciu w przycisk *NEW* otwiera się formularz dodawania nowego filmu.
+  Widok dostępny jest dla użytkowników z rolą admina/menadżera. \
+  W tabeli wyświetlane są filmy obecnie znajdującę się w bazie. \
+  W górnej części widoku znajduje się pole tekstowe, w którym możemy wyszukać film po tytule lub reżyserze. \
+  Po dwukrotnym wciśnięciu danego rekordu wyświetla się widok szczegółowych danych o filmie. \
+  Po kliknięciu w przycisk *NEW* otwiera się formularz dodawania nowego filmu. 
 
   ![Widok początkowy](../images/filmy_szczegoly.png)
   
@@ -149,46 +158,68 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
   Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Submit* film zostaje dodany do bazy danych. 
 
+
 - **Seanse**
 
   ![Widok początkowy](../images/seanse.png)
 
-  Widok dostępny jest dla użytkowników z rolą admina/menadżera.
-  W tabeli wyświetlane są seanse obecnie zarejestrowane w bazie.
-  Po wskazaniu seansu i wciśnięciu przycisku *Delete* zostaje on usunięty.
-  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowego seansu
+  Widok dostępny jest dla użytkowników z rolą admina/menadżera. \
+  W tabeli wyświetlane są seanse obecnie zarejestrowane w bazie. \
+  Po wskazaniu seansu i wciśnięciu przycisku *Delete* zostaje on usunięty. \
+  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowego seansu.
 
   ![Widok początkowy](../images/seanse_formularz.png)
 
   Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Add* seans zostaje zatwierdzony.
 
 
-- **Sprzedawanie i zwrot biletu**
+- **Bilety**
 
   ![Widok początkowy](../images/sprzedawanie_biletu_1.png)
   
-  Widok dostępny jest dla wszystkich użytkowników, niezależnie od roli.
-  Widok na początku wyświetla listę seansów, z których użytkownik wybiera jeden.
+  Widok dostępny jest dla wszystkich użytkowników, niezależnie od roli. \
+  Widok na początku wyświetla listę seansów, z których użytkownik wybiera jeden. \
+  Za pomocą *Select genre* można wyświetlić tylko filmy z danej kategorii. \
   Wówczas wyświetli się tabela z nazwami poszczególych foteli w sali, w której odbędzie się seans.
 
-  ![Wybór miejsca 1](../images/sprzedawanie_biletu_2.png)
+  ![Wybór miejsca 2](../images/sprzedawanie_biletu_2.png)
 
   Użytkownik wybiera odpowiedni fotel klikając w jego nazwę.
 
-  ![Wybór miejsca 2](../images/sprzedawanie_biletu_3.png)
+  ![Wybór miejsca 3](../images/sprzedawanie_biletu_3.png)
 
   Z pomocą przycisku "Sell ticket" użytkownik może sprzedać bilet na wybrany fotel w danym seansie.
 
-  ![Sprzedaż biletu](../images/sprzedawanie_biletu_4.png)
+  ![Sprzedaż biletu_4](../images/sprzedawanie_biletu_4.png)
 
-  Nazwa fotela jest obramowana na czerwono, co oznacza, że ten fotel jest zarezerwowany i nie da się sprzedać biletu na ten fotel i seans.
-  W przypadku zwrotu biletu, użytkownik może wybrać zarezerwowany fotel w celu realizacji zwrotu
+  Nazwa fotela jest obramowana na czerwono, co oznacza, że ten fotel jest zarezerwowany i nie da się sprzedać biletu na ten fotel i seans. \
+  W przypadku zwrotu biletu, użytkownik może wybrać zarezerwowany fotel w celu realizacji zwrotu.
 
   ![Zwrot biletu 1](../images/zwrot_biletu_1.png)
 
-  Za pomocą przycisku "Cancel reservation" rezerwacja na fotel jest anulowana
+  Za pomocą przycisku "Cancel reservation" rezerwacja na fotel jest anulowana.
 
   ![Zwrot biletu 2](../images/zwrot_biletu_2.png)
+
+- **Widok statystyk**
+
+  Dla Administratora i Menedżera dostępny jest widok statystyk podzielony na dwie części.
+  
+  Widok statystyk ogólnych pokazuje rozkład filmów oraz zaplanowanych seansów na poszczególne gatunki
+
+  ![Statystyki ogólne](../images/statystyki_1.png)
+
+  Widok szczegółowych raportów pozwala użytkownikowi na wprowadzenie zakresu dni, z jakich należy wygenerować raport. Po naciśnięciu przycisku "Generate Reports" pojawią się wykresy przedstawiające liczbę sprzedanych biletów oraz sumę zysków za te bilety.
+
+  ![Raporty szczegółowe](../images/statystyki_2.png)
+
+- **Panel administratora**
+
+  ![Panel_administratowa](../images/panel_administratora.png)
+
+  Widok dostępny jest jedynie dla użytkownika z rolą administratora. \
+  Administrator systemu może zmieniać rolę użytkowników wybierając ich z listy, a następnie po wyborze roli zatwierdzić ją przyciskiem *Set*. \
+  Dodatkowo po zaznaczeniu *Send Email Notification* zostanie wysłany email do użytkownika powiadamiający go o zmianie jego roli.
 
 <a name="instalacja"></a>
 ## Instalacja

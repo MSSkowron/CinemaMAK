@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<ScrollPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.StatisticsController">
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+        <HBox alignment="CENTER" spacing="5.0">
+            <Button text="General statistics" onAction="#showGeneralStatistics" />
+            <Button text="Detailed reports" onAction="#showDetailedReports" />
+        </HBox>
+        <VBox fx:id="generalStatistics" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+            <PieChart title="Movies by Genre" fx:id="movieCountByGenrePieChart" prefWidth="600" prefHeight="300" />
+            <PieChart title="Planned Performances by Genre" fx:id="performanceCountByGenrePieChart" prefWidth="600" prefHeight="300" />
+        </VBox>
+        <VBox fx:id="detailedReports" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+            <HBox alignment="CENTER" spacing="5.0">
+                <Label text="Date from:" />
+                <DatePicker fx:id="reportDateFrom" />
+                <Label text="to:" />
+                <DatePicker fx:id="reportDateTo" />
+                <Button fx:id="generateReportsButton" text="Generate reports" onAction="#setReportInterval"/>
+            </HBox>
+            <LineChart fx:id="ticketsSoldLineChart" title="Tickets sold by day" prefHeight="300" prefWidth="600" >
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </LineChart>
+            <LineChart fx:id="ticketsProfitLineChart" title="Profit by day" prefHeight="300" prefWidth="600" >
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </LineChart>
+        </VBox>
+    </VBox>
+</ScrollPane>

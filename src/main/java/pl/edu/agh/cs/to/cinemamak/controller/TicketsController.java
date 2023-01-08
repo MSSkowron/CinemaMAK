@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -23,9 +22,9 @@ import pl.edu.agh.cs.to.cinemamak.model.*;
 import pl.edu.agh.cs.to.cinemamak.service.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -204,7 +203,7 @@ public class TicketsController {
     @FXML
     private void sellTicket() {
         if (selectedSeat.getValue().isPresent()) {
-            var t = new Ticket(getSelectedPerformance(), selectedSeat.getValue().get());
+            var t = new Ticket(getSelectedPerformance(), selectedSeat.getValue().get(), LocalDateTime.now());
             ticketService.addSoldTicket(t);
             setSeatValues(getSelectedPerformance().getRoom());
         }
