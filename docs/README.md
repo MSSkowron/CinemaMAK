@@ -161,45 +161,86 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
 - **Seanse**
 
-  ![Widok początkowy](../images/seanse.png)
+  ![Widok początkowy](../images/performances_view.jpg)
 
   Widok dostępny jest dla użytkowników z rolą admina/menadżera. \
   W tabeli wyświetlane są seanse obecnie zarejestrowane w bazie. \
+  Seanse można wyświetlić w tabeli po uprzednim ich wyszukaniu \
+  za pomocą odpowiednich pól u góry widoku i kliknięciu przycisku *Search*.\
+  Przycisk *Reset* służy do czyszczenia tabeli z wyszukiwanych wyników. \
   Po wskazaniu seansu i wciśnięciu przycisku *Delete* zostaje on usunięty. \
-  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowego seansu.
+  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowego seansu.\
+  Po dwukrotnym kliknięciu *Wiersza* otwiera się formularz edytowania seansu. \
 
-  ![Widok początkowy](../images/seanse_formularz.png)
+
+  ![Widok początkowy](../images/performance_form_view.jpg)
 
   Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Add* seans zostaje zatwierdzony.
+
+  ![Widok początkowy](../images/performance_edit_view.jpg)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Apply* seans zostaje zatwierdzony.
+
+- **Rekomendacje**
+
+  ![Widok początkowy](../images/recommendations_view.jpg)
+
+  Widok dostępny jest dla użytkowników z rolą admina/menadżera. \
+  W tabeli wyświetlane są rekomendacje obecnie zarejestrowane w bazie. \
+  Rekomendacje można wyświetlić w tabeli po uprzednim ich wyszukaniu \
+  za pomocą odpowiednich pól u góry widoku i kliknięciu przycisku *Search*.\
+  Przycisk *Reset* służy do czyszczenia tabeli z wyszukiwanych wyników. \
+  Po wskazaniu rekomendacji i wciśnięciu przycisku *Delete* zostaje on usunięty. \
+  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowej rekomendacji.\
+  Po dwukrotnym kliknięciu *Wiersza* otwiera się formularz edytowania rekomendacji.
+
+  ![Widok początkowy](../images/recommendation_form_view.jpg)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Add* rekomendacja zostaje zatwierdzona.
+
+  ![Widok początkowy](../images/recommendation_edit_view.jpg)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Apply* rekomandacja zostaje zatwierdzona.
+
+  Dla widoków dodawania i edycji rekomendacji oraz seansów:
+  Po kliknięciu przycisku *Search* obok pola tekstowego z tytułem filmu można przejść do widoku wyszukiwania filmu.
+
+  ![Widok początkowy](../images/movie_search_view.jpg)
+
+  Filmy można wyświetlić w tabeli po uprzednim ich wyszukaniu \
+  za pomocą odpowiednich pól u góry widoku i kliknięciu przycisku *Search*.\
+  Przycisk *Reset* służy do czyszczenia tabeli z wyszukiwanych wyników. \
+  Przycisk *Apply* służy do dodania filmu do pola tekstowego. \
+  Przycisk *Cancel* służy do wyjścia z widoku.
 
 
 - **Bilety**
 
-  ![Widok początkowy](../images/sprzedawanie_biletu_1.png)
+  ![Widok początkowy](../images/tickets_view.jpg)
   
   Widok dostępny jest dla wszystkich użytkowników, niezależnie od roli. \
   Widok na początku wyświetla listę seansów, z których użytkownik wybiera jeden. \
   Za pomocą *Select genre* można wyświetlić tylko filmy z danej kategorii. \
   Wówczas wyświetli się tabela z nazwami poszczególych foteli w sali, w której odbędzie się seans.
 
-  ![Wybór miejsca 2](../images/sprzedawanie_biletu_2.png)
+  ![Wybór miejsca 2](../images/tickets_view_full.png)
 
   Użytkownik wybiera odpowiedni fotel klikając w jego nazwę.
 
-  ![Wybór miejsca 3](../images/sprzedawanie_biletu_3.png)
+  ![Wybór miejsca 3](../images/tickets_view_selected.jpg)
 
   Z pomocą przycisku "Sell ticket" użytkownik może sprzedać bilet na wybrany fotel w danym seansie.
 
-  ![Sprzedaż biletu_4](../images/sprzedawanie_biletu_4.png)
+  ![Sprzedaż biletu_4](../images/tickets_view_marked.jpg)
 
   Nazwa fotela jest obramowana na czerwono, co oznacza, że ten fotel jest zarezerwowany i nie da się sprzedać biletu na ten fotel i seans. \
   W przypadku zwrotu biletu, użytkownik może wybrać zarezerwowany fotel w celu realizacji zwrotu.
 
-  ![Zwrot biletu 1](../images/zwrot_biletu_1.png)
+  ![Zwrot biletu 1](../images/tickets_view_marked_many.jpg)
 
   Za pomocą przycisku "Cancel reservation" rezerwacja na fotel jest anulowana.
 
-  ![Zwrot biletu 2](../images/zwrot_biletu_2.png)
+  ![Zwrot biletu 2](../images/tickets_view_cancel_seat.jpg)
 
 - **Widok statystyk**
 
