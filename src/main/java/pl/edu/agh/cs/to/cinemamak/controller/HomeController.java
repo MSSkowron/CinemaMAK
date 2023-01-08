@@ -39,6 +39,8 @@ public class HomeController {
     private Button performanceButton;
     @FXML
     private Button ticketsViewButton;
+    @FXML
+    private Button statisticsButton;
 
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
@@ -68,6 +70,7 @@ public class HomeController {
         roleUIHelper.bindVisibleOnlyToRoles(adminViewButton, RoleName.Admin);
         roleUIHelper.bindVisibleOnlyToRoles(performanceButton, RoleName.Admin, RoleName.Manager);
         roleUIHelper.bindVisibleOnlyToRoles(movieViewButton, RoleName.Admin, RoleName.Manager);
+        roleUIHelper.bindVisibleOnlyToRoles(statisticsButton, RoleName.Manager, RoleName.Admin);
     }
 
     @FXML
@@ -99,6 +102,12 @@ public class HomeController {
     @FXML
     private void ticketsView(MouseEvent ignored) {
         var root = fxWeaver.loadView(TicketsController.class);
+        borderPane.setCenter(root);
+    }
+
+    @FXML
+    private void statisticsView(MouseEvent ignored) {
+        var root = fxWeaver.loadView(StatisticsController.class);
         borderPane.setCenter(root);
     }
 
