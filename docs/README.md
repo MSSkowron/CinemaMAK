@@ -242,7 +242,7 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
   ![Zwrot biletu 2](../images/tickets_view_cancel_seat.jpg)
 
-- **Widok statystyk**
+- **Statystyki**
 
   Dla Administratora i Menedżera dostępny jest widok statystyk podzielony na dwie części.
   
