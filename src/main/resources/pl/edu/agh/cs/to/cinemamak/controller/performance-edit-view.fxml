@@ -22,8 +22,8 @@
          </font></Label>
       <GridPane alignment="CENTER" hgap="10.0" prefHeight="230.0" prefWidth="558.0" vgap="10.0">
         <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="186.0" />
-          <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" maxWidth="321.3333536783855" minWidth="10.0" prefWidth="154.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="139.0" />
+          <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" maxWidth="321.3333536783855" minWidth="10.0" prefWidth="192.0" />
             <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" maxWidth="321.3333536783855" minWidth="10.0" prefWidth="60.0" />
         </columnConstraints>
         <rowConstraints>
@@ -37,7 +37,7 @@
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" text="Movie" textAlignment="CENTER">
                <font>
-                  <Font size="24.0" />
+                  <Font size="15.0" />
                </font>
                <HBox.margin>
                   <Insets left="170.0" />
