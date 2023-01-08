@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.repository.PerformanceRepository;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +33,12 @@ public class PerformanceService implements ITableEntityService<Performance>{
         return Optional.of(this.performanceRepository.findAll().stream().filter(performance -> performance.getMovie().getId() == id).toList());
     }
 
-    @Override
-    public void deleteEntityById(long id) {
+    public Collection<Performance> getPerformancesAfterToday() {
+        return performanceRepository.getPerformancesByDateAfter(LocalDateTime.now());
+    }
+
+        @Override
+        public void deleteEntityById(long id) {
         this.performanceRepository.deleteById(id);
     }
 }

@@ -10,12 +10,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.MovieController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.MovieController">
    <children>
-      <HBox alignment="BASELINE_LEFT" spacing="5.0">
+      <HBox alignment="BASELINE_LEFT" spacing="5.0" style="-fx-background-color: white;">
          <children>
-            <Label alignment="CENTER" text="Search Movie" />
+            <Label alignment="CENTER" style="-fx-background-color: white;" text="Search Movie">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
             <TextField fx:id="textFieldSearchMovie" prefHeight="25.0" prefWidth="324.0" />
          </children>
       </HBox>
@@ -29,9 +31,9 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="600.0">
+      <HBox alignment="CENTER_RIGHT" style="-fx-background-color: white;">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#newMovie" prefHeight="38.0" prefWidth="60.0" text="NEW">
+            <Button mnemonicParsing="false" onMouseClicked="#newMovie" prefHeight="38.0" prefWidth="60.0" text="New">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -40,6 +42,6 @@
       </HBox>
    </children>
    <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
    </padding>
 </VBox>

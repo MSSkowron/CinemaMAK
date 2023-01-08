@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<ScrollPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="pl.edu.agh.cs.to.cinemamak.controller.TicketsController"
-            prefHeight="400.0" prefWidth="600.0">
+<ScrollPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.TicketsController">
     <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+        <HBox alignment="CENTER_LEFT" spacing="5.0">
+            <Label text="Selected genre" />
+            <ChoiceBox fx:id="genreFilterChoiceBox" />
+            <Button fx:id="clearGenreSelectionButton" onAction="#clearGenreSelection" text="Clear selection" />
+        </HBox>
         <TableView fx:id="performancesList" prefHeight="200">
             <columns>
-                <TableColumn fx:id="titleColumn" text="Title"/>
-                <TableColumn fx:id="roomColumn" text="Room"/>
-                <TableColumn fx:id="dateColumn" text="Date"/>
-                <TableColumn fx:id="priceColumn" text="Price"/>
+                <TableColumn fx:id="titleColumn" text="Title" />
+                <TableColumn fx:id="roomColumn" text="Room" />
+                <TableColumn fx:id="dateColumn" text="Date" />
+                <TableColumn fx:id="priceColumn" text="Price" />
             </columns>
         </TableView>
-        <GridPane alignment="CENTER" fx:id="seatsTable" />
-        <HBox alignment="CENTER">
-            <Button fx:id="sellButton" text="Sell ticket" onAction="#sellTicket"/>
-            <Button fx:id="cancelReservationButton" text="Cancel reservation" onAction="#cancelReservation"/>
+        <GridPane fx:id="seatsTable" alignment="CENTER" />
+        <HBox alignment="CENTER" spacing="5.0">
+            <Button fx:id="sellButton" onAction="#sellTicket" text="Sell ticket" />
+            <Button fx:id="cancelReservationButton" onAction="#cancelReservation" text="Cancel reservation" />
         </HBox>
     </VBox>
+   <padding>
+      <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
+   </padding>
 </ScrollPane>
