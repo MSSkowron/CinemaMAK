@@ -41,7 +41,7 @@ Funkcjonalności:
 Do cześci frontendowej apliakacji została wykorzystana JavaFX, a odpowiednie widoki zaimplementowane w postaci plików FXML.
 Część backendowa została zaimplementowana przy użyciu Javy oraz Spring Framework'a.
 Dane przechowywane są w relacyjnej bazie danych. Jako system do zarządzania relacyjną bazą danych wybrano jeden z popularniejszych systemów - PostgreSQL.
-Automatyzacje procesu kompilacji zapewnia narzędzie - Gradle.
+Automatyzacje procesu kompilacji zapewnia wykorzystanie Gradle'a.
 
 <a name="model-obiektowy"></a>
 ## Model obiektowy
