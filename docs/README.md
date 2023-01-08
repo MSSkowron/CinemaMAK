@@ -190,6 +190,18 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
   ![Zwrot biletu 2](../images/zwrot_biletu_2.png)
 
+- **Widok statystyk**
+
+  Dla Administratora i Menedżera dostępny jest widok statystyk podzielony na dwie części.
+  
+  Widok statystyk ogólnych pokazuje rozkład filmów oraz zaplanowanych seansów na poszczególne gatunki
+
+  ![Statystyki ogólne](../images/statystyki_1.png)
+
+  Widok szczegółowych raportów pozwala użytkownikowi na wprowadzenie zakresu dni, z jakich należy wygenerować raport. Po naciśnięciu przycisku "Generate Reports" pojawią się wykresy przedstawiające liczbę sprzedanych biletów oraz sumę zysków za te bilety.
+
+  ![Raporty szczegółowe](../images/statystyki_2.png)
+
 <a name="instalacja"></a>
 ## Instalacja
 ```
