@@ -8,7 +8,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.service.StatisticsService;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,23 +29,15 @@ import java.util.stream.Collectors;
 @Component
 @FxmlView("statistics-view.fxml")
 public class StatisticsController {
-    private static class ReportInterval {
-        private final LocalDate from;
-        private final LocalDate to;
-
-        public ReportInterval(LocalDate from, LocalDate to) {
-            this.from = from;
-            this.to = to;
-        }
-
+    private record ReportInterval(LocalDate from, LocalDate to) {
         public List<LocalDate> generateDays() {
-            List<LocalDate> res = new ArrayList<>();
-            for (var date = from.plusDays(0); date.isBefore(to) || date.isEqual(to); date = date.plusDays(1)) {
-                res.add(date);
+                List<LocalDate> res = new ArrayList<>();
+                for (var date = from.plusDays(0); date.isBefore(to) || date.isEqual(to); date = date.plusDays(1)) {
+                    res.add(date);
+                }
+                return res;
             }
-            return res;
         }
-    }
     @FXML
     private PieChart movieCountByGenrePieChart;
 
@@ -63,6 +58,12 @@ public class StatisticsController {
 
     @FXML
     private Button generateReportsButton;
+
+    @FXML
+    private LineChart<String, Long> ticketsSoldLineChart;
+
+    @FXML
+    private LineChart<String, Double> ticketsProfitLineChart;
 
     private final StatisticsService statisticsService;
 
@@ -89,6 +90,49 @@ public class StatisticsController {
 
         setMovieCountByGenrePieChartData();
         setPerformanceCountByGenrePieChartData();
+        setTicketsLineChartData();
+        setProfitsLineChartData();
+    }
+
+    private void setProfitsLineChartData() {
+        ticketsProfitLineChart.setAnimated(false);
+        ticketsProfitLineChart.getXAxis().setLabel("Profit");
+        ticketsProfitLineChart.getYAxis().setLabel("Data");
+
+        ticketsProfitLineChart.visibleProperty().bind(Bindings.createBooleanBinding(() -> selectedInterval.getValue().isPresent(), selectedInterval));
+
+        ticketsProfitLineChart.dataProperty().bind(Bindings.createObjectBinding(() -> {
+            ObservableList<XYChart.Series<String, Double>> res = FXCollections.observableArrayList();
+            var series = new XYChart.Series<String, Double>();
+            series.setName("Total profit from ticket sales");
+            if (selectedInterval.getValue().isPresent()) {
+                selectedInterval.getValue().get().generateDays().forEach(date ->
+                        series.getData().add(new XYChart.Data<>(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), statisticsService.getProfitsByDate(date))));
+            }
+            res.add(series);
+            return res;
+        }, selectedInterval));
+    }
+
+    private void setTicketsLineChartData() {
+        ticketsSoldLineChart.setAnimated(false);
+        ticketsSoldLineChart.getYAxis().setLabel("Number of tickets");
+        ticketsSoldLineChart.getXAxis().setLabel("Date");
+
+        ticketsSoldLineChart.visibleProperty().bind(Bindings.createBooleanBinding(() -> selectedInterval.getValue().isPresent(), selectedInterval));
+
+        ticketsSoldLineChart.dataProperty().bind(Bindings.createObjectBinding(() -> {
+            ObservableList<XYChart.Series<String, Long>> res = FXCollections.observableArrayList();
+            var series = new XYChart.Series<String, Long>();
+            series.setName("Total number of tickets sold");
+            if (selectedInterval.getValue().isPresent()) {
+                selectedInterval.getValue().get().generateDays().forEach(date ->
+                        series.getData().add(new XYChart.Data<>(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), statisticsService.getTicketCountByDate(date))));
+
+            }
+            res.add(series);
+            return res;
+        }, selectedInterval));
     }
 
     private void setMovieCountByGenrePieChartData() {
