@@ -9,7 +9,6 @@ import pl.edu.agh.cs.to.cinemamak.model.Performance;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 @Repository
 public interface PerformanceRepository extends JpaRepository<Performance, Long> {

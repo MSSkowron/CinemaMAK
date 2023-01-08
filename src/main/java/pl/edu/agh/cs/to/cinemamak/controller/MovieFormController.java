@@ -9,6 +9,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.event.TableMovieChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
@@ -48,9 +51,11 @@ public class MovieFormController {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
     private Stage stage;
+    private final DialogManager dialogManager;
 
-    public MovieFormController(MovieService movieService) {
+    public MovieFormController(MovieService movieService, DialogManager dialogManager) {
         this.movieService = movieService;
+        this.dialogManager = dialogManager;
     }
 
     public void initialize() {
@@ -78,52 +83,60 @@ public class MovieFormController {
         LocalDate date =  datePicker.getValue();
 
         if (validate(title, director, description, genreName, imageURL, durationStr, date)) {
-            movieService.addMovie(new Movie(title, director, description, Integer.parseInt(durationStr), movieService.getGenreByName(genreName).get(), Date.valueOf(date), imageURL));
+            LocalDateTime dateTime = LocalDateTime.of(date, LocalTime.of(0,0));
+            movieService.addMovie(new Movie(title, director, description, Integer.parseInt(durationStr), movieService.getGenreByName(genreName).get(), dateTime, imageURL));
 
-            Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Information");
-            dialog.setHeaderText("New movie added successfully");
-            dialog.show();
-            dialog.setOnCloseRequest(event -> {
+            this.dialogManager.showInformation(stage, "New movie added successfully", "", event -> {
                 applicationEventPublisher.publishEvent(new TableMovieChangeEvent(this));
                 stage.close();
             });
+
         }
     }
 
     public boolean validate(String title, String director, String description, String genreName, String imageURL, String durationStr, LocalDate date) {
         if (title.isEmpty() || director.isEmpty() || description.isEmpty() || genreName.isEmpty() || durationStr.isEmpty() || imageURL.isEmpty() || date == null) {
-            showErrorDialog("All fields need to be filled!");
+            this.dialogManager.showError(stage,
+                    "Error occurred while adding a new movie",
+                    "All fields need to be filled!");
             return false;
         }
 
         try {
             Integer.parseInt(durationStr);
         } catch (NumberFormatException e) {
-            showErrorDialog("Duration should be a positive integer!");
+            this.dialogManager.showError(stage,
+                    "Error occurred while adding a new movie",
+                    "Duration should be a positive integer!");
             return false;
         }
 
         Optional<Genre> genre =  movieService.getGenreByName(genreName);
         if (genre.isEmpty()) {
-            showErrorDialog("Genre does not exist!");
+            this.dialogManager.showError(stage,
+                    "Error occurred while adding a new movie",
+                    "Genre does not exist!");
             return false;
         }
 
         if (!isValidURL(imageURL)) {
-            showErrorDialog("Image is not valid!");
+            this.dialogManager.showError(stage,
+                    "Error occurred while adding a new movie",
+                    "Image is not valid!");
             return false;
         }
 
         try {
             if(ImageIO.read(new URL(imageURL)) == null) {
-                showErrorDialog("Image is not valid!");
+                this.dialogManager.showError(stage,
+                        "Error occurred while adding a new movie",
+                        "Image is not valid!");
                 return false;
             }
         } catch (IOException e) {
-            showErrorDialog("Image is not valid!");
+            this.dialogManager.showError(stage,
+                    "Error occurred while adding a new movie",
+                    "Image is not valid!");
             return false;
         }
 
@@ -141,16 +154,6 @@ public class MovieFormController {
 
     public void setStage(Stage s) {
         this.stage = s;
-    }
-
-    public void showErrorDialog(String info){
-        Alert dialog = new Alert(Alert.AlertType.ERROR);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Error");
-        dialog.setHeaderText("Error occurred while adding a new movie");
-        dialog.setContentText(info);
-        dialog.show();
     }
 
 }

@@ -13,6 +13,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
@@ -32,12 +33,16 @@ public class RegisterController {
     @FXML
     private TextField textFieldPassword;
     private final UserService userService;
+    private final DialogManager dialogManager;
     private Stage stage;
     private final FxWeaver fxWeaver;
 
-    public RegisterController(UserService userService, FxWeaver fxWeaver) {
+    public RegisterController(UserService userService,
+                              FxWeaver fxWeaver,
+                              DialogManager dialogManager) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;
+        this.dialogManager = dialogManager;
     }
 
     public void setStage(Stage stage) {
@@ -47,12 +52,12 @@ public class RegisterController {
     @FXML
     private void onButtonRegister() {
         if(textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty() || textFieldEmail.getText().isEmpty() || textFieldPassword.getText().isEmpty()) {
-            showErrorDialog("All fields need to be filled!");
+            this.dialogManager.showError(stage,"Error occurred while creating an account!","All fields need to be filled!");
             return;
         }
 
         if(!EmailValidator.getInstance().isValid(textFieldEmail.getText())) {
-            showErrorDialog("Email is not valid!");
+            this.dialogManager.showError(stage,"Error occurred while creating an account!","Email is not valid!");
             return;
         }
 
@@ -61,22 +66,16 @@ public class RegisterController {
         try {
             userService.addUser(newUser);
         } catch (Exception|Error e) {
-            showErrorDialog(getCauseMessage(e));
+            this.dialogManager.showError(stage,"Error occurred while creating an account!",getCauseMessage(e));
             return;
         }
 
-        Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Registration success");
-        dialog.setHeaderText("Account created successfully!");
-        dialog.setContentText("You can log in now!");
-        dialog.show();
-        dialog.setOnCloseRequest(event -> {
-            Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class));
-            stage.setScene(loginScene);
-        });
-
+        this.dialogManager.showInformation(stage,
+                "Account created successfully!",
+                "You can log in now!", event -> {
+                    Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class));
+                    stage.setScene(loginScene);
+                });
         clearForm();
     }
 
@@ -118,16 +117,6 @@ public class RegisterController {
         textFieldLastName.setText("");
         textFieldEmail.setText("");
         textFieldPassword.setText("");
-    }
-
-    public void showErrorDialog(String info){
-        Alert dialog = new Alert(Alert.AlertType.ERROR);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Error");
-        dialog.setHeaderText("Error occurred while creating an account!");
-        dialog.setContentText(info);
-        dialog.show();
     }
 
 }

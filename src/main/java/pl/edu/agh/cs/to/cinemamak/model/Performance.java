@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="performances")
-public class Performance {
+public class Performance implements ITableEntityWithMovie {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")

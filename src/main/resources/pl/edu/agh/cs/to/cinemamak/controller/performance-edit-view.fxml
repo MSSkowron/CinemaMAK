@@ -22,8 +22,9 @@
          </font></Label>
       <GridPane alignment="CENTER" hgap="10.0" prefHeight="230.0" prefWidth="558.0" vgap="10.0">
         <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="157.0" />
-          <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" maxWidth="321.3333536783855" minWidth="10.0" prefWidth="243.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="186.0" />
+          <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" maxWidth="321.3333536783855" minWidth="10.0" prefWidth="154.0" />
+            <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" maxWidth="321.3333536783855" minWidth="10.0" prefWidth="60.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -36,8 +37,22 @@
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" text="Movie" textAlignment="CENTER">
                <font>
-                  <Font size="15.0" />
-               </font></Label>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="170.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="textFieldMovie" editable="false" prefWidth="200.0" promptText="Search titile" GridPane.columnIndex="1">
+               <HBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+            <Button fx:id="buttonSearch" mnemonicParsing="false" onAction="#onActionSearch" prefHeight="25.0" prefWidth="53.0" text="Search" GridPane.columnIndex="2">
+               <HBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </HBox.margin>
+            </Button>
             <Label text="Date" GridPane.rowIndex="1">
                <font>
                   <Font size="15.0" />
@@ -58,7 +73,6 @@
                <font>
                   <Font size="15.0" />
                </font></Label>
-            <ChoiceBox fx:id="movieChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
             <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Spinner fx:id="hourSpinner" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ChoiceBox fx:id="roomChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
