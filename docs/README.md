@@ -40,7 +40,7 @@ Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej
 
 <a name="model-obiektowy"></a>
 ## Model obiektowy
-![Model_obiektowy](../images/model_obiektowy.png)
+![Model_obiektowy](../images/uml_with_recommendations.png)
 
 Warstwa persystencji realizowana jest poprzez JPA (wzorzec Repository).
 
