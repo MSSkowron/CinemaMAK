@@ -86,10 +86,15 @@ public class Generator {
             if(movie != null){
                 this.movieRepository.save(movie);
             }
+            movie = generateMovie3();
+            if(movie != null){
+                this.movieRepository.save(movie);
+            }
         }
 
         if(performanceRepository.count() == 0) {
             generatePerformance();
+            generatePerformance2();
         }
 
         if(recommendationRepository.count() == 0){
@@ -206,6 +211,22 @@ public class Generator {
         return movie;
     }
 
+    public Movie generateMovie3(){
+        Movie movie = new Movie();
+        movie.setDate(LocalDateTime.of(LocalDate.of(2023, 1,1), LocalTime.of(0,0,0)));
+        movie.setDescription("description3");
+        movie.setTitle("title3");
+        movie.setDirector("director3");
+        movie.setDuration(112);
+
+        Optional<Genre> gen = genreRepository.findGenreByGenreName("Music");
+        gen.ifPresent(movie::setGenre);
+
+        movie.setImageURL("https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg");
+
+        return movie;
+    }
+
     public User generateEmployee() {
         User user = new User("employee","employee", "employee@gmail.com", "employee");
 
@@ -222,7 +243,7 @@ public class Generator {
 
     public void generatePerformance(){
         Performance performance = new Performance();
-        performance.setDate(LocalDateTime.of(LocalDate.of(2022, 12,12), LocalTime.of(0,0,0)));
+        performance.setDate(LocalDateTime.of(LocalDate.of(2023, 2,12), LocalTime.of(0,0,0)));
 
         List<Movie> movie = movieRepository.findAll();
         if(movie.isEmpty()) return;
@@ -233,6 +254,23 @@ public class Generator {
         performance.setRoom(rooms.get(0));
 
         userRepository.findByEmailAddress("admin@gmail.com").ifPresent(performance::setUser);
+
+        this.performanceRepository.save(performance);
+    }
+
+    public void generatePerformance2(){
+        Performance performance = new Performance();
+        performance.setDate(LocalDateTime.of(LocalDate.of(2023, 4,15), LocalTime.of(0,0,0)));
+
+        List<Movie> movie = movieRepository.findAll();
+        if(movie.isEmpty()) return;
+        performance.setMovie(movie.get(1));
+        performance.setPrice(BigDecimal.valueOf(134));
+
+        List<Room> rooms = roomRepository.findAll();
+        performance.setRoom(rooms.get(1));
+
+        userRepository.findByEmailAddress("employee@gmail.com").ifPresent(performance::setUser);
 
         this.performanceRepository.save(performance);
     }

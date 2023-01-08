@@ -4,26 +4,27 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.model.*;
-import pl.edu.agh.cs.to.cinemamak.service.MovieService;
-import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
-import pl.edu.agh.cs.to.cinemamak.service.RoomService;
-import pl.edu.agh.cs.to.cinemamak.service.TicketService;
+import pl.edu.agh.cs.to.cinemamak.service.*;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -31,6 +32,7 @@ import java.util.function.Predicate;
 @Component
 @FxmlView("tickets-view.fxml")
 public class TicketsController {
+    public TableColumn<Performance, String> recommendedColumn;
     @FXML
     private TableView<Performance> performancesList;
 
@@ -64,16 +66,18 @@ public class TicketsController {
     private final PerformanceService performanceService;
     private final RoomService roomService;
     private final TicketService ticketService;
+    private final RecommendationService recommendationService;
     private final MovieService movieService;
 
     private final ObjectProperty<Optional<Seat>> selectedSeat = new SimpleObjectProperty<>(Optional.empty());
     private final ObjectProperty<Optional<Genre>> selectedGenre = new SimpleObjectProperty<>(Optional.empty());
 
-    public TicketsController(PerformanceService performanceService, RoomService roomService, TicketService ticketService, MovieService movieService) {
+    public TicketsController(PerformanceService performanceService, RecommendationService recommendationService, RoomService roomService, TicketService ticketService, MovieService movieService) {
         this.performanceService = performanceService;
         this.roomService = roomService;
         this.ticketService = ticketService;
         this.movieService = movieService;
+        this.recommendationService = recommendationService;
     }
 
     public void initialize() {
@@ -85,7 +89,17 @@ public class TicketsController {
         priceColumn.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
 
         roomColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getRoom().getName()));
-
+        recommendedColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
+                if(recommendationService.isRecommendedMovie(param.getValue().getMovie())){
+                    return new SimpleStringProperty("Yes");
+                }
+                else{
+                    return new SimpleStringProperty("No");
+                }
+            }
+        });
         performancesList.setItems(getPerformances());
 
         performancesList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -137,9 +151,6 @@ public class TicketsController {
     }
 
     private ObservableList<Performance> getPerformances() {
-//        ObservableList<Performance> res = FXCollections.observableArrayList();
-//        performanceService.getEntities().ifPresent(res::addAll);
-//        return res;
         ObservableList<Performance> res = FXCollections.observableArrayList(performanceService.getPerformancesAfterToday());
         var filtered = res.filtered(p -> true);
 
@@ -147,7 +158,18 @@ public class TicketsController {
                 selectedGenre.getValue().isEmpty() ||
                 performance.getMovie().getGenre().getId() == selectedGenre.getValue().get().getId(), selectedGenre);
         filtered.predicateProperty().bind(predicateBinding);
-        return filtered;
+        SortedList<Performance> sortedList = filtered.sorted(new Comparator<Performance>() {
+            @Override
+            public int compare(Performance o1, Performance o2) {
+                boolean o1Recommended = recommendationService.isRecommendedMovie(o1.getMovie());
+                boolean o2Recommended = recommendationService.isRecommendedMovie(o2.getMovie());
+                if(!o1Recommended && o2Recommended) return 1;
+                else if(o1Recommended == o2Recommended) return 0;
+                return -1;
+            }
+        });
+
+        return sortedList;
     }
 
     private Performance getSelectedPerformance() {

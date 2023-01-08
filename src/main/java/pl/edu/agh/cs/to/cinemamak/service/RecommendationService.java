@@ -2,9 +2,11 @@ package pl.edu.agh.cs.to.cinemamak.service;
 
 import org.springframework.stereotype.Service;
 import pl.edu.agh.cs.to.cinemamak.model.Genre;
+import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
 import pl.edu.agh.cs.to.cinemamak.repository.RecommendationRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +36,11 @@ public class RecommendationService implements ITableEntityService<Recommendation
     @Override
     public void deleteEntityById(long id) {
         this.recommendationRepository.deleteById(id);
+    }
+
+    public boolean isRecommendedMovie(Movie movie){
+        Optional<List<Recommendation>> recommendations = this.recommendationRepository.findRecommendationsByMovie(movie, LocalDateTime.now());
+        return recommendations.filter(recommendationList -> !recommendationList.isEmpty()).isPresent();
     }
 
 }
