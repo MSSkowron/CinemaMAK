@@ -68,6 +68,7 @@ public class MovieController implements ApplicationListener<TableMovieChangeEven
 
     public void onMousePressed(MouseEvent event) {
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            if(this.tableView.getSelectionModel().getSelectedItem() == null) return;
             Stage detailsStage = new Stage();
             fxWeaver.loadController(MovieDetailsController.class).setStage(detailsStage);
             fxWeaver.loadController(MovieDetailsController.class).setMovie(tableView.getSelectionModel().getSelectedItem());

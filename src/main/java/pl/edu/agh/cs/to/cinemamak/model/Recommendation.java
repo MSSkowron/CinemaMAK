@@ -2,27 +2,34 @@ package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="recommendations")
-public class Recommendation {
+public class Recommendation implements ITableEntityWithMovie {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
-    private long id;
+    protected long id;
 
     @OneToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    private Movie movie;
+    protected Movie movie;
 
     @Column(name="date_from", nullable = false)
-    private Date dateFrom;
+    private LocalDateTime dateFrom;
 
     @Column(name="date_to", nullable = false)
-    private Date dateTo;
+    private LocalDateTime dateTo;
 
-    public Recommendation() {
+    public Recommendation(){
+    }
 
+    public Recommendation(Movie movie, LocalDateTime dateFrom, LocalDateTime dateTo) {
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.movie = movie;
     }
 
     public long getId() {
@@ -41,19 +48,19 @@ public class Recommendation {
         this.movie = movie;
     }
 
-    public Date getDateFrom() {
+    public LocalDateTime getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(Date dateFrom) {
+    public void setDateFrom(LocalDateTime dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public Date getDateTo() {
+    public LocalDateTime getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(Date dateTo) {
+    public void setDateTo(LocalDateTime dateTo) {
         this.dateTo = dateTo;
     }
 

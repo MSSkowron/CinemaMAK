@@ -18,12 +18,13 @@
             <ChoiceBox fx:id="genreFilterChoiceBox" />
             <Button fx:id="clearGenreSelectionButton" onAction="#clearGenreSelection" text="Clear selection" />
         </HBox>
-        <TableView fx:id="performancesList" prefHeight="200">
+        <TableView fx:id="performancesList" prefHeight="200.0" prefWidth="460.0">
             <columns>
-                <TableColumn fx:id="titleColumn" text="Title" />
-                <TableColumn fx:id="roomColumn" text="Room" />
-                <TableColumn fx:id="dateColumn" text="Date" />
-                <TableColumn fx:id="priceColumn" text="Price" />
+                <TableColumn fx:id="titleColumn" minWidth="80.0" text="Title" />
+                <TableColumn fx:id="roomColumn" minWidth="80.0" text="Room" />
+                <TableColumn fx:id="dateColumn" minWidth="120.0" prefWidth="120.0" text="Date" />
+                <TableColumn fx:id="priceColumn" minWidth="80.0" text="Price" />
+            <TableColumn fx:id="recommendedColumn" minWidth="100.0" prefWidth="100.0" text="Recommended" />
             </columns>
         </TableView>
         <GridPane fx:id="seatsTable" alignment="CENTER" />

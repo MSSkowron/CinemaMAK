@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseDragged="#onBorderPaneDragged" onMousePressed="#onBorderPanePressed" prefHeight="540.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.HomeController">
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseDragged="#onBorderPaneDragged" onMousePressed="#onBorderPanePressed" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.HomeController">
    <left>
-      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" prefWidth="120.0" style="-fx-background-color: #6a5acd;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="560.0" prefWidth="149.0" style="-fx-background-color: #6a5acd;" BorderPane.alignment="CENTER">
          <children>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#home" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 2px 0px 2px 0px;" text="Home" textAlignment="CENTER" textFill="WHITE">
                <cursor>
@@ -25,28 +25,40 @@
                </cursor>
                <font>
                   <Font name="Consolas Bold" size="14.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="performanceButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#performanceView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Performances" textAlignment="CENTER" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <font>
                   <Font name="Consolas Bold" size="14.0" />
-               </font></Button>
+               </font>
+            </Button>
+            <Button fx:id="recommendationsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#recommendationsView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Recommendations" textAlignment="CENTER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </Button>
             <Button fx:id="movieViewButton" layoutX="10.0" layoutY="118.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#movieView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Movies" textAlignment="CENTER" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <font>
                   <Font name="Consolas Bold" size="14.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="ticketsViewButton" layoutX="10.0" layoutY="118.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#ticketsView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Tickets" textAlignment="CENTER" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <font>
                   <Font name="Consolas Bold" size="14.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="adminViewButton" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="53.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#adminView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Admin Panel" textAlignment="CENTER" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -73,7 +85,7 @@
                <children>
                   <Label fx:id="homeViewUserLabel" alignment="CENTER" contentDisplay="CENTER" text="Hello" textAlignment="CENTER" textFill="#515151" wrapText="true">
                      <font>
-                        <Font name="Consolas Bold" size="36.0" />
+                        <Font name="Consolas Bold" size="24.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Welcome to CinemaMAK" textAlignment="CENTER" textFill="#515151" wrapText="true">
@@ -96,8 +108,8 @@
    <top>
       <GridPane style="-fx-background-color: #6a5acd;" BorderPane.alignment="CENTER">
         <columnConstraints>
-            <ColumnConstraints hgrow="NEVER" maxWidth="395.0" minWidth="10.0" prefWidth="121.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="681.9999923706055" minWidth="10.0" prefWidth="556.0000305175781" />
+            <ColumnConstraints hgrow="NEVER" maxWidth="395.0" minWidth="10.0" prefWidth="149.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="681.9999923706055" minWidth="10.0" prefWidth="627.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="681.9999923706055" minWidth="10.0" prefWidth="123.99996948242188" />
         </columnConstraints>
         <rowConstraints>
@@ -121,7 +133,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="221.0" spacing="10.0" style="-fx-border-color: white; -fx-border-width: 0px 0px 0px 2px;" GridPane.columnIndex="1">
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="556.0" spacing="10.0" style="-fx-border-color: white; -fx-border-width: 0px 0px 0px 2px;" GridPane.columnIndex="1">
                <children>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -142,7 +154,7 @@
                <children>
                   <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onButtonMinimize" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../icons/minimize%20(1).png" />
+                        <Image url="@../../../../../../../icons/minimize (1).png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -150,7 +162,7 @@
                   </ImageView>
                   <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onButtonMaximize" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../icons/maximize%20(1).png" />
+                        <Image url="@../../../../../../../icons/maximize (1).png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -158,7 +170,7 @@
                   </ImageView>
                   <ImageView fitHeight="18.0" fitWidth="18.0" onMouseClicked="#onButtonExit" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../icons/close%20(1).png" />
+                        <Image url="@../../../../../../../icons/close (1).png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />

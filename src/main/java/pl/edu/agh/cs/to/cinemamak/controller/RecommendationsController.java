@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.event.TableRecommendationsChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
@@ -29,61 +27,62 @@ import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
 import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
+import pl.edu.agh.cs.to.cinemamak.service.RecommendationService;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-@FxmlView("performance-view.fxml")
-public class PerformanceController extends ExtractedTableController<Performance>  implements ApplicationListener<TablePerformanceChangeEvent> {
+@FxmlView("recommendations-view.fxml")
+public class RecommendationsController extends ExtractedTableController<Recommendation> implements ApplicationListener<TableRecommendationsChangeEvent> {
 
     public Button resetButton;
     @FXML
-    private TableColumn<Performance, String> columnTitle;
+    private TableColumn<Recommendation, String> columnTitle;
     @FXML
-    private TableColumn<Performance, String> columnDate;
+    private TableColumn<Recommendation, String> columnDateBegin;
     @FXML
-    private TableColumn<Performance, String> columnRoom;
-    @FXML
-    private TableColumn<Performance, String> columnSupervisor;
-    @FXML
-    private TableColumn<Performance, BigDecimal> columnPrice;
+    private TableColumn<Recommendation, String> columnDateEnd;
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
     @FXML
     public Button addButton;
     @FXML
     public Button deleteButton;
-
-
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
     private final SessionService sessionService;
     private final MovieService movieService;
     private final FxWeaver fxWeaver;
 
-    public PerformanceController(MovieService movieService,PerformanceService performanceService, SessionService sessionService, FxWeaver fxWeaver){
+    public RecommendationsController(MovieService movieService, RecommendationService recommendationService, SessionService sessionService, FxWeaver fxWeaver){
         super(movieService);
-        super.setService(performanceService);
+        super.setService(recommendationService);
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
         this.movieService = movieService;
     }
 
-    public void initialize(){
 
+    public void initialize(){
         super.initialize();
 
-        this.columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        this.columnDateBegin.setCellValueFactory(param -> {
+            if(param.getValue().getDateFrom() != null) {
+                return new SimpleStringProperty(param.getValue().getDateFrom().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            }
+            else{
+                return new SimpleStringProperty("null");
+            }
+        });
 
-        this.columnDate.setCellValueFactory(param -> {
-            if(param.getValue().getDate() != null) {
-                return new SimpleStringProperty(param.getValue().getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        this.columnDateEnd.setCellValueFactory(param -> {
+            if(param.getValue().getDateTo() != null) {
+                return new SimpleStringProperty(param.getValue().getDateTo().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
             }
             else{
                 return new SimpleStringProperty("null");
@@ -98,24 +97,6 @@ public class PerformanceController extends ExtractedTableController<Performance>
                 return new SimpleStringProperty("null");
             }
         });
-
-        this.columnRoom.setCellValueFactory(param -> {
-            if(param.getValue().getRoom() != null){
-                return new SimpleStringProperty(param.getValue().getRoom().getName());
-            }
-            else{
-                return new SimpleStringProperty("null");
-            }
-        });
-
-        this.columnSupervisor.setCellValueFactory(param -> {
-            if(param.getValue().getUser() != null){
-                return new SimpleStringProperty(param.getValue().getUser().getFirstName() + " " + param.getValue().getUser().getLastName());
-            }
-            else{
-                return new SimpleStringProperty("null");
-            }
-        });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
 
     }
@@ -124,11 +105,11 @@ public class PerformanceController extends ExtractedTableController<Performance>
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
             Stage newStage = new Stage();
             if(this.table.getSelectionModel().getSelectedItem() == null) return;
-            fxWeaver.loadController(PerformanceEditController.class).setPerformance(this.table.getSelectionModel().getSelectedItem()).setStage(newStage);
+            fxWeaver.loadController(RecommendationsEditController.class).setRecommendation(this.table.getSelectionModel().getSelectedItem()).setStage(newStage);
 
-            Scene newScene = new Scene(fxWeaver.loadView(PerformanceEditController.class));
+            Scene newScene = new Scene(fxWeaver.loadView(RecommendationsEditController.class));
 
-            newStage.setTitle("Edit performance");
+            newStage.setTitle("Edit recommendation");
             newStage.setScene(newScene);
             newStage.initModality(Modality.WINDOW_MODAL);
             newStage.initOwner(stage);
@@ -137,13 +118,12 @@ public class PerformanceController extends ExtractedTableController<Performance>
         }
     }
 
-
     public void setAddButton(){
         Stage form = new Stage();
-        fxWeaver.loadController(PerformanceFormController.class).setStage(form);
-        Scene scene = new Scene(fxWeaver.loadView(PerformanceFormController.class));
+        fxWeaver.loadController(RecommendationsFormController.class).setStage(form);
+        Scene scene = new Scene(fxWeaver.loadView(RecommendationsFormController.class));
         form.setScene(scene);
-        form.setTitle("Add performance");
+        form.setTitle("Add recommendation");
         form.initModality(Modality.WINDOW_MODAL);
         form.setAlwaysOnTop(true);
         form.initOwner(stage);
@@ -152,20 +132,20 @@ public class PerformanceController extends ExtractedTableController<Performance>
 
     public void setDeleteButton(){
         deleteEntity();
-        applicationEventPublisher.publishEvent(new TablePerformanceChangeEvent(this));
+        applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));
     }
 
     @Override
-    public void onApplicationEvent(TablePerformanceChangeEvent event) {
+    public void onApplicationEvent(TableRecommendationsChangeEvent event) {
         resetTable();
         cleanFields();
     }
-
 
     public void OnActionReset(ActionEvent actionEvent) {
         resetTable();
         cleanFields();
     }
+
 
     public void onActionSearch(ActionEvent actionEvent) {
         searchByMovie();

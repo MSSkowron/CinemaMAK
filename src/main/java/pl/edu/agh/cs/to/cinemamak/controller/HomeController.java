@@ -40,6 +40,8 @@ public class HomeController {
     @FXML
     private Button performanceButton;
     @FXML
+    private Button recommendationsButton;
+    @FXML
     private Button ticketsViewButton;
     @FXML
     private Button statisticsButton;
@@ -81,6 +83,7 @@ public class HomeController {
         roleUIHelper.bindVisibleOnlyToRoles(adminViewButton, RoleName.Admin);
         roleUIHelper.bindVisibleOnlyToRoles(performanceButton, RoleName.Admin, RoleName.Manager);
         roleUIHelper.bindVisibleOnlyToRoles(movieViewButton, RoleName.Admin, RoleName.Manager);
+        roleUIHelper.bindVisibleOnlyToRoles(recommendationsButton, RoleName.Admin, RoleName.Manager);
         roleUIHelper.bindVisibleOnlyToRoles(statisticsButton, RoleName.Manager, RoleName.Admin);
     }
 
@@ -128,6 +131,12 @@ public class HomeController {
 
         Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class));
         stage.setScene(loginScene);
+    }
+
+    public void recommendationsView(MouseEvent mouseEvent) {
+        Parent root;
+        root = fxWeaver.loadView(RecommendationsController.class);
+        borderPane.setCenter(root);
     }
 
     @FXML

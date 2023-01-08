@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.helpers.ResizeHelper;
 import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
@@ -31,12 +32,17 @@ public class LoginController {
     private final UserService userService;
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
+    private final DialogManager dialogManager;
     private Stage stage;
 
-    public LoginController(UserService userService, SessionService sessionService, FxWeaver fxWeaver) {
+    public LoginController(UserService userService,
+                           SessionService sessionService,
+                           FxWeaver fxWeaver,
+                           DialogManager dialogManager) {
         this.userService = userService;
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
+        this.dialogManager = dialogManager;
     }
 
     public void setStage(Stage stage) {
@@ -49,27 +55,15 @@ public class LoginController {
         String password = this.textFieldPassword.getCharacters().toString();
 
         if (userService.authenticate(email, password)) {
-            Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Login success");
-            dialog.setHeaderText("Logged in successfully!");
-            dialog.setContentText("Enjoy!");
-            dialog.show();
-            dialog.setOnCloseRequest(event -> {
+            this.dialogManager.showInformation(stage, "Logged in successfully!", "Enjoy!", event -> {
                 sessionService.setCurrentUser(userService.getUserByEmail(email).get());
                 Scene scene = new Scene(fxWeaver.loadView(HomeController.class));
                 stage.setScene(scene);
                 ResizeHelper.addResizeListener(stage, scene.getWidth(), scene.getHeight(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight() );
             });
         } else {
-            Alert dialog = new Alert(Alert.AlertType.ERROR);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            dialog.setTitle("Error");
-            dialog.setHeaderText("Error occurred while logging in!");
-            dialog.setContentText("Invalid credentials!");
-            dialog.show();
+            this.dialogManager.showError(stage, "Error occurred while logging in!",
+                    "Invalid credentials!");
         }
     }
 

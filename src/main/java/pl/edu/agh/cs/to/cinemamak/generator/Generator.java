@@ -24,6 +24,7 @@ public class Generator {
     private final PasswordEncoder passwordEncoder;
     private final RoomRepository roomRepository;
     private final SeatRepository seatRepository;
+    private final RecommendationRepository recommendationRepository;
 
     private final PerformanceRepository performanceRepository;
     private final MovieRepository movieRepository;
@@ -35,7 +36,8 @@ public class Generator {
                      RoomRepository roomRepository,
                      SeatRepository seatRepository,
                      PerformanceRepository performanceRepository,
-                     MovieRepository movieRepository) {
+                     MovieRepository movieRepository,
+                     RecommendationRepository recommendationRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.genreRepository = genreRepository;
@@ -44,6 +46,7 @@ public class Generator {
         this.seatRepository = seatRepository;
         this.performanceRepository = performanceRepository;
         this.movieRepository = movieRepository;
+        this.recommendationRepository = recommendationRepository;
     }
 
     @PostConstruct
@@ -79,10 +82,23 @@ public class Generator {
             if(movie != null){
                 this.movieRepository.save(movie);
             }
+            movie = generateMovie2();
+            if(movie != null){
+                this.movieRepository.save(movie);
+            }
+            movie = generateMovie3();
+            if(movie != null){
+                this.movieRepository.save(movie);
+            }
         }
 
         if(performanceRepository.count() == 0) {
             generatePerformance();
+            generatePerformance2();
+        }
+
+        if(recommendationRepository.count() == 0){
+            generateRecommendation();
         }
 
     }
@@ -166,7 +182,7 @@ public class Generator {
 
     public Movie generateMovie(){
         Movie movie = new Movie();
-        movie.setDate(new Date(2022, 12, 12));
+        movie.setDate(LocalDateTime.of(LocalDate.of(2012, 2,12), LocalTime.of(0,0,0)));
         movie.setDescription("description1");
         movie.setTitle("title1");
         movie.setDirector("director1");
@@ -176,6 +192,37 @@ public class Generator {
         gen.ifPresent(movie::setGenre);
 
         movie.setImageURL("https://static.wikia.nocookie.net/harrypotter/images/8/8d/PromoHP7_Harry_Potter.jpg/revision/latest?cb=20210613153821&path-prefix=pl");
+
+        return movie;
+    }
+    public Movie generateMovie2(){
+        Movie movie = new Movie();
+        movie.setDate(LocalDateTime.of(LocalDate.of(2022, 12,12), LocalTime.of(0,0,0)));
+        movie.setDescription("description2");
+        movie.setTitle("title2");
+        movie.setDirector("director2");
+        movie.setDuration(12);
+
+        Optional<Genre> gen = genreRepository.findGenreByGenreName("Comedy");
+        gen.ifPresent(movie::setGenre);
+
+        movie.setImageURL("https://static.wikia.nocookie.net/harrypotter/images/8/8d/PromoHP7_Harry_Potter.jpg/revision/latest?cb=20210613153821&path-prefix=pl");
+
+        return movie;
+    }
+
+    public Movie generateMovie3(){
+        Movie movie = new Movie();
+        movie.setDate(LocalDateTime.of(LocalDate.of(2023, 1,1), LocalTime.of(0,0,0)));
+        movie.setDescription("description3");
+        movie.setTitle("title3");
+        movie.setDirector("director3");
+        movie.setDuration(112);
+
+        Optional<Genre> gen = genreRepository.findGenreByGenreName("Music");
+        gen.ifPresent(movie::setGenre);
+
+        movie.setImageURL("https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg");
 
         return movie;
     }
@@ -196,10 +243,10 @@ public class Generator {
 
     public void generatePerformance(){
         Performance performance = new Performance();
-        performance.setDate(LocalDateTime.of(LocalDate.of(2022, 12,12), LocalTime.of(0,0,0)));
+        performance.setDate(LocalDateTime.of(LocalDate.of(2023, 2,12), LocalTime.of(0,0,0)));
 
         List<Movie> movie = movieRepository.findAll();
-
+        if(movie.isEmpty()) return;
         performance.setMovie(movie.get(0));
         performance.setPrice(BigDecimal.valueOf(111));
 
@@ -209,5 +256,34 @@ public class Generator {
         userRepository.findByEmailAddress("admin@gmail.com").ifPresent(performance::setUser);
 
         this.performanceRepository.save(performance);
+    }
+
+    public void generatePerformance2(){
+        Performance performance = new Performance();
+        performance.setDate(LocalDateTime.of(LocalDate.of(2023, 4,15), LocalTime.of(0,0,0)));
+
+        List<Movie> movie = movieRepository.findAll();
+        if(movie.isEmpty()) return;
+        performance.setMovie(movie.get(1));
+        performance.setPrice(BigDecimal.valueOf(134));
+
+        List<Room> rooms = roomRepository.findAll();
+        performance.setRoom(rooms.get(1));
+
+        userRepository.findByEmailAddress("employee@gmail.com").ifPresent(performance::setUser);
+
+        this.performanceRepository.save(performance);
+    }
+
+    public void generateRecommendation(){
+        Recommendation recommendation = new Recommendation();
+        recommendation.setDateFrom(LocalDateTime.of(LocalDate.of(2022, 12,12), LocalTime.of(8,0,0)));
+        recommendation.setDateTo(LocalDateTime.of(LocalDate.of(2022, 12,30), LocalTime.of(20,0,0)));
+
+        List<Movie> movie = movieRepository.findAll();
+        if(movie.isEmpty()) return;
+        recommendation.setMovie(movie.get(0));
+
+        this.recommendationRepository.save(recommendation);
     }
 }
