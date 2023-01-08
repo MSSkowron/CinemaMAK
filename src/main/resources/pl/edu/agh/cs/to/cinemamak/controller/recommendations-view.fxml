@@ -48,9 +48,9 @@
             </HBox>
           <TableView fx:id="table" onMousePressed="#onMousePressed" prefHeight="333.0" prefWidth="560.0">
               <columns>
-                  <TableColumn fx:id="columnTitle" prefWidth="241.0" text="Title" />
-                  <TableColumn fx:id="columnDateBegin" minWidth="1.0" prefWidth="176.0" text="Date From" />
-                  <TableColumn fx:id="columnDateEnd" prefWidth="167.0" text="Date To" />
+                  <TableColumn fx:id="columnTitle" prefWidth="267.0" text="Title" />
+                  <TableColumn fx:id="columnDateBegin" minWidth="1.0" prefWidth="216.0" text="Date From" />
+                  <TableColumn fx:id="columnDateEnd" prefWidth="200.0" text="Date To" />
               </columns>
               <VBox.margin>
                   <Insets left="20.0" right="20.0" />

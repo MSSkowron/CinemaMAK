@@ -49,11 +49,11 @@
             </HBox>
             <TableView fx:id="table" onMousePressed="#onMousePressed" prefWidth="585.0">
               <columns>
-                <TableColumn fx:id="columnTitle" prefWidth="134.0" text="Title" />
-                <TableColumn fx:id="columnDate" prefWidth="118.0" text="Date" />
-                  <TableColumn fx:id="columnRoom" prefWidth="109.0" text="Room" />
-                  <TableColumn fx:id="columnSupervisor" prefWidth="116.0" text="Supervisor" />
-                  <TableColumn fx:id="columnPrice" prefWidth="122.0" text="Price" />
+                <TableColumn fx:id="columnTitle" prefWidth="162.0" text="Title" />
+                <TableColumn fx:id="columnDate" prefWidth="133.0" text="Date" />
+                  <TableColumn fx:id="columnRoom" prefWidth="115.0" text="Room" />
+                  <TableColumn fx:id="columnSupervisor" prefWidth="127.0" text="Supervisor" />
+                  <TableColumn fx:id="columnPrice" prefWidth="132.0" text="Price" />
               </columns>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
