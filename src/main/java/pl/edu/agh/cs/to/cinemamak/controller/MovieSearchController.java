@@ -58,6 +58,7 @@ public class MovieSearchController extends ExtractedTableController<Movie> {
     private Optional<Movie> selectedMovie = Optional.empty();
 
     public MovieSearchController(MovieService movieService, FxWeaver fxWeaver, DialogManager dialogManager){
+        super(movieService);
         this.movieService = movieService;
         this.fxWeaver = fxWeaver;
         this.dialogManager = dialogManager;
@@ -88,7 +89,6 @@ public class MovieSearchController extends ExtractedTableController<Movie> {
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
 
-        setEntities(m -> true);
     }
 
     public void onMousePressed(MouseEvent event) {
@@ -134,4 +134,7 @@ public class MovieSearchController extends ExtractedTableController<Movie> {
         this.stage.close();
     }
 
+    public void onActionSearch(ActionEvent actionEvent) {
+        searchByMovie();
+    }
 }

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.event.TableRecommendationsChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
@@ -32,6 +33,8 @@ import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
@@ -65,7 +68,7 @@ public class PerformanceController extends ExtractedTableController<Performance>
     private final FxWeaver fxWeaver;
 
     public PerformanceController(MovieService movieService,PerformanceService performanceService, SessionService sessionService, FxWeaver fxWeaver){
-        super();
+        super(movieService);
         super.setService(performanceService);
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
@@ -114,8 +117,6 @@ public class PerformanceController extends ExtractedTableController<Performance>
             }
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
-
-        setEntities(p -> true);
 
     }
 
@@ -166,4 +167,7 @@ public class PerformanceController extends ExtractedTableController<Performance>
         cleanFields();
     }
 
+    public void onActionSearch(ActionEvent actionEvent) {
+        searchByMovie();
+    }
 }

@@ -132,4 +132,6 @@ public class Movie implements ITableEntityWithMovie{
                 ", date=" + date +
                 '}';
     }
+
+
 }

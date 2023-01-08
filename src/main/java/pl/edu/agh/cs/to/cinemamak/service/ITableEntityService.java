@@ -1,7 +1,5 @@
 package pl.edu.agh.cs.to.cinemamak.service;
 
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +13,5 @@ public interface ITableEntityService<EntityType> {
     Optional<List<EntityType>> getEntitiesByMovieId(long id);
 
     void deleteEntityById(long id);
-
 
 }

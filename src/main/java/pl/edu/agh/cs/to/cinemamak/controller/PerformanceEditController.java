@@ -192,7 +192,6 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
             int hour1 = Integer.parseInt(hour_str.split(":")[0]);
             int minute1 = Integer.parseInt(hour_str.split(":")[1]);
             LocalTime time = LocalTime.of(hour1, minute1, 0);
-//            Optional<Movie> movie = movieService.getMovieById(Long.parseLong(title.split("\\s")[0]));
             Optional<Movie> movie = movieService.getMovieById(movieId);
             Optional<Room> room = roomService.getRoomById(Long.parseLong(name_room.split("\\s")[0]));
             Optional<User> user = userService.getUserById(Long.parseLong(supervisor.split("\\s")[0]));

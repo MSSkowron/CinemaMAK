@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.service;
 
 import org.springframework.stereotype.Service;
+import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
 import pl.edu.agh.cs.to.cinemamak.repository.RecommendationRepository;
 
@@ -34,4 +35,5 @@ public class RecommendationService implements ITableEntityService<Recommendation
     public void deleteEntityById(long id) {
         this.recommendationRepository.deleteById(id);
     }
+
 }

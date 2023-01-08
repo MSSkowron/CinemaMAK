@@ -55,13 +55,12 @@ public class RecommendationsController extends ExtractedTableController<Recommen
     public Button addButton;
     @FXML
     public Button deleteButton;
-
     private final SessionService sessionService;
     private final MovieService movieService;
     private final FxWeaver fxWeaver;
 
     public RecommendationsController(MovieService movieService, RecommendationService recommendationService, SessionService sessionService, FxWeaver fxWeaver){
-        super();
+        super(movieService);
         super.setService(recommendationService);
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
@@ -100,7 +99,6 @@ public class RecommendationsController extends ExtractedTableController<Recommen
         });
         movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
 
-        setEntities(r -> true);
     }
 
     public void onMousePressed(MouseEvent event) {
@@ -149,4 +147,7 @@ public class RecommendationsController extends ExtractedTableController<Recommen
     }
 
 
+    public void onActionSearch(ActionEvent actionEvent) {
+        searchByMovie();
+    }
 }

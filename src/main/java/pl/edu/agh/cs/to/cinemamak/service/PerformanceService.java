@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.service;
 
 import org.springframework.stereotype.Service;
+import pl.edu.agh.cs.to.cinemamak.model.Genre;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
 import pl.edu.agh.cs.to.cinemamak.repository.PerformanceRepository;
 
@@ -41,4 +42,5 @@ public class PerformanceService implements ITableEntityService<Performance>{
         public void deleteEntityById(long id) {
         this.performanceRepository.deleteById(id);
     }
+
 }

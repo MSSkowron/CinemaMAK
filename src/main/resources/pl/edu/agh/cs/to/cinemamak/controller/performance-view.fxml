@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="628.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.PerformanceController">
    <children>
       <VBox prefHeight="368.0" prefWidth="625.0">
          <children>
@@ -34,9 +34,14 @@
                   </TextField>
                   <ChoiceBox fx:id="genreChoiceBox" prefHeight="25.0" prefWidth="137.0">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="20.0" top="5.0" />
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
                      </HBox.margin>
                   </ChoiceBox>
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onActionSearch" text="Search">
+                     <HBox.margin>
+                        <Insets left="5.0" right="20.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
@@ -60,7 +65,7 @@
          <children>
             <Button fx:id="addButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setAddButton" prefWidth="100.0" text="Add" textAlignment="CENTER">
                <HBox.margin>
-                  <Insets bottom="15.0" left="60.0" top="15.0" />
+                  <Insets bottom="15.0" left="100.0" top="15.0" />
                </HBox.margin>
                <cursor>
                   <Cursor fx:constant="HAND" />
