@@ -17,6 +17,7 @@ import pl.edu.agh.cs.to.cinemamak.event.MovieSelectedEvent;
 import pl.edu.agh.cs.to.cinemamak.event.TableRecommendationsChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
+import pl.edu.agh.cs.to.cinemamak.model.RoleName;
 import pl.edu.agh.cs.to.cinemamak.service.*;
 
 import java.time.LocalDate;
@@ -35,12 +36,14 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
     public DatePicker dateToPicker;
     public TextField textFieldMovie;
     public Button buttonSearch;
+    public CheckBox notificationCheckBox;
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
     private final MovieService movieService;
     private final RecommendationService recommendationService;
+    private final EmailService emailService;
     private final FxWeaver fxWeaver;
     private final DialogManager dialogManager;
     private Stage stage;
@@ -49,11 +52,13 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
     public RecommendationsFormController(MovieService movieService,
                                      RecommendationService recommendationService,
                                          FxWeaver fxWeaver,
-                                         DialogManager dialogManager){
+                                         DialogManager dialogManager,
+                                         EmailService emailService){
         this.movieService = movieService;
         this.recommendationService = recommendationService;
         this.fxWeaver = fxWeaver;
         this.dialogManager = dialogManager;
+        this.emailService = emailService;
     }
 
     public void setStage(Stage stage) {
@@ -86,7 +91,12 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
 
             if(movie.isPresent()){
                 this.recommendationService.addEntity(new Recommendation(movie.get(), localDateTimeFrom, localDateTimeTo));
-
+                if(notificationCheckBox.isSelected()) {
+                    this.emailService.sendToUsersWithRole(RoleName.Employee,"New recommendation",
+                            "Please recommend to our clients movie called "
+                                    +movie.get().getTitle()+" from day "
+                    +dateFrom+" to "+dateTo+".");
+                }
                 this.dialogManager.showInformation(stage, "New recommendation added successfully", "",event -> {
                     applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));
                     stage.close();
@@ -103,6 +113,7 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
         }
 
     }
+
 
     public void onActionCancel(ActionEvent actionEvent) {
         stage.close();
