@@ -173,7 +173,7 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Add* seans zostaje zatwierdzony.
 
 
-- **Sprzedawanie i zwrot biletu**
+- **Bilety**
 
   ![Widok początkowy](../images/sprzedawanie_biletu_1.png)
   
@@ -182,24 +182,33 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
   Za pomocą *Select genre* można wyświetlić tylko filmy z danej kategorii. \
   Wówczas wyświetli się tabela z nazwami poszczególych foteli w sali, w której odbędzie się seans.
 
-  ![Wybór miejsca 1](../images/sprzedawanie_biletu_2.png)
+  ![Wybór miejsca 2](../images/sprzedawanie_biletu_2.png)
 
   Użytkownik wybiera odpowiedni fotel klikając w jego nazwę.
 
-  ![Wybór miejsca 2](../images/sprzedawanie_biletu_3.png)
+  ![Wybór miejsca 3](../images/sprzedawanie_biletu_3.png)
 
   Z pomocą przycisku "Sell ticket" użytkownik może sprzedać bilet na wybrany fotel w danym seansie.
 
-  ![Sprzedaż biletu](../images/sprzedawanie_biletu_4.png)
+  ![Sprzedaż biletu_4](../images/sprzedawanie_biletu_4.png)
 
   Nazwa fotela jest obramowana na czerwono, co oznacza, że ten fotel jest zarezerwowany i nie da się sprzedać biletu na ten fotel i seans. \
-  W przypadku zwrotu biletu, użytkownik może wybrać zarezerwowany fotel w celu realizacji zwrotu
+  W przypadku zwrotu biletu, użytkownik może wybrać zarezerwowany fotel w celu realizacji zwrotu.
 
   ![Zwrot biletu 1](../images/zwrot_biletu_1.png)
 
-  Za pomocą przycisku "Cancel reservation" rezerwacja na fotel jest anulowana
+  Za pomocą przycisku "Cancel reservation" rezerwacja na fotel jest anulowana.
 
   ![Zwrot biletu 2](../images/zwrot_biletu_2.png)
+
+
+- **Panel administratora**
+
+  ![Panel_administratowa](../images/panel_administratora.png)
+
+  Widok dostępny jest jedynie dla użytkownika z rolą administratora. \
+  Administrator systemu może zmieniać rolę użytkowników wybierając ich z listy, a następnie po wyborze roli zatwierdzić ją przyciskiem *Set*. \
+  Dodatkowo po zaznaczeniu *Send Email Notification* zostanie wysłany email do użytkownika powiadamiający go o zmianie jego roli.
 
 <a name="instalacja"></a>
 ## Instalacja
