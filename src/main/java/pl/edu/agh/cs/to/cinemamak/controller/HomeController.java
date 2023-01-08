@@ -29,6 +29,8 @@ public class HomeController {
     @FXML
     private AnchorPane ap;
     @FXML
+    public Label homeViewUserLabel;
+    @FXML
     private Label helloLabel;
     @FXML
     public Button movieViewButton;
@@ -58,6 +60,15 @@ public class HomeController {
     }
 
     public void initialize() {
+        homeViewUserLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+            if (sessionService.getCurrentUser().isEmpty()) {
+                return "";
+            }
+
+            User currUser = sessionService.getCurrentUser().get();
+            return "Hello %s!".formatted(currUser.getFirstName());
+        }, sessionService.getCurrentUserProperty()));
+
         helloLabel.textProperty().bind(Bindings.createStringBinding(() -> {
             if (sessionService.getCurrentUser().isEmpty()) {
                 return "";
