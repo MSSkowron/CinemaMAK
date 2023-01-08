@@ -9,6 +9,22 @@
 <?import javafx.scene.chart.PieChart?>
 <ScrollPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.StatisticsController">
     <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
-        <PieChart title="Movies by Genre" fx:id="movieCountByGenrePieChart" prefWidth="600" prefHeight="300" />
+        <HBox alignment="CENTER" spacing="5.0">
+            <Button text="General statistics" onAction="#showGeneralStatistics" />
+            <Button text="Detailed reports" onAction="#showDetailedReports" />
+        </HBox>
+        <VBox fx:id="generalStatistics" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+            <PieChart title="Movies by Genre" fx:id="movieCountByGenrePieChart" prefWidth="600" prefHeight="300" />
+            <PieChart title="Planned Performances by Genre" fx:id="performanceCountByGenrePieChart" prefWidth="600" prefHeight="300" />
+        </VBox>
+        <VBox fx:id="detailedReports" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+            <HBox alignment="CENTER" spacing="5.0">
+                <Label text="Date from:" />
+                <DatePicker fx:id="reportDateFrom" />
+                <Label text="to:" />
+                <DatePicker fx:id="reportDateTo" />
+                <Button fx:id="generateReportsButton" text="Generate reports" onAction="#setReportInterval"/>
+            </HBox>
+        </VBox>
     </VBox>
 </ScrollPane>
