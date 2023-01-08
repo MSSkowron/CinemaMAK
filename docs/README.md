@@ -26,17 +26,22 @@
 
 <a name="opis-projektu"></a>
 ## Opis projektu
-Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego.
+Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego. 
+Użytkownik może posiadać jedną z trzech ról: Administrator, Menadżer lub Pracownik. 
+W zależności od tego ma on odpowiednie funkcje w systemie i dostęp do odpowiednich widoków.\
+Funkcjonalności:
+- Zarządzanie bazą filmów
+- Planowanie seansów
+- Sprzedawanie biletów
+- Tworzenie rekomendacji dla filmów
+- Wyświetlanie statystyk
+- Wysyłanie wiadomości e-mail z powiadomieniami do pracowników
+- Zarządzanie użytkownikami systemu
 
 Do cześci frontendowej apliakacji została wykorzystana JavaFX, a odpowiednie widoki zaimplementowane w postaci plików FXML.
 Część backendowa została zaimplementowana przy użyciu Javy oraz Spring Framework'a.
 Dane przechowywane są w relacyjnej bazie danych. Jako system do zarządzania relacyjną bazą danych wybrano jeden z popularniejszych systemów - PostgreSQL.
 Automatyzacje procesu kompilacji zapewnia narzędzie - Gradle.
-
-Obecnie aplikacja umożliwa założenie konta w systemie i zalogowanie się, co prezentowane jest na dwóch widokach, pomiędzy którymi można się przełączać.
-Użytkownik chcąc założyć konto musi podać niezbędne do tego dane.
-Proces uwierzytelniania wymaga podania nazwy użytkownika, którą jest adres email oraz hasła.
-Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej trzymane są w bazie danych w odpowiedniej tabeli.
 
 <a name="model-obiektowy"></a>
 ## Model obiektowy
