@@ -15,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import pl.edu.agh.cs.to.cinemamak.event.TableMovieChangeEvent;
@@ -53,10 +52,7 @@ public class MovieDetailsController {
     private final RecommendationService recommendationService;
     private final ObjectProperty<Optional<Movie>> movie = new SimpleObjectProperty<>(Optional.empty());
 
-    public MovieDetailsController(DialogManager dialogManager,
-                                  PerformanceService performanceService,
-                                  MovieService movieService,
-                                  RecommendationService recommendationService) {
+    public MovieDetailsController(DialogManager dialogManager, PerformanceService performanceService, MovieService movieService, RecommendationService recommendationService) {
         this.movieService = movieService;
         this.performanceService = performanceService;
         this.dialogManager = dialogManager;
@@ -155,25 +151,27 @@ public class MovieDetailsController {
         boolean associatedPerformancesExists = listPerformances.isPresent() && !listPerformances.get().isEmpty();
         boolean associatedRecommendationsExists = listRecommendations.isPresent() && !listRecommendations.get().isEmpty();
 
-        if(associatedPerformancesExists){
+        if (associatedPerformancesExists) {
             boolean approveForPerformancesRemoval = this.dialogManager.askForConfirmation(
-                stage, "Movie belongs to some performances.",
-                "Do you want to delete all associated performances?");
-            if(!approveForPerformancesRemoval) return;
+                stage, "Movie belongs to some performances.", "Do you want to delete all associated performances?");
+            if (!approveForPerformancesRemoval) {
+                return;
+            }
         }
 
-        if(associatedRecommendationsExists){
+        if (associatedRecommendationsExists) {
             boolean approveForRecommendationsRemoval = this.dialogManager.askForConfirmation(
-                    stage, "Movie belongs to some recommendations.",
-                    "Do you want to delete all associated recommendations?");
-            if(!approveForRecommendationsRemoval) return;
+                    stage, "Movie belongs to some recommendations.", "Do you want to delete all associated recommendations?");
+            if (!approveForRecommendationsRemoval) {
+                return;
+            }
         }
 
-        if(associatedPerformancesExists){
+        if (associatedPerformancesExists) {
             deleteAllAssociatedPerformances(listPerformances.get());
         }
 
-        if(associatedRecommendationsExists){
+        if (associatedRecommendationsExists) {
             deleteAllAssociatedRecommendations(listRecommendations.get());
         }
 
@@ -186,29 +184,28 @@ public class MovieDetailsController {
 
     }
 
-    private Optional<List<Performance>>  lookForAssociatedPerformances(Movie movie){
+    private Optional<List<Performance>>  lookForAssociatedPerformances(Movie movie) {
         return performanceService.getEntitiesByMovieId(movie.getId());
     }
 
-    private Optional<List<Recommendation>>  lookForAssociatedRecommendations(Movie movie){
+    private Optional<List<Recommendation>>  lookForAssociatedRecommendations(Movie movie) {
         return recommendationService.getEntitiesByMovieId(movie.getId());
     }
 
-    private void deleteAllAssociatedPerformances(List<Performance> listPerformances){
-        for(Performance p: listPerformances) {
+    private void deleteAllAssociatedPerformances(List<Performance> listPerformances) {
+        for (Performance p: listPerformances) {
             performanceService.deleteEntityById(p.getId());
         }
     }
 
-    private void deleteAllAssociatedRecommendations(List<Recommendation> listRecommendations){
-        for(Recommendation r: listRecommendations) {
+    private void deleteAllAssociatedRecommendations(List<Recommendation> listRecommendations) {
+        for (Recommendation r: listRecommendations) {
             recommendationService.deleteEntityById(r.getId());
         }
     }
 
-    private void deleteMovie(Movie movie){
+    private void deleteMovie(Movie movie) {
         movieService.deleteMovie(movie);
         applicationEventPublisher.publishEvent(new TableMovieChangeEvent(this));
     }
-
 }

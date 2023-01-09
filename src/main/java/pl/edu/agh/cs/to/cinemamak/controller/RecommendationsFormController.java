@@ -29,31 +29,22 @@ import java.util.Optional;
 @FxmlView("recommendations-form-view.fxml")
 public class RecommendationsFormController implements ApplicationListener<MovieSelectedEvent> {
     @FXML
-    public ChoiceBox<String> movieChoiceBox;
-    @FXML
     public DatePicker dateFromPicker;
     @FXML
     public DatePicker dateToPicker;
     public TextField textFieldMovie;
     public Button buttonSearch;
     public CheckBox notificationCheckBox;
-
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-
     private final MovieService movieService;
     private final RecommendationService recommendationService;
     private final EmailService emailService;
     private final FxWeaver fxWeaver;
     private final DialogManager dialogManager;
     private Stage stage;
-    private Optional<Recommendation> recommendation = Optional.empty();
     private Optional<Movie> selectedMovie = Optional.empty();
-    public RecommendationsFormController(MovieService movieService,
-                                     RecommendationService recommendationService,
-                                         FxWeaver fxWeaver,
-                                         DialogManager dialogManager,
-                                         EmailService emailService){
+    public RecommendationsFormController(MovieService movieService, RecommendationService recommendationService, FxWeaver fxWeaver, DialogManager dialogManager, EmailService emailService) {
         this.movieService = movieService;
         this.recommendationService = recommendationService;
         this.fxWeaver = fxWeaver;
@@ -65,22 +56,22 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
         this.stage = stage;
     }
 
-    public void onActionAdd(){
-        if(this.selectedMovie.isEmpty()){
-            this.dialogManager.showError(stage,"Error occurred while editing a recommendation",
-                    "Movie must be chosen.");
+    public void onActionAdd() {
+        if (this.selectedMovie.isEmpty()) {
+            this.dialogManager.showError(stage,"Error occurred while editing a recommendation", "Movie must be chosen.");
             return;
         }
+
         String title = this.selectedMovie.get().getTitle();
-        Long movieId = this.selectedMovie.get().getId();
+        long movieId = this.selectedMovie.get().getId();
         LocalDate dateFrom = this.dateFromPicker.getValue();
         LocalDate dateTo = this.dateToPicker.getValue();
 
-        if(dateTo != null && dateFrom != null && title != null){
+        if (dateTo != null && dateFrom != null && title != null) {
             Optional<Movie> movie = movieService.getMovieById(movieId);
-            if(dateTo.isBefore(dateFrom)){
-                this.dialogManager.showError(stage,"Error occurred while adding a new recommendation",
-                        "Begin date must be before end date.");
+
+            if (dateTo.isBefore(dateFrom)) {
+                this.dialogManager.showError(stage,"Error occurred while adding a new recommendation", "Begin date must be before end date.");
                 return;
             }
 
@@ -88,32 +79,24 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
             LocalDateTime localDateTimeFrom = LocalDateTime.of(dateFrom, time);
             LocalDateTime localDateTimeTo = LocalDateTime.of(dateTo, time);
 
-
-            if(movie.isPresent()){
+            if (movie.isPresent()) {
                 this.recommendationService.addEntity(new Recommendation(movie.get(), localDateTimeFrom, localDateTimeTo));
-                if(notificationCheckBox.isSelected()) {
-                    this.emailService.sendToUsersWithRole(RoleName.Employee,"New recommendation",
-                            "Please recommend to our clients movie called "
-                                    +movie.get().getTitle()+" from day "
-                    +dateFrom+" to "+dateTo+".");
+
+                if (notificationCheckBox.isSelected()) {
+                    this.emailService.sendToUsersWithRole(RoleName.Employee,"New recommendation", "Please recommend to our clients movie called " +movie.get().getTitle()+" from day " +dateFrom+" to "+dateTo+".");
                 }
+
                 this.dialogManager.showInformation(stage, "New recommendation added successfully", "",event -> {
                     applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));
                     stage.close();
                 });
+            } else {
+                this.dialogManager.showError(stage,"Error occurred while adding a new recommendation", "All fields need to be filled!");
             }
-            else{
-                this.dialogManager.showError(stage,"Error occurred while adding a new recommendation",
-                        "All fields need to be filled!");
-            }
+        } else {
+            this.dialogManager.showError(stage,"Error occurred while adding a new recommendation", "All fields need to be filled!");
         }
-        else{
-            this.dialogManager.showError(stage,"Error occurred while adding a new recommendation",
-                    "All fields need to be filled!");
-        }
-
     }
-
 
     public void onActionCancel(ActionEvent actionEvent) {
         stage.close();
@@ -121,11 +104,14 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
 
     public void onActionSearch(ActionEvent actionEvent) {
         Stage stageMovieSearch = new Stage();
+
         this.selectedMovie = Optional.of(new Movie());
+
         fxWeaver.loadController(MovieSearchController.class).setStage(stageMovieSearch);
         fxWeaver.loadController(MovieSearchController.class).setSelectedMovie(this.selectedMovie.get());
 
         Scene scene = new Scene(fxWeaver.loadView(MovieSearchController.class));
+
         stageMovieSearch.setScene(scene);
         stageMovieSearch.setTitle("Movie search");
         stageMovieSearch.initModality(Modality.WINDOW_MODAL);
@@ -136,8 +122,10 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
 
     @Override
     public void onApplicationEvent(MovieSelectedEvent event) {
-        if(this.selectedMovie.isEmpty()) return;
+        if (this.selectedMovie.isEmpty()) {
+            return;
+        }
+
         this.textFieldMovie.setText(this.selectedMovie.get().getTitle());
     }
-
 }

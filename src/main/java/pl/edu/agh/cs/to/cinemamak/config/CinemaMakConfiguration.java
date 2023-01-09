@@ -13,13 +13,12 @@ public class CinemaMakConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public RoleUIHelper roleUIHelper(SessionService sessionService) {
         return new RoleUIHelper(sessionService);
     }
-
     @Bean
-    public DialogManager dialogManager(){ return new DialogManager(); }
-
+    public DialogManager dialogManager() {
+        return new DialogManager();
+    }
 }

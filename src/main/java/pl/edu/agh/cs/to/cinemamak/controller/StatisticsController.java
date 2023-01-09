@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @Component
 @FxmlView("statistics-view.fxml")
 public class StatisticsController {
@@ -40,33 +39,23 @@ public class StatisticsController {
         }
     @FXML
     private PieChart movieCountByGenrePieChart;
-
     @FXML
     private PieChart performanceCountByGenrePieChart;
-
     @FXML
     private VBox generalStatistics;
-
     @FXML
     private VBox detailedReports;
-
     @FXML
     private DatePicker reportDateFrom;
-
     @FXML
     private DatePicker reportDateTo;
-
     @FXML
     private Button generateReportsButton;
-
     @FXML
     private LineChart<String, Long> ticketsSoldLineChart;
-
     @FXML
     private LineChart<String, Double> ticketsProfitLineChart;
-
     private final StatisticsService statisticsService;
-
     private final BooleanProperty generalStatisticsVisible = new SimpleBooleanProperty(true);
     private final ObjectProperty<Optional<ReportInterval>> selectedInterval = new SimpleObjectProperty<>(Optional.empty());
 

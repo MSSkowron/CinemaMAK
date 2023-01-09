@@ -47,7 +47,6 @@ public class CinemaMakGUI extends Application {
         fxWeaver.loadController(LoginController.class).setStage(stage);
         fxWeaver.loadController(RegisterController.class).setStage(stage);
         fxWeaver.loadController(HomeController.class).setStage(stage);
-        fxWeaver.loadController(AdminController.class).setStage(stage);
         fxWeaver.loadController(PerformanceController.class).setStage(stage);
         fxWeaver.loadController(MovieController.class).setStage(stage);
         fxWeaver.loadController(RecommendationsController.class).setStage(stage);

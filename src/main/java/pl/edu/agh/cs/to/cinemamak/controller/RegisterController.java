@@ -3,11 +3,9 @@ package pl.edu.agh.cs.to.cinemamak.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -37,9 +35,7 @@ public class RegisterController {
     private Stage stage;
     private final FxWeaver fxWeaver;
 
-    public RegisterController(UserService userService,
-                              FxWeaver fxWeaver,
-                              DialogManager dialogManager) {
+    public RegisterController(UserService userService, FxWeaver fxWeaver, DialogManager dialogManager) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;
         this.dialogManager = dialogManager;
@@ -51,12 +47,12 @@ public class RegisterController {
 
     @FXML
     private void onButtonRegister() {
-        if(textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty() || textFieldEmail.getText().isEmpty() || textFieldPassword.getText().isEmpty()) {
+        if (textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty() || textFieldEmail.getText().isEmpty() || textFieldPassword.getText().isEmpty()) {
             this.dialogManager.showError(stage,"Error occurred while creating an account!","All fields need to be filled!");
             return;
         }
 
-        if(!EmailValidator.getInstance().isValid(textFieldEmail.getText())) {
+        if (!EmailValidator.getInstance().isValid(textFieldEmail.getText())) {
             this.dialogManager.showError(stage,"Error occurred while creating an account!","Email is not valid!");
             return;
         }
@@ -70,12 +66,11 @@ public class RegisterController {
             return;
         }
 
-        this.dialogManager.showInformation(stage,
-                "Account created successfully!",
-                "You can log in now!", event -> {
+        this.dialogManager.showInformation(stage, "Account created successfully!", "You can log in now!", event -> {
                     Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class));
                     stage.setScene(loginScene);
                 });
+
         clearForm();
     }
 
@@ -103,7 +98,7 @@ public class RegisterController {
         y = event.getSceneY();
     }
 
-    private String getCauseMessage(Throwable t){
+    private String getCauseMessage(Throwable t) {
         Throwable cause = t;
         while (cause.getCause() != null) {
             cause = cause.getCause();
@@ -118,5 +113,4 @@ public class RegisterController {
         textFieldEmail.setText("");
         textFieldPassword.setText("");
     }
-
 }

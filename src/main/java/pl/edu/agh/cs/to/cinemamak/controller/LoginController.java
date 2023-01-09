@@ -3,11 +3,9 @@ package pl.edu.agh.cs.to.cinemamak.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -35,10 +33,7 @@ public class LoginController {
     private final DialogManager dialogManager;
     private Stage stage;
 
-    public LoginController(UserService userService,
-                           SessionService sessionService,
-                           FxWeaver fxWeaver,
-                           DialogManager dialogManager) {
+    public LoginController(UserService userService, SessionService sessionService, FxWeaver fxWeaver, DialogManager dialogManager) {
         this.userService = userService;
         this.sessionService = sessionService;
         this.fxWeaver = fxWeaver;
@@ -62,13 +57,12 @@ public class LoginController {
                 ResizeHelper.addResizeListener(stage, scene.getWidth(), scene.getHeight(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight() );
             });
         } else {
-            this.dialogManager.showError(stage, "Error occurred while logging in!",
-                    "Invalid credentials!");
+            this.dialogManager.showError(stage, "Error occurred while logging in!", "Invalid credentials!");
         }
     }
 
     @FXML
-    private void onButtonRegister(){
+    private void onButtonRegister() {
         Scene registerScene = new Scene(fxWeaver.loadView(RegisterController.class));
         stage.setScene(registerScene);
     }
