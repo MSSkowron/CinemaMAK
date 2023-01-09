@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 
 @Component
 public class MovieSearchBarController<EntityType extends ITableEntityWithMovie> {
-
     @FXML
     protected TextField titleTextField;
     @FXML
@@ -26,10 +25,9 @@ public class MovieSearchBarController<EntityType extends ITableEntityWithMovie> 
     @FXML
     protected ChoiceBox<String> genreChoiceBox;
 
-    protected MovieSearchBarController(){
-    }
+    protected MovieSearchBarController(){}
 
-    protected void setFilterListeners(FilteredList<EntityType> filteredList){
+    protected void setFilterListeners(FilteredList<EntityType> filteredList) {
         this.titleTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(this.getMoviePredicate());
         });
@@ -44,7 +42,7 @@ public class MovieSearchBarController<EntityType extends ITableEntityWithMovie> 
         });
     }
 
-    protected Predicate<EntityType> getMoviePredicate(){
+    protected Predicate<EntityType> getMoviePredicate() {
         return new Predicate<EntityType>() {
             final String title = titleTextField.getText();
             final String director = directorTextField.getText();
@@ -53,34 +51,35 @@ public class MovieSearchBarController<EntityType extends ITableEntityWithMovie> 
             @Override
             public boolean test(EntityType entity) {
                 Movie movie = entity.getMovie();
-                if(!title.equals("")){
 
+                if (!title.equals("")) {
                     Pattern pattern = Pattern.compile(title, Pattern.CASE_INSENSITIVE);
                     Matcher matcher = pattern.matcher(movie.getTitle());
                     if(!matcher.find()){
                         return false;
                     }
                 }
-                if(!director.equals("")){
 
+                if (!director.equals("")) {
                     Pattern pattern = Pattern.compile(director, Pattern.CASE_INSENSITIVE);
                     Matcher matcher = pattern.matcher(movie.getDirector());
-                    if(!matcher.find()){
+                    if (!matcher.find()) {
                         return false;
                     }
                 }
-                if(!year.equals("")) {
 
+                if (!year.equals("")) {
                     if (!Integer.valueOf(movie.getDate().getYear()).equals(Integer.valueOf(year))) {
                         return false;
                     }
                 }
-                if(genre != null && !genre.equals("")){
 
-                    if(!movie.getGenre().getGenreName().equals(genre)){
+                if (genre != null && !genre.equals("")) {
+                    if (!movie.getGenre().getGenreName().equals(genre)) {
                         return false;
                     }
                 }
+
                 return true;
             }
         };
@@ -104,5 +103,4 @@ public class MovieSearchBarController<EntityType extends ITableEntityWithMovie> 
         this.titleTextField.setText("");
         this.yearTextField.setText("");
     }
-
 }

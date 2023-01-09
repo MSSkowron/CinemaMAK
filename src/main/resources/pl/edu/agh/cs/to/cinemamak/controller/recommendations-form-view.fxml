@@ -6,97 +6,69 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.RecommendationsFormController">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="350.0" spacing="10.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.RecommendationsFormController">
 <children>
-    <Label alignment="CENTER" prefHeight="95.0" prefWidth="558.0" text="Add recommendation">
+    <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="90.0" text="Add recommendation" textAlignment="CENTER">
         <font>
-            <Font size="48.0" />
+            <Font name="System Bold" size="32.0" />
         </font>
          <VBox.margin>
-            <Insets top="30.0" />
+            <Insets />
          </VBox.margin></Label>
-    <HBox prefHeight="44.0" prefWidth="558.0">
-        <children>
-            <Label text="Movie:">
-                <font>
-                    <Font size="24.0" />
-                </font>
-                <HBox.margin>
-                    <Insets left="170.0" />
-                </HBox.margin>
-            </Label>
-            <TextField fx:id="textFieldMovie" editable="false" prefWidth="200.0" promptText="Search titile">
-               <HBox.margin>
-                  <Insets left="10.0" top="5.0" />
-               </HBox.margin>
-            </TextField>
-            <Button fx:id="buttonSearch" mnemonicParsing="false" onAction="#onActionSearch" text="Search">
-               <HBox.margin>
-                  <Insets left="10.0" top="5.0" />
-               </HBox.margin>
-            </Button>
-        </children>
-        <VBox.margin>
-            <Insets top="10.0" />
-        </VBox.margin>
-    </HBox>
-    <HBox prefHeight="38.0" prefWidth="558.0">
-        <children>
-            <Label text="Begin date:">
-                <font>
-                    <Font size="24.0" />
-                </font>
-                <HBox.margin>
-                    <Insets left="122.0" />
-                </HBox.margin>
-            </Label>
-            <DatePicker fx:id="dateFromPicker" prefWidth="200.0">
-                <HBox.margin>
-                    <Insets left="10.0" top="6.0" />
-                </HBox.margin>
-            </DatePicker>
-        </children>
-    </HBox>
-    <HBox prefHeight="38.0" prefWidth="558.0">
-        <children>
-            <Label text="End date:">
-                <font>
-                    <Font size="24.0" />
-                </font>
-                <HBox.margin>
-                    <Insets left="141.0" />
-                </HBox.margin>
-            </Label>
-            <DatePicker fx:id="dateToPicker" prefWidth="200.0">
-                <HBox.margin>
-                    <Insets left="10.0" top="6.0" />
-                </HBox.margin>
-            </DatePicker>
-        </children>
-    </HBox>
-      <HBox prefHeight="25.0" prefWidth="571.0">
+      <GridPane alignment="CENTER" hgap="10.0" minWidth="400.0" vgap="10.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="181.0" prefWidth="181.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="79.0" prefWidth="40.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <CheckBox fx:id="notificationCheckBox" mnemonicParsing="false" text="Send notification">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="250.0" top="5.0" />
-               </HBox.margin>
+            <Label text="Movie">
+                <font>
+                    <Font size="22.0" />
+                </font>
+            </Label>
+            <Label text="Begin date" GridPane.rowIndex="1">
+                <font>
+                    <Font size="22.0" />
+                </font>
+            </Label>
+            <DatePicker fx:id="dateFromPicker" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="End date" GridPane.rowIndex="2">
+                <font>
+                    <Font size="22.0" />
+                </font>
+            </Label>
+            <DatePicker fx:id="dateToPicker" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="buttonSearch" alignment="CENTER" mnemonicParsing="false" onAction="#onActionSearch" text="Search" GridPane.columnIndex="2" />
+            <TextField fx:id="textFieldMovie" editable="false" promptText="Search titile" GridPane.columnIndex="1" />
+            <CheckBox fx:id="notificationCheckBox" mnemonicParsing="false" text="Send email notification" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="14.0" />
                </font>
             </CheckBox>
          </children>
-      </HBox>
+      </GridPane>
+      <HBox />
 
 
-    <HBox prefHeight="23.0" prefWidth="571.0">
+    <HBox alignment="CENTER" spacing="30.0">
         <children>
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#onActionAdd" prefWidth="100.0" text="Add">
                 <HBox.margin>
-                    <Insets left="130.0" />
+                    <Insets />
                 </HBox.margin>
                 <font>
                     <Font size="18.0" />
@@ -107,7 +79,7 @@
                     <Font size="18.0" />
                 </font>
                 <HBox.margin>
-                    <Insets left="100.0" />
+                    <Insets />
                 </HBox.margin>
             </Button>
         </children>
@@ -116,4 +88,7 @@
         </VBox.margin>
     </HBox>
 </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </VBox>

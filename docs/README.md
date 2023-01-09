@@ -26,33 +26,38 @@
 
 <a name="opis-projektu"></a>
 ## Opis projektu
-Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego.
+Projekt jest to aplikacja desktopowa udostępniająca system do obsługi multipleksu kinowego. 
+Użytkownik może posiadać jedną z trzech ról: Administrator, Menadżer lub Pracownik. 
+W zależności od tego ma on odpowiednie funkcje w systemie i dostęp do odpowiednich widoków.\
+Funkcjonalności:
+- Zarządzanie bazą filmów
+- Planowanie seansów
+- Sprzedawanie biletów
+- Tworzenie rekomendacji dla filmów
+- Wyświetlanie statystyk
+- Wysyłanie wiadomości e-mail z powiadomieniami do pracowników
+- Zarządzanie użytkownikami systemu
 
 Do cześci frontendowej apliakacji została wykorzystana JavaFX, a odpowiednie widoki zaimplementowane w postaci plików FXML.
 Część backendowa została zaimplementowana przy użyciu Javy oraz Spring Framework'a.
 Dane przechowywane są w relacyjnej bazie danych. Jako system do zarządzania relacyjną bazą danych wybrano jeden z popularniejszych systemów - PostgreSQL.
-Automatyzacje procesu kompilacji zapewnia narzędzie - Gradle.
-
-Obecnie aplikacja umożliwa założenie konta w systemie i zalogowanie się, co prezentowane jest na dwóch widokach, pomiędzy którymi można się przełączać.
-Użytkownik chcąc założyć konto musi podać niezbędne do tego dane.
-Proces uwierzytelniania wymaga podania nazwy użytkownika, którą jest adres email oraz hasła.
-Do haszowania haseł wykorzystano funkcję bcrypt. Hasła w postaci zahaszowanej trzymane są w bazie danych w odpowiedniej tabeli.
+Automatyzacje procesu kompilacji zapewnia wykorzystanie Gradle'a.
 
 <a name="model-obiektowy"></a>
 ## Model obiektowy
-![Model_obiektowy](../images/model_obiektowy.png)
+![Model_obiektowy](../images/uml.png)
 
 Warstwa persystencji realizowana jest poprzez JPA (wzorzec Repository).
 
-Obiekty `Repository` (`UserRepository`, `RoleRepository`, `MovieRepository`, `GenreRepository`, `TicketRepository`, `PerformanceRepository`, `RoomRepository`, `SeatRepository`) udostępniają poprzez JPA kwerendy, których wynikami są encje i kolekcje encji.
+Obiekty `Repository` (`UserRepository`, `RoleRepository`, `MovieRepository`, `GenreRepository`, `TicketRepository`, `PerformanceRepository`, `RoomRepository`, `SeatRepository`, `RecommendationRepository`) udostępniają poprzez JPA kwerendy, których wynikami są encje i kolekcje encji.
 
 Obiekty `Service` korzystają z funkcjonalności obiektów `Repository` i udostępniają bardziej ograniczone i złożone API w celu wprowadzenia warstwy abstrakcji pomiędzy kontrolerami i warstwą persystencji. Warto zauważyć, że niektóre obiekty `Service` obsługują więcej niż jeden obiekt `Repository`. Dzieje się tak, kiedy `Repository` ma znaczenie jedynie w kontekscie innej encji (np. encje `Role` mają znaczenie jedyne w konteksie encji `User`).
 
-Następna warstwa aplikacji składa się z obiektów `Controller`, które realizują finkcjonalność warstwy kontrolerów we wzorcu MVC. Korzystając z obiektów `Service` realizują wysokopoziomową logikę biznesową. W szczególności można wyróżnić trzy główne typy kontrolerów:
+Następna warstwa aplikacji składa się z obiektów `Controller`, które realizują funkcjonalność warstwy kontrolerów we wzorcu MVC. Korzystając z obiektów `Service` realizują wysokopoziomową logikę biznesową. W szczególności można wyróżnić trzy główne typy kontrolerów:
 
 - Kontrolery sesji i uwierzytelniania, odpowiedzialne za rejestrację/logowanie
-- Kontrolery administracyjne (`Management`), dostępne jedynie dla Admina/Menedżera, pozwalające na modyfikację danych
-- Kontrolery wyświetlania, dostępne dla zwykłego użytkownika. Nie pozwalają one na wprowadzanie zmian. Wyjątkiem jest kontroler `TicketController`, który pracownikowi pozwala na rejestrację sprzedaży biletów.
+- Kontrolery administracyjne, dostępne jedynie dla Admina/Menedżera, pozwalające na modyfikację danych
+- Kontrolery wyświetlania, dostępne dla zwykłego pracownika. Nie pozwalają one na wprowadzanie zmian. Wyjątkiem jest kontroler `TicketController`, który pracownikowi pozwala na rejestrację sprzedaży biletów.
 
 Każdemu kontrolerowi przypada odpowiedni widok - są to widoki `FXML` z biblioteki JavaFX, pozwalające na imlpementację reaktywnego GUI poprzez powiązania `Binding` JavaFX.
 
@@ -161,47 +166,88 @@ oraz są niezbędne do poprawnego działania systemu, zgodnie z wymaganiami, w b
 
 - **Seanse**
 
-  ![Widok początkowy](../images/seanse.png)
+  ![Widok początkowy](../images/performances_view.jpg)
 
   Widok dostępny jest dla użytkowników z rolą admina/menadżera. \
   W tabeli wyświetlane są seanse obecnie zarejestrowane w bazie. \
+  Seanse można wyświetlić w tabeli po uprzednim ich wyszukaniu \
+  za pomocą odpowiednich pól u góry widoku i kliknięciu przycisku *Search*.\
+  Przycisk *Reset* służy do czyszczenia tabeli z wyszukiwanych wyników. \
   Po wskazaniu seansu i wciśnięciu przycisku *Delete* zostaje on usunięty. \
-  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowego seansu.
+  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowego seansu.\
+  Po dwukrotnym kliknięciu *Wiersza* otwiera się formularz edytowania seansu. \
 
-  ![Widok początkowy](../images/seanse_formularz.png)
+
+  ![Widok początkowy](../images/performance_form_view.jpg)
 
   Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Add* seans zostaje zatwierdzony.
+
+  ![Widok początkowy](../images/performance_edit_view.jpg)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Apply* seans zostaje zatwierdzony.
+
+- **Rekomendacje**
+
+  ![Widok początkowy](../images/recommendations_view.jpg)
+
+  Widok dostępny jest dla użytkowników z rolą admina/menadżera. \
+  W tabeli wyświetlane są rekomendacje obecnie zarejestrowane w bazie. \
+  Rekomendacje można wyświetlić w tabeli po uprzednim ich wyszukaniu \
+  za pomocą odpowiednich pól u góry widoku i kliknięciu przycisku *Search*.\
+  Przycisk *Reset* służy do czyszczenia tabeli z wyszukiwanych wyników. \
+  Po wskazaniu rekomendacji i wciśnięciu przycisku *Delete* zostaje on usunięty. \
+  Po wciśnięciu przycisku *Add* otwiera się formularz dodawania nowej rekomendacji.\
+  Po dwukrotnym kliknięciu *Wiersza* otwiera się formularz edytowania rekomendacji.
+
+  ![Widok początkowy](../images/recommendation_form_view.jpg)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Add* rekomendacja zostaje zatwierdzona.
+
+  ![Widok początkowy](../images/recommendation_edit_view.jpg)
+
+  Po poprawnym uzupełnieniu danych i wciśnięciu przycisku *Apply* rekomandacja zostaje zatwierdzona.
+
+  Dla widoków dodawania i edycji rekomendacji oraz seansów:
+  Po kliknięciu przycisku *Search* obok pola tekstowego z tytułem filmu można przejść do widoku wyszukiwania filmu.
+
+  ![Widok początkowy](../images/movie_search_view.jpg)
+
+  Filmy można wyświetlić w tabeli po uprzednim ich wyszukaniu \
+  za pomocą odpowiednich pól u góry widoku i kliknięciu przycisku *Search*.\
+  Przycisk *Reset* służy do czyszczenia tabeli z wyszukiwanych wyników. \
+  Przycisk *Apply* służy do dodania filmu do pola tekstowego. \
+  Przycisk *Cancel* służy do wyjścia z widoku.
 
 
 - **Bilety**
 
-  ![Widok początkowy](../images/sprzedawanie_biletu_1.png)
+  ![Widok początkowy](../images/tickets_view.jpg)
   
   Widok dostępny jest dla wszystkich użytkowników, niezależnie od roli. \
   Widok na początku wyświetla listę seansów, z których użytkownik wybiera jeden. \
   Za pomocą *Select genre* można wyświetlić tylko filmy z danej kategorii. \
   Wówczas wyświetli się tabela z nazwami poszczególych foteli w sali, w której odbędzie się seans.
 
-  ![Wybór miejsca 2](../images/sprzedawanie_biletu_2.png)
+  ![Wybór miejsca 2](../images/tickets_view_full.png)
 
   Użytkownik wybiera odpowiedni fotel klikając w jego nazwę.
 
-  ![Wybór miejsca 3](../images/sprzedawanie_biletu_3.png)
+  ![Wybór miejsca 3](../images/tickets_view_selected.jpg)
 
   Z pomocą przycisku "Sell ticket" użytkownik może sprzedać bilet na wybrany fotel w danym seansie.
 
-  ![Sprzedaż biletu_4](../images/sprzedawanie_biletu_4.png)
+  ![Sprzedaż biletu_4](../images/tickets_view_marked.jpg)
 
   Nazwa fotela jest obramowana na czerwono, co oznacza, że ten fotel jest zarezerwowany i nie da się sprzedać biletu na ten fotel i seans. \
   W przypadku zwrotu biletu, użytkownik może wybrać zarezerwowany fotel w celu realizacji zwrotu.
 
-  ![Zwrot biletu 1](../images/zwrot_biletu_1.png)
+  ![Zwrot biletu 1](../images/tickets_view_marked_many.jpg)
 
   Za pomocą przycisku "Cancel reservation" rezerwacja na fotel jest anulowana.
 
-  ![Zwrot biletu 2](../images/zwrot_biletu_2.png)
+  ![Zwrot biletu 2](../images/tickets_view_cancel_seat.jpg)
 
-- **Widok statystyk**
+- **Statystyki**
 
   Dla Administratora i Menedżera dostępny jest widok statystyk podzielony na dwie części.
   

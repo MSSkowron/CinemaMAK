@@ -14,7 +14,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.event.MovieSelectedEvent;
-import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.event.TableRecommendationsChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Movie;
 import pl.edu.agh.cs.to.cinemamak.model.Recommendation;
@@ -37,7 +36,6 @@ public class RecommendationsEditController implements ApplicationListener<MovieS
     public Button buttonSearch;
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-
     private final MovieService movieService;
     private final RecommendationService recommendationService;
     private final FxWeaver fxWeaver;
@@ -46,10 +44,7 @@ public class RecommendationsEditController implements ApplicationListener<MovieS
     private Optional<Recommendation> recommendation = Optional.empty();
     private Optional<Movie> selectedMovie = Optional.empty();
 
-    public RecommendationsEditController(MovieService movieService,
-                                         RecommendationService recommendationService,
-                                         FxWeaver fxWeaver,
-                                         DialogManager dialogManager){
+    public RecommendationsEditController(MovieService movieService, RecommendationService recommendationService, FxWeaver fxWeaver, DialogManager dialogManager) {
         this.movieService = movieService;
         this.recommendationService = recommendationService;
         this.fxWeaver = fxWeaver;
@@ -61,46 +56,44 @@ public class RecommendationsEditController implements ApplicationListener<MovieS
         return this;
     }
 
-    public RecommendationsEditController setRecommendation(Recommendation recom) {
-        this.recommendation = Optional.of(recom);
+    public RecommendationsEditController setRecommendation(Recommendation recommendation) {
+        this.recommendation = Optional.of(recommendation);
         return this;
     }
 
-    public void initialize(){
-
-        if(recommendation.isPresent()){
+    public void initialize() {
+        if (recommendation.isPresent()) {
             this.setFields();
         }
-
     }
 
-    public void setFields(){
-        if(this.recommendation.isPresent()) {
-            Recommendation recom = this.recommendation.get();
-            this.dateFromPicker.setValue(recom.getDateFrom().toLocalDate());
-            this.dateToPicker.setValue(recom.getDateTo().toLocalDate());
-            this.textFieldMovie.setText(recom.getMovie().getTitle());
-            this.selectedMovie = Optional.of(recom.getMovie());
+    public void setFields() {
+        if (this.recommendation.isPresent()) {
+            Recommendation recommendation = this.recommendation.get();
+
+            this.dateFromPicker.setValue(recommendation.getDateFrom().toLocalDate());
+            this.dateToPicker.setValue(recommendation.getDateTo().toLocalDate());
+            this.textFieldMovie.setText(recommendation.getMovie().getTitle());
+            this.selectedMovie = Optional.of(recommendation.getMovie());
         }
     }
 
     public void onActionApply(ActionEvent actionEvent) {
-        if(this.selectedMovie.isEmpty()){
-            this.dialogManager.showError(stage,"Error occurred while editing a recommendation",
-                    "Movie must be chosen.");
+        if (this.selectedMovie.isEmpty()) {
+            this.dialogManager.showError(stage,"Error occurred while editing a recommendation", "Movie must be chosen.");
             return;
         }
+
         String title = this.selectedMovie.get().getTitle();
-        Long movieId = this.selectedMovie.get().getId();
+        long movieId = this.selectedMovie.get().getId();
         LocalDate dateFrom = this.dateFromPicker.getValue();
         LocalDate dateTo = this.dateToPicker.getValue();
 
-        if(dateTo != null && dateFrom != null && title != null){
+        if (dateTo != null && dateFrom != null && title != null) {
             Optional<Movie> movie = movieService.getMovieById(movieId);
 
-            if(dateTo.isBefore(dateFrom)){
-                this.dialogManager.showError(stage,"Error occurred while editing a recommendation",
-                        "Begin date must be before end date.");
+            if (dateTo.isBefore(dateFrom)) {
+                this.dialogManager.showError(stage,"Error occurred while editing a recommendation", "Begin date must be before end date.");
                 return;
             }
 
@@ -108,9 +101,7 @@ public class RecommendationsEditController implements ApplicationListener<MovieS
             LocalDateTime localDateTimeFrom = LocalDateTime.of(dateFrom, time);
             LocalDateTime localDateTimeTo = LocalDateTime.of(dateTo, time);
 
-
-            if(movie.isPresent() && this.recommendation.isPresent()){
-
+            if (movie.isPresent() && this.recommendation.isPresent()) {
                 this.recommendation.get().setMovie(movie.get());
                 this.recommendation.get().setDateFrom(localDateTimeFrom);
                 this.recommendation.get().setDateTo(localDateTimeTo);
@@ -120,15 +111,11 @@ public class RecommendationsEditController implements ApplicationListener<MovieS
                     applicationEventPublisher.publishEvent(new TableRecommendationsChangeEvent(this));
                     stage.close();
                 });
+            } else {
+                this.dialogManager.showError(stage,"Error occurred while editing a recommendation", "All fields need to be filled!");
             }
-            else{
-                this.dialogManager.showError(stage,"Error occurred while editing a recommendation",
-                        "All fields need to be filled!");
-            }
-        }
-        else{
-            this.dialogManager.showError(stage,"Error occurred while editing a recommendation",
-                    "All fields need to be filled!");
+        } else {
+            this.dialogManager.showError(stage,"Error occurred while editing a recommendation", "All fields need to be filled!");
         }
     }
 
@@ -138,11 +125,14 @@ public class RecommendationsEditController implements ApplicationListener<MovieS
 
     public void onActionSearch(ActionEvent actionEvent) {
         Stage stageMovieSearch = new Stage();
+
         this.selectedMovie = Optional.of(new Movie());
+
         fxWeaver.loadController(MovieSearchController.class).setStage(stageMovieSearch);
         fxWeaver.loadController(MovieSearchController.class).setSelectedMovie(this.selectedMovie.get());
 
         Scene scene = new Scene(fxWeaver.loadView(MovieSearchController.class));
+
         stageMovieSearch.setScene(scene);
         stageMovieSearch.setTitle("Movie search");
         stageMovieSearch.initModality(Modality.WINDOW_MODAL);
@@ -153,7 +143,10 @@ public class RecommendationsEditController implements ApplicationListener<MovieS
 
     @Override
     public void onApplicationEvent(MovieSelectedEvent event) {
-        if(this.selectedMovie.isEmpty()) return;
+        if (this.selectedMovie.isEmpty()) {
+            return;
+        }
+
         this.textFieldMovie.setText(this.selectedMovie.get().getTitle());
     }
 }

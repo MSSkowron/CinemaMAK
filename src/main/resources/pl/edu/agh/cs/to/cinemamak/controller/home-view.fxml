@@ -59,7 +59,7 @@
                   <Font name="Consolas Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="adminViewButton" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="53.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#adminView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Admin Panel" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="statisticsButton" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="53.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#statisticsView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Statistics" textAlignment="CENTER" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -67,7 +67,7 @@
                   <Font name="Consolas Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="statisticsButton" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="53.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#statisticsView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Statistics" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="adminViewButton" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="53.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#adminView" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Admin Panel" textAlignment="CENTER" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

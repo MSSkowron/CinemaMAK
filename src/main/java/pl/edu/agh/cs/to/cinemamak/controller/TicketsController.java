@@ -34,40 +34,29 @@ public class TicketsController {
     public TableColumn<Performance, String> recommendedColumn;
     @FXML
     private TableView<Performance> performancesList;
-
     @FXML
     private TableColumn<Performance, String> titleColumn;
-
     @FXML
     private TableColumn<Performance, String> dateColumn;
-
     @FXML
     private TableColumn<Performance, BigDecimal> priceColumn;
-
     @FXML
     private TableColumn<Performance, String> roomColumn;
-
     @FXML
     private GridPane seatsTable;
-
     @FXML
     private Button sellButton;
-
     @FXML
     private Button cancelReservationButton;
-
     @FXML
     private ChoiceBox<Genre> genreFilterChoiceBox;
-
     @FXML
     private Button clearGenreSelectionButton;
-
     private final PerformanceService performanceService;
     private final RoomService roomService;
     private final TicketService ticketService;
     private final RecommendationService recommendationService;
     private final MovieService movieService;
-
     private final ObjectProperty<Optional<Seat>> selectedSeat = new SimpleObjectProperty<>(Optional.empty());
     private final ObjectProperty<Optional<Genre>> selectedGenre = new SimpleObjectProperty<>(Optional.empty());
 
@@ -91,10 +80,9 @@ public class TicketsController {
         recommendedColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
-                if(recommendationService.isRecommendedMovie(param.getValue().getMovie())){
+                if (recommendationService.isRecommendedMovie(param.getValue().getMovie())) {
                     return new SimpleStringProperty("Yes");
-                }
-                else{
+                } else {
                     return new SimpleStringProperty("No");
                 }
             }
@@ -124,6 +112,7 @@ public class TicketsController {
                 if (object == null) {
                     return "";
                 }
+
                 return object.getGenreName();
             }
 

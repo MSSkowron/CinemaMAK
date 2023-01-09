@@ -1,7 +1,5 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -38,7 +36,6 @@ import java.util.function.UnaryOperator;
 @Component
 @FxmlView("performance-edit-view.fxml")
 public class PerformanceEditController implements ApplicationListener<MovieSelectedEvent> {
-
     public TextField textFieldMovie;
     public Button buttonSearch;
     @FXML
@@ -51,14 +48,8 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
     private ChoiceBox<String> supervisorChoiceBox;
     @FXML
     private TextField priceTextField;
-    @FXML
-    private Button applyButton;
-    @FXML
-    private Button cancelButton;
-
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-
     private final MovieService movieService;
     private final RoomService roomService;
     private final UserService userService;
@@ -66,16 +57,10 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
     private final FxWeaver fxWeaver;
     private final DialogManager dialogManager;
     private Stage stage;
-
     private Optional<Performance> performance = Optional.empty();
     private Optional<Movie> selectedMovie = Optional.empty();
 
-    public PerformanceEditController(MovieService movieService,
-                                     RoomService roomService,
-                                     UserService userService,
-                                     PerformanceService performanceService,
-                                     FxWeaver fxWeaver,
-                                     DialogManager dialogManager){
+    public PerformanceEditController(MovieService movieService, RoomService roomService, UserService userService, PerformanceService performanceService, FxWeaver fxWeaver, DialogManager dialogManager){
         this.userService = userService;
         this.roomService = roomService;
         this.movieService = movieService;
@@ -95,33 +80,37 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
     }
 
     public void initialize(){
-
-        if(performance.isPresent()) {
+        if (performance.isPresent()) {
             this.setFields();
         }
-        this.userService.getUsers().ifPresent(list -> list.forEach(user ->
-                this.supervisorChoiceBox.getItems().add(user.getId()+" "+user.getFirstName()+ " " + user.getLastName())));
 
-        this.roomService.getRooms().ifPresent(list -> list.forEach(room ->
-                this.roomChoiceBox.getItems().add(room.getId()+" "+room.getName())));
+        this.userService.getUsers().ifPresent(list -> list.forEach(user -> this.supervisorChoiceBox.getItems().add(user.getId()+" "+user.getFirstName()+ " " + user.getLastName())));
+
+        this.roomService.getRooms().ifPresent(list -> list.forEach(room -> this.roomChoiceBox.getItems().add(room.getId()+" "+room.getName())));
 
         List<String> hours = new ArrayList<>();
-        for(int i = 8; i<24; i++){
-            hours.add(i+":00");
-            hours.add(i+":30");
+        for (int i = 8; i < 24; i++){
+            hours.add(i + ":00");
+            hours.add(i + ":30");
         }
 
         SpinnerValueFactory<String> valueFactory = new SpinnerValueFactory<String>() {
             int ptr = 0;
             @Override
             public void decrement(int steps) {
-                if(ptr - steps != -1) ptr -= steps;
+                if (ptr - steps != -1) {
+                    ptr -= steps;
+                }
+
                 setValue(hours.get(ptr));
             }
 
             @Override
             public void increment(int steps) {
-                if(ptr+ steps != hours.size()) ptr += steps;
+                if (ptr+ steps != hours.size()) {
+                    ptr += steps;
+                }
+
                 setValue(hours.get(ptr));
             }
         };
@@ -131,6 +120,7 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
             if (input.matches("[0-9]*[.]?[0-9]*")) {
                 return change;
             }
+
             return null;
         };
 
@@ -139,17 +129,19 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
         this.hourSpinner.setValueFactory(valueFactory);
     }
 
-    public void setFields(){
-        if(this.performance.isPresent()) {
+    public void setFields() {
+        if (this.performance.isPresent()) {
             Performance perf = this.performance.get();
 
             this.supervisorChoiceBox.setValue("value2");
+
             String hourStr;
             if (perf.getDate().getMinute() == 0) {
                 hourStr = perf.getDate().getHour() + ":00";
             } else {
                 hourStr = perf.getDate().getHour() + ":" + perf.getDate().getMinute();
             }
+
             this.hourSpinner.setPromptText(hourStr);
             this.priceTextField.setText(perf.getPrice().toString());
             this.datePicker.setValue(perf.getDate().toLocalDate());
@@ -161,34 +153,32 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
     }
 
     public void onActionApply(){
-        if(this.selectedMovie.isEmpty()){
-            this.dialogManager.showError(stage,"Error occurred while editing a recommendation",
-                    "Movie must be chosen.");
+        if (this.selectedMovie.isEmpty()) {
+            this.dialogManager.showError(stage,"Error occurred while editing a recommendation", "Movie must be chosen.");
             return;
         }
+
         String title = this.selectedMovie.get().getTitle();
-        Long movieId = this.selectedMovie.get().getId();
+        long movieId = this.selectedMovie.get().getId();
         String name_room = this.roomChoiceBox.getValue();
         String supervisor = this.supervisorChoiceBox.getValue();
-        Double price = null;
+        double price;
 
         try {
             price = Double.parseDouble(
                     this.priceTextField.getCharacters().toString());
-        } catch (NullPointerException nullPointerException){
-            this.dialogManager.showError(stage,"Error occurred while editing performance",
-                    "All fields need to be filled!");
+        } catch (NullPointerException nullPointerException) {
+            this.dialogManager.showError(stage,"Error occurred while editing performance", "All fields need to be filled!");
             return;
-        } catch(NumberFormatException numberFormatException){
-            this.dialogManager.showError(stage,"Error occurred while editing performance",
-                    "Price need to be in format: integer.integer or integer.");
+        } catch(NumberFormatException numberFormatException) {
+            this.dialogManager.showError(stage,"Error occurred while editing performance", "Price need to be in format: integer.integer or integer.");
             return;
         }
 
         LocalDate date = this.datePicker.getValue();
         String hour_str = this.hourSpinner.getValue();
 
-        if(hour_str != null && date != null && title != null && name_room  != null && supervisor  != null ){
+        if (hour_str != null && date != null && title != null && name_room  != null && supervisor  != null ) {
             int hour1 = Integer.parseInt(hour_str.split(":")[0]);
             int minute1 = Integer.parseInt(hour_str.split(":")[1]);
             LocalTime time = LocalTime.of(hour1, minute1, 0);
@@ -198,7 +188,7 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
 
             LocalDateTime localDateTime1 = LocalDateTime.of(date, time);
 
-            if(movie.isPresent() && room.isPresent() && user.isPresent() && this.performance.isPresent()){
+            if (movie.isPresent() && room.isPresent() && user.isPresent() && this.performance.isPresent()) {
                 this.performance.get().setUser(user.get());
                 this.performance.get().setMovie(movie.get());
                 this.performance.get().setRoom(room.get());
@@ -211,17 +201,12 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
                     applicationEventPublisher.publishEvent(new TablePerformanceChangeEvent(this));
                     stage.close();
                 });
+            } else {
+                this.dialogManager.showError(stage,"Error occurred while editing performance", "All fields need to be filled!");
             }
-            else{
-                this.dialogManager.showError(stage,"Error occurred while editing performance",
-                        "All fields need to be filled!");
-            }
+        } else {
+            this.dialogManager.showError(stage,"Error occurred while editing performance", "All fields need to be filled! (look at hour field)");
         }
-        else{
-            this.dialogManager.showError(stage,"Error occurred while editing performance",
-                    "All fields need to be filled! (look at hour field)");
-        }
-
     }
 
     public void onActionCancel(){
@@ -230,7 +215,9 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
 
     public void onActionSearch(ActionEvent actionEvent) {
         Stage stageMovieSearch = new Stage();
+
         this.selectedMovie = Optional.of(new Movie());
+
         fxWeaver.loadController(MovieSearchController.class).setStage(stageMovieSearch);
         fxWeaver.loadController(MovieSearchController.class).setSelectedMovie(this.selectedMovie.get());
 
@@ -245,7 +232,10 @@ public class PerformanceEditController implements ApplicationListener<MovieSelec
 
     @Override
     public void onApplicationEvent(MovieSelectedEvent event) {
-        if(this.selectedMovie.isEmpty()) return;
+        if (this.selectedMovie.isEmpty()) {
+            return;
+        }
+
         this.textFieldMovie.setText(this.selectedMovie.get().getTitle());
     }
 }

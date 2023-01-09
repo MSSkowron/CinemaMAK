@@ -36,16 +36,12 @@ public class HomeController {
     public Button movieViewButton;
     @FXML
     private Button adminViewButton;
-
     @FXML
     private Button performanceButton;
     @FXML
     private Button recommendationsButton;
     @FXML
-    private Button ticketsViewButton;
-    @FXML
     private Button statisticsButton;
-
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -100,7 +96,7 @@ public class HomeController {
     }
 
     @FXML
-    private void performanceView(javafx.scene.input.MouseEvent mouseEvent){
+    private void performanceView(javafx.scene.input.MouseEvent mouseEvent) {
         Parent root;
         root = fxWeaver.loadView(PerformanceController.class);
         borderPane.setCenter(root);
