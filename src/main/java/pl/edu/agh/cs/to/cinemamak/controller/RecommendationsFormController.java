@@ -106,7 +106,7 @@ public class RecommendationsFormController implements ApplicationListener<MovieS
         Stage stageMovieSearch = new Stage();
 
         this.selectedMovie = Optional.of(new Movie());
-
+        this.textFieldMovie.setText("");
         fxWeaver.loadController(MovieSearchController.class).setStage(stageMovieSearch);
         fxWeaver.loadController(MovieSearchController.class).setSelectedMovie(this.selectedMovie.get());
 
