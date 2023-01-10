@@ -2,10 +2,11 @@ package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="movies")
-public class Movie {
+public class Movie implements ITableEntityWithMovie{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
@@ -31,9 +32,9 @@ public class Movie {
     private Genre genre;
 
     @Column(name="date", nullable = false)
-    private Date date;
+    private LocalDateTime date;
 
-    public Movie(String title, String director, String description, int duration, Genre genre, Date date, String imageURL) {
+    public Movie(String title, String director, String description, int duration, Genre genre, LocalDateTime date, String imageURL) {
         this.title = title;
         this.director = director;
         this.description = description;
@@ -54,6 +55,14 @@ public class Movie {
     public void setId(long id) {
         this.id = id;
     }
+
+    @Override
+    public Movie getMovie() {
+        return this;
+    }
+
+    @Override
+    public void setMovie(Movie movie) {}
 
     public String getTitle() {
         return title;
@@ -95,11 +104,11 @@ public class Movie {
         this.genre = genre;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -123,4 +132,6 @@ public class Movie {
                 ", date=" + date +
                 '}';
     }
+
+
 }

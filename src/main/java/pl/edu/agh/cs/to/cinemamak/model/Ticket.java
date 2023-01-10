@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.to.cinemamak.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="tickets")
@@ -18,9 +19,12 @@ public class Ticket {
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     private Seat seat;
 
-    public Ticket(Performance performance, Seat seat) {
+    private LocalDateTime soldDatetime;
+
+    public Ticket(Performance performance, Seat seat, LocalDateTime soldDatetime) {
         this.performance = performance;
         this.seat = seat;
+        this.soldDatetime = soldDatetime;
     }
 
     public Ticket() {

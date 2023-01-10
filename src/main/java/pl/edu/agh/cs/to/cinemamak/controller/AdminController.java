@@ -1,19 +1,17 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.event.ControlPanelSelectionChangeEvent;
+import pl.edu.agh.cs.to.cinemamak.model.Role;
 import pl.edu.agh.cs.to.cinemamak.model.RoleName;
 import pl.edu.agh.cs.to.cinemamak.model.User;
-import pl.edu.agh.cs.to.cinemamak.service.SessionService;
+import pl.edu.agh.cs.to.cinemamak.service.EmailService;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
 @Component
@@ -24,18 +22,15 @@ public class AdminController implements ApplicationListener<ControlPanelSelectio
     @FXML
     private ChoiceBox<String> roleChoiceBox;
     @FXML
-    private Button roleSetButton;
+    private CheckBox checkBoxEmailNotification;
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-    private Stage stage;
     private final UserService userService;
-    private final SessionService sessionService;
-    private final FxWeaver fxWeaver;
+    private final EmailService emailService;
 
-    public AdminController(UserService userService, SessionService sessionService, FxWeaver fxWeaver) {
+    public AdminController(UserService userService,EmailService emailService) {
         this.userService = userService;
-        this.sessionService = sessionService;
-        this.fxWeaver = fxWeaver;
+        this.emailService = emailService;
     }
 
     public void  initialize() {
@@ -57,23 +52,28 @@ public class AdminController implements ApplicationListener<ControlPanelSelectio
             }
         });
 
-        this.usersListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
-                -> applicationEventPublisher.publishEvent(new ControlPanelSelectionChangeEvent(this)));
-    }
-
-    public void setStage(Stage s) {
-        this.stage = s;
+        this.usersListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> applicationEventPublisher.publishEvent(new ControlPanelSelectionChangeEvent(this)));
     }
 
     @FXML
     private void onClickSet() {
         if (this.roleChoiceBox.getValue() != null) {
             if (this.usersListView.getSelectionModel().getSelectedItem() != null) {
-                User u = this.usersListView.getSelectionModel().getSelectedItem();
-                this.userService.getRoleFromName(RoleName.getEnum(this.roleChoiceBox.getValue()).toString()).ifPresent(role -> {
-                    u.setRole(role);
-                    this.userService.updateUser(u);
+                User user = this.usersListView.getSelectionModel().getSelectedItem();
+
+                this.userService.getRoleFromName(RoleName.getEnum(this.roleChoiceBox.getValue()).toString()).ifPresent(newRole -> {
+                    Role oldRole = user.getRole();
+
+                    user.setRole(newRole);
+
+                    this.userService.updateUser(user);
                     this.usersListView.refresh();
+
+                    if (checkBoxEmailNotification.isSelected()) {
+                        emailService.sendToUser(user, "Role changed", "Your role has been changed from " + oldRole.getRoleName() + " to " + newRole.getRoleName() + ".");
+
+                        checkBoxEmailNotification.setSelected(false);
+                    }
                 });
             }
         }
@@ -81,7 +81,8 @@ public class AdminController implements ApplicationListener<ControlPanelSelectio
 
     @Override
     public void onApplicationEvent(ControlPanelSelectionChangeEvent event) {
-        if(this.usersListView.getSelectionModel().getSelectedItem() != null)
+        if (this.usersListView.getSelectionModel().getSelectedItem() != null) {
             this.roleChoiceBox.setValue(this.usersListView.getSelectionModel().getSelectedItem().getRole().getRoleName().toString());
+        }
     }
 }

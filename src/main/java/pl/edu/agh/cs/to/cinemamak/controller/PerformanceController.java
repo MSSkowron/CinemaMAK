@@ -1,21 +1,14 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +17,16 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.cs.to.cinemamak.event.TablePerformanceChangeEvent;
 import pl.edu.agh.cs.to.cinemamak.model.Performance;
+import pl.edu.agh.cs.to.cinemamak.service.MovieService;
 import pl.edu.agh.cs.to.cinemamak.service.PerformanceService;
-import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 
 @Component
 @FxmlView("performance-view.fxml")
-public class PerformanceController implements ApplicationListener<TablePerformanceChangeEvent> {
-
-    @FXML
-    private TableView<Performance> table;
+public class PerformanceController extends ExtractedTableController<Performance>  implements ApplicationListener<TablePerformanceChangeEvent> {
+    public Button resetButton;
     @FXML
     private TableColumn<Performance, String> columnTitle;
     @FXML
@@ -50,84 +41,65 @@ public class PerformanceController implements ApplicationListener<TablePerforman
     public Button addButton;
     @FXML
     public Button deleteButton;
-
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-
-    private final SessionService sessionService;
-    private final PerformanceService performanceService;
+    private final MovieService movieService;
     private final FxWeaver fxWeaver;
-    private Stage stage;
 
-    public PerformanceController(PerformanceService performanceService,SessionService sessionService, FxWeaver fxWeaver){
-        this.sessionService = sessionService;
+    public PerformanceController(MovieService movieService, PerformanceService performanceService, FxWeaver fxWeaver) {
+        super(movieService);
+        super.setService(performanceService);
         this.fxWeaver = fxWeaver;
-        this.performanceService = performanceService;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
+        this.movieService = movieService;
     }
 
     public void initialize(){
+        super.initialize();
 
         this.columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        this.columnDate.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
-                if(param.getValue().getDate() != null) {
-                    return new SimpleStringProperty(param.getValue().getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
+        this.columnDate.setCellValueFactory(param -> {
+            if (param.getValue().getDate() != null) {
+                return new SimpleStringProperty(param.getValue().getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+            }
+            else {
+                return new SimpleStringProperty("null");
+            }
+        });
+        this.columnTitle.setCellValueFactory(param -> {
+            if (param.getValue().getMovie() != null) {
+                return new SimpleStringProperty(param.getValue().getMovie().getTitle());
+            }
+            else {
+                return new SimpleStringProperty("null");
+            }
+        });
+        this.columnRoom.setCellValueFactory(param -> {
+            if (param.getValue().getRoom() != null){
+                return new SimpleStringProperty(param.getValue().getRoom().getName());
+            }
+            else {
+                return new SimpleStringProperty("null");
+            }
+        });
+        this.columnSupervisor.setCellValueFactory(param -> {
+            if (param.getValue().getUser() != null) {
+                return new SimpleStringProperty(param.getValue().getUser().getFirstName() + " " + param.getValue().getUser().getLastName());
+            }
+            else {
+                return new SimpleStringProperty("null");
             }
         });
 
-        this.columnTitle.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
-                if(param.getValue().getMovie() != null) {
-                    return new SimpleStringProperty(param.getValue().getMovie().getTitle());
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
-            }
-        });
-
-        this.columnRoom.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
-                if(param.getValue().getRoom() != null){
-                    return new SimpleStringProperty(param.getValue().getRoom().getName());
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
-            }
-        });
-
-        this.columnSupervisor.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Performance, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Performance, String> param) {
-                if(param.getValue().getUser() != null){
-                    return new SimpleStringProperty(param.getValue().getUser().getFirstName() + " " + param.getValue().getUser().getLastName());
-                }
-                else{
-                    return new SimpleStringProperty("null");
-                }
-            }
-        });
-
-        setPerformances();
-
+        movieService.getGenres().ifPresent(listM -> listM.forEach(genre -> this.genreChoiceBox.getItems().add(genre.getGenreName())));
     }
 
     public void onMousePressed(MouseEvent event) {
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
             Stage newStage = new Stage();
+
+            if (this.table.getSelectionModel().getSelectedItem() == null) {
+                return;
+            }
 
             fxWeaver.loadController(PerformanceEditController.class).setPerformance(this.table.getSelectionModel().getSelectedItem()).setStage(newStage);
 
@@ -142,24 +114,13 @@ public class PerformanceController implements ApplicationListener<TablePerforman
         }
     }
 
-    public ObservableList<Performance> getPerformances(){
-        ObservableList<Performance> performanceObservableList = FXCollections.observableArrayList();
-        this.performanceService.getPerformances().ifPresent(performanceObservableList::addAll);
-        return performanceObservableList;
-    }
-
-    public void setPerformances(){
-        FilteredList<Performance> filteredList = new FilteredList<>(getPerformances(), p -> true);
-        SortedList<Performance> sortedList = new SortedList<>(filteredList);
-        sortedList.comparatorProperty().bind(this.table.comparatorProperty());
-
-        this.table.setItems(sortedList);
-    }
-
-    public void setAddButton(){
+    public void setAddButton() {
         Stage form = new Stage();
+
         fxWeaver.loadController(PerformanceFormController.class).setStage(form);
+
         Scene scene = new Scene(fxWeaver.loadView(PerformanceFormController.class));
+
         form.setScene(scene);
         form.setTitle("Add performance");
         form.initModality(Modality.WINDOW_MODAL);
@@ -168,15 +129,23 @@ public class PerformanceController implements ApplicationListener<TablePerforman
         form.show();
     }
 
-    public void setDeleteButton(){
-        Performance performance = this.table.getSelectionModel().getSelectedItem();
-        this.performanceService.deletePerformanceById(performance.getId());
+    public void setDeleteButton() {
+        deleteEntity();
         applicationEventPublisher.publishEvent(new TablePerformanceChangeEvent(this));
     }
 
     @Override
     public void onApplicationEvent(TablePerformanceChangeEvent event) {
-        setPerformances();
-        this.table.refresh();
+        resetTable();
+        cleanFields();
+    }
+
+    public void OnActionReset(ActionEvent actionEvent) {
+        resetTable();
+        cleanFields();
+    }
+
+    public void onActionSearch(ActionEvent actionEvent) {
+        searchByMovie();
     }
 }

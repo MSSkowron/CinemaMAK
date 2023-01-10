@@ -44,7 +44,6 @@ public class MovieController implements ApplicationListener<TableMovieChangeEven
     }
 
     public void initialize() {
-
         tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         tableColumnDirector.setCellValueFactory(new PropertyValueFactory<>("director"));
@@ -68,7 +67,12 @@ public class MovieController implements ApplicationListener<TableMovieChangeEven
 
     public void onMousePressed(MouseEvent event) {
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            if (this.tableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            }
+
             Stage detailsStage = new Stage();
+
             fxWeaver.loadController(MovieDetailsController.class).setStage(detailsStage);
             fxWeaver.loadController(MovieDetailsController.class).setMovie(tableView.getSelectionModel().getSelectedItem());
 
@@ -105,9 +109,9 @@ public class MovieController implements ApplicationListener<TableMovieChangeEven
 
             String loweCaseFilter = newValue.toLowerCase();
 
-            if(movie.getTitle().toLowerCase().contains(loweCaseFilter)){
+            if (movie.getTitle().toLowerCase().contains(loweCaseFilter)) {
                 return true;
-            } else if (movie.getDirector().toLowerCase().contains(loweCaseFilter)){
+            } else if (movie.getDirector().toLowerCase().contains(loweCaseFilter)) {
                 return true;
             }
 
@@ -125,5 +129,4 @@ public class MovieController implements ApplicationListener<TableMovieChangeEven
         setMovies();
         tableView.refresh();
     }
-
 }

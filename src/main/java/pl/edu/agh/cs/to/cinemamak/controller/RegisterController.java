@@ -3,21 +3,25 @@ package pl.edu.agh.cs.to.cinemamak.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.cs.to.cinemamak.config.DialogManager;
 import pl.edu.agh.cs.to.cinemamak.model.User;
 import pl.edu.agh.cs.to.cinemamak.service.UserService;
 
 @Component
 @FxmlView("register-view.fxml")
 public class RegisterController {
+    @FXML
+    private BorderPane borderPane;
+    private double x = 0;
+    private double y = 0;
     @FXML
     private TextField textFieldFirstName;
     @FXML
@@ -26,19 +30,15 @@ public class RegisterController {
     private TextField textFieldEmail;
     @FXML
     private TextField textFieldPassword;
-    @FXML
-    private Button buttonExit;
-    @FXML
-    private Button buttonRegister;
-    @FXML
-    private Button buttonLogin;
     private final UserService userService;
+    private final DialogManager dialogManager;
     private Stage stage;
     private final FxWeaver fxWeaver;
 
-    public RegisterController(UserService userService, FxWeaver fxWeaver) {
+    public RegisterController(UserService userService, FxWeaver fxWeaver, DialogManager dialogManager) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;
+        this.dialogManager = dialogManager;
     }
 
     public void setStage(Stage stage) {
@@ -46,19 +46,14 @@ public class RegisterController {
     }
 
     @FXML
-    private void onButtonExitClick() {
-        Platform.exit();
-    }
-
-    @FXML
-    private void onButtonRegisterClick() {
-        if(textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty() || textFieldEmail.getText().isEmpty() || textFieldPassword.getText().isEmpty()) {
-            showErrorDialog("All fields need to be filled!");
+    private void onButtonRegister() {
+        if (textFieldFirstName.getText().isEmpty() || textFieldLastName.getText().isEmpty() || textFieldEmail.getText().isEmpty() || textFieldPassword.getText().isEmpty()) {
+            this.dialogManager.showError(stage,"Error occurred while creating an account!","All fields need to be filled!");
             return;
         }
 
-        if(!EmailValidator.getInstance().isValid(textFieldEmail.getText())) {
-            showErrorDialog("Email is not valid!");
+        if (!EmailValidator.getInstance().isValid(textFieldEmail.getText())) {
+            this.dialogManager.showError(stage,"Error occurred while creating an account!","Email is not valid!");
             return;
         }
 
@@ -67,32 +62,43 @@ public class RegisterController {
         try {
             userService.addUser(newUser);
         } catch (Exception|Error e) {
-            showErrorDialog(getCauseMessage(e));
+            this.dialogManager.showError(stage,"Error occurred while creating an account!",getCauseMessage(e));
             return;
         }
 
-        Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Registration success");
-        dialog.setHeaderText("Account created successfully!");
-        dialog.setContentText("You can log in now!");
-        dialog.show();
-        dialog.setOnCloseRequest(event -> {
-            Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class), 616, 433);
-            stage.setScene(loginScene);
-        });
+        this.dialogManager.showInformation(stage, "Account created successfully!", "You can log in now!", event -> {
+                    Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class));
+                    stage.setScene(loginScene);
+                });
 
         clearForm();
     }
 
     @FXML
     private void onButtonLogin() {
-        Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class), 616, 433);
+        Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class));
         stage.setScene(loginScene);
     }
 
-    private String getCauseMessage(Throwable t){
+    @FXML
+    private void onButtonExit() {
+        Platform.exit();
+    }
+
+    @FXML
+    public void onBorderPaneDragged(MouseEvent event) {
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setY(event.getScreenY() - y);
+        stage.setX(event.getScreenX() - x);
+    }
+
+    @FXML
+    public void onBorderPanePressed(MouseEvent event) {
+        x = event.getSceneX();
+        y = event.getSceneY();
+    }
+
+    private String getCauseMessage(Throwable t) {
         Throwable cause = t;
         while (cause.getCause() != null) {
             cause = cause.getCause();
@@ -107,15 +113,4 @@ public class RegisterController {
         textFieldEmail.setText("");
         textFieldPassword.setText("");
     }
-
-    public void showErrorDialog(String info){
-        Alert dialog = new Alert(Alert.AlertType.ERROR);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        dialog.setTitle("Error");
-        dialog.setHeaderText("Error occurred while creating an account!");
-        dialog.setContentText(info);
-        dialog.show();
-    }
-
 }

@@ -1,5 +1,6 @@
 package pl.edu.agh.cs.to.cinemamak.controller;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -22,21 +23,25 @@ import pl.edu.agh.cs.to.cinemamak.service.SessionService;
 @FxmlView("home-view.fxml")
 public class HomeController {
     @FXML
-    private BorderPane bp;
+    private BorderPane borderPane;
+    private double x = 0;
+    private double y = 0;
     @FXML
     private AnchorPane ap;
+    @FXML
+    public Label homeViewUserLabel;
     @FXML
     private Label helloLabel;
     @FXML
     public Button movieViewButton;
     @FXML
     private Button adminViewButton;
-
     @FXML
     private Button performanceButton;
     @FXML
-    private Button ticketsViewButton;
-
+    private Button recommendationsButton;
+    @FXML
+    private Button statisticsButton;
     private final SessionService sessionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -53,6 +58,15 @@ public class HomeController {
     }
 
     public void initialize() {
+        homeViewUserLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+            if (sessionService.getCurrentUser().isEmpty()) {
+                return "";
+            }
+
+            User currUser = sessionService.getCurrentUser().get();
+            return "Hello %s!".formatted(currUser.getFirstName());
+        }, sessionService.getCurrentUserProperty()));
+
         helloLabel.textProperty().bind(Bindings.createStringBinding(() -> {
             if (sessionService.getCurrentUser().isEmpty()) {
                 return "";
@@ -65,38 +79,46 @@ public class HomeController {
         roleUIHelper.bindVisibleOnlyToRoles(adminViewButton, RoleName.Admin);
         roleUIHelper.bindVisibleOnlyToRoles(performanceButton, RoleName.Admin, RoleName.Manager);
         roleUIHelper.bindVisibleOnlyToRoles(movieViewButton, RoleName.Admin, RoleName.Manager);
+        roleUIHelper.bindVisibleOnlyToRoles(recommendationsButton, RoleName.Admin, RoleName.Manager);
+        roleUIHelper.bindVisibleOnlyToRoles(statisticsButton, RoleName.Manager, RoleName.Admin);
     }
 
     @FXML
     public void home(javafx.scene.input.MouseEvent mouseEvent) {
-        bp.setCenter(ap);
+        borderPane.setCenter(ap);
     }
 
     @FXML
     private void adminView(javafx.scene.input.MouseEvent mouseEvent) {
         Parent root;
         root = fxWeaver.loadView(AdminController.class);
-        bp.setCenter(root);
+        borderPane.setCenter(root);
     }
 
     @FXML
-    private void performanceView(javafx.scene.input.MouseEvent mouseEvent){
+    private void performanceView(javafx.scene.input.MouseEvent mouseEvent) {
         Parent root;
         root = fxWeaver.loadView(PerformanceController.class);
-        bp.setCenter(root);
+        borderPane.setCenter(root);
     }
 
     @FXML
     private void movieView(javafx.scene.input.MouseEvent mouseEvent) {
         Parent root;
         root = fxWeaver.loadView(MovieController.class);
-        bp.setCenter(root);
+        borderPane.setCenter(root);
     }
 
     @FXML
     private void ticketsView(MouseEvent ignored) {
         var root = fxWeaver.loadView(TicketsController.class);
-        bp.setCenter(root);
+        borderPane.setCenter(root);
+    }
+
+    @FXML
+    private void statisticsView(MouseEvent ignored) {
+        var root = fxWeaver.loadView(StatisticsController.class);
+        borderPane.setCenter(root);
     }
 
     @FXML
@@ -105,5 +127,39 @@ public class HomeController {
 
         Scene loginScene = new Scene(fxWeaver.loadView(LoginController.class));
         stage.setScene(loginScene);
+    }
+
+    public void recommendationsView(MouseEvent mouseEvent) {
+        Parent root;
+        root = fxWeaver.loadView(RecommendationsController.class);
+        borderPane.setCenter(root);
+    }
+
+    @FXML
+    private void onButtonExit() {
+        Platform.exit();
+    }
+
+    @FXML
+    public void onBorderPaneDragged(MouseEvent event) {
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setY(event.getScreenY() - y);
+        stage.setX(event.getScreenX() - x);
+    }
+
+    @FXML
+    public void onBorderPanePressed(MouseEvent event) {
+        x = event.getSceneX();
+        y = event.getSceneY();
+    }
+
+    public void onButtonMinimize(MouseEvent event) {
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    public void onButtonMaximize(MouseEvent event) {
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setMaximized(!stage.isMaximized());
     }
 }
