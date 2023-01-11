@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=cinemamakuser
+      - POSTGRES_PASSWORD=cinemamakpassword
+    ports:
+      - '5432:5432'
+    volumes:
+      - cinemamakdb:/var/lib/postgresql/data
+
+volumes:
+  cinemamakdb:
+    driver: local

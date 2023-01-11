@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane maxWidth="1.7976931348623157E308" prefHeight="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.cs.to.cinemamak.controller.StatisticsController">
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+        <HBox alignment="CENTER" spacing="10.0">
+            <Button onAction="#showGeneralStatistics" text="General statistics" />
+            <Button onAction="#showDetailedReports" text="Detailed reports" />
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+        </HBox>
+        <VBox fx:id="generalStatistics" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+            <PieChart fx:id="movieCountByGenrePieChart" prefHeight="300" prefWidth="600" title="Movies by Genre" />
+            <PieChart fx:id="performanceCountByGenrePieChart" prefHeight="300" prefWidth="600" title="Planned Performances by Genre" />
+        </VBox>
+        <VBox fx:id="detailedReports" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
+            <HBox alignment="CENTER" spacing="5.0">
+                <Label text="Date from:" />
+                <DatePicker fx:id="reportDateFrom" />
+                <Label text="to:" />
+                <DatePicker fx:id="reportDateTo" />
+                <Button fx:id="generateReportsButton" onAction="#setReportInterval" text="Generate reports" />
+            </HBox>
+            <LineChart fx:id="ticketsSoldLineChart" prefHeight="300" prefWidth="600" title="Tickets sold by day">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </LineChart>
+            <LineChart fx:id="ticketsProfitLineChart" prefHeight="300" prefWidth="600" title="Profit by day">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </LineChart>
+        </VBox>
+    </VBox>
+</ScrollPane>
